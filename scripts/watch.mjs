@@ -29,4 +29,4 @@ await Build();
 const { host, port } = await context.serve({
     servedir: "dist",
 });
-console.log(`serving on http://${host}:${port}`);
+console.log(`serving on http://localhost:${port}`);
