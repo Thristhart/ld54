@@ -1,0 +1,12 @@
+{
+  "name": "ld54",
+  "version": "1.0.0",
+  "license": "MIT",
+  "devDependencies": {
+    "esbuild": "0.19.4"
+  },
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  }
+}
