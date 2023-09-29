@@ -1,10 +1,5 @@
-import * as esbuild from "esbuild";
-import fs from "node:fs/promises";
+import { Compile } from "./compile.mjs";
 
-await esbuild.build({
-    entryPoints: ["./src/main.tsx"],
-    outdir: "./dist",
-    platform: "browser"
-})
+const context = await Compile();
 
-await fs.copyFile("./src/index.html", "./dist/index.html")
+await context.dispose();
