@@ -1,7 +1,7 @@
 import * as esbuild from "esbuild";
 import fs from "node:fs/promises";
 
-export async function Compile( context )
+export async function Compile( dev, context )
 {
     if (!context)
     {
@@ -10,6 +10,10 @@ export async function Compile( context )
             outdir: "./dist",
             platform: "browser",
             bundle: true,
+            minify: !dev,
+            define: {
+                "process.env.NODE_ENV": JSON.stringify(dev ? "development" : "production")
+            }
         })
     }
 
