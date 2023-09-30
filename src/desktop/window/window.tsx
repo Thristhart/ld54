@@ -4,19 +4,27 @@ import { useRef } from "preact/hooks";
 import { RefObject } from "preact";
 import { WindowState } from "~/os/windows";
 
-interface TitleBarProps {
+interface TitleBarProps<State> {
+    readonly window: WindowState<State>;
     readonly titleBarRef?: RefObject<HTMLDivElement>;
 }
-function TitleBar({ titleBarRef }: TitleBarProps) {
+function TitleBar<State>({ titleBarRef, window }: TitleBarProps<State>) {
     return (
-        <header class="titleBar">
-            <div class="titleBarBackground" ref={titleBarRef} />
-        </header>
+        <>
+            <div class="titleBarBackground" />
+            <header class="titleBar" ref={titleBarRef}>
+                {window.iconUrl && <img class="windowIcon" src={window.iconUrl} />}
+                <span class="windowTitle">{window.title.value}</span>
+                <div class="windowButtons">
+                    <button>X</button>
+                </div>
+            </header>
+        </>
     );
 }
 
 interface WindowProps<State> {
-    window: WindowState<State>;
+    readonly window: WindowState<State>;
 }
 
 export function Window<State>({ window }: WindowProps<State>) {
@@ -38,7 +46,7 @@ export function Window<State>({ window }: WindowProps<State>) {
                 transform: `translate(${window.position.value.x}px, ${window.position.value.y}px)`,
             }}
             ref={containerRef}>
-            <TitleBar titleBarRef={titleBarRef} />
+            <TitleBar titleBarRef={titleBarRef} window={window} />
             <div class="windowContent">
                 <window.contentComponent process={window.process} />
             </div>

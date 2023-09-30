@@ -1,6 +1,7 @@
 import { createProcess } from "~/os/processes";
 import { openWindowForProcess } from "~/os/windows";
 import { Process } from "./process";
+import iconUrl from "~/images/icons/joystick.png";
 
 type ButtonState = number;
 
@@ -17,5 +18,7 @@ export function createButtonProcess() {
 export function openButtonWindow(process: Process<number>) {
     return openWindowForProcess(process, {
         contentComponent: ButtonWindow,
+        iconUrl,
+        initialTitle: "Button!",
     });
 }
