@@ -2,6 +2,9 @@ import { ProcessDescription } from "~/os/processes";
 import { openWindowForProcess } from "~/os/windows";
 import type { Process } from "./process";
 import iconUrl from "~/images/icons/favicons/joystick.png";
+import "./notepad/notepad.css";
+import "./todo.css";
+import { getFileBasename } from "~/desktop/fileicon/fileicon";
 
 // this state might not actually end up living here
 interface TodoState {
@@ -12,17 +15,23 @@ interface TodoWindowProps {
     process: Process<TodoState>;
 }
 function TodoWindow({ process }: TodoWindowProps) {
-    return <textarea></textarea>;
+    return (
+        <div className={"notepadWindowContent"}>
+            <textarea class="notepadTextarea todoTextarea" disabled>
+                [ ]: Ask Todd about the LAN party on AIM
+            </textarea>
+        </div>
+    );
 }
 
-export const buttonDescription: ProcessDescription<TodoState> = {
+export const todoAppDescription: ProcessDescription<TodoState> = {
     initialState: { todos: [] },
     name: "todos.exe",
-    onOpen: (process) => {
+    onOpen: (process, file) => {
         openWindowForProcess(process, {
             contentComponent: TodoWindow,
             iconUrl,
-            initialTitle: "Button!",
+            initialTitle: `${file ? getFileBasename(file) : "Untitled"} - Notepad`,
         });
     },
 };

@@ -1,0 +1,4 @@
+.todoTextarea:disabled {
+    color: fieldtext;
+    background: field;
+}

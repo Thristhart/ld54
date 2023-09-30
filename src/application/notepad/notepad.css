@@ -1,0 +1,16 @@
+.notepadWindowContent {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+}
+.notepadTextarea {
+    font-family: "Lucida Console", monospace;
+    font-size: 13px;
+    line-height: 14px;
+    resize: none;
+    padding: 2px;
+    white-space: nowrap;
+    overflow: scroll;
+    flex-grow: 1;
+}

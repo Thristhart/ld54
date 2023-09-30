@@ -1,5 +1,6 @@
 import { Signal, signal } from "@preact/signals";
 import { buttonDescription } from "~/application/button";
+import { todoAppDescription } from "~/application/todo";
 import { getOrCreateProcess, ProcessDescription } from "./processes";
 
 export interface File {
@@ -24,6 +25,10 @@ export const files = signal<Signal<File>[]>([
     signal({
         filename: "C:/Desktop/todo.txt",
         filesize: 0,
+        shortcutProperties: {
+            processDesc: todoAppDescription,
+            displayName: "todo.txt",
+        },
     }),
 ]);
 
@@ -42,5 +47,5 @@ function getProcessForFile(file: File) {
 
 export function openFile(file: File) {
     const process = getProcessForFile(file);
-    process.onOpen(process, file.filename);
+    process.onOpen(process, file);
 }
