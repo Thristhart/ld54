@@ -110,6 +110,12 @@
     background-size: 100%;
     cursor: unset;
 }
+
+.minesweeper[data-state="won"] .minesweeperCell[data-state="hidden"] {
+    cursor: unset;
+    pointer-events: none;
+}
+
 .minesweeperCell[data-state="revealed"] {
     background-image: url("../images/minesweeper/numbers.png");
     background-position-x: calc(-100% * var(--nearby));

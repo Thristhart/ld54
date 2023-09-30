@@ -312,7 +312,7 @@ export const Minesweeper = () => {
     });
 
     return (
-        <div class={classNames("minesweeper")}>
+        <div class={classNames("minesweeper")} data-state={gameState.value}>
             <FaceButton gameState={gameState} />
             <Digits grid={grid.value} gameState={gameState} mineCount={mineCount} />
             <Grid grid={grid.value} gameState={gameState} mineCount={mineCount} />
