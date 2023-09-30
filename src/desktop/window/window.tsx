@@ -34,11 +34,12 @@ function TitleBar<State>({ titleBarRef, window }: TitleBarProps<State>) {
                 <span class="windowTitle">{window.title.value}</span>
                 <div class="windowButtons">
                     <button onClick={() => minimizeWindow(window.windowId)}>-</button>
-                    {window.isMaximized.value ? (
-                        <button onClick={() => restoreWindow(window.windowId)}>🗗</button>
-                    ) : (
-                        <button onClick={() => maximizeWindow(window.windowId)}>🗖</button>
-                    )}
+                    {!window.disableResize &&
+                        (window.isMaximized.value ? (
+                            <button onClick={() => restoreWindow(window.windowId)}>🗗</button>
+                        ) : (
+                            <button onClick={() => maximizeWindow(window.windowId)}>🗖</button>
+                        ))}
                     <button onClick={() => closeWindowForProcess(window.process, window.windowId)}>X</button>
                 </div>
             </header>
@@ -59,6 +60,9 @@ export function Window<State>({ window }: WindowProps<State>) {
         },
         position: window.position,
         size: window.size,
+        minWidth: window.minWidth,
+        minHeight: window.minHeight,
+        disableResize: window.disableResize,
     });
     return (
         <div
@@ -74,7 +78,7 @@ export function Window<State>({ window }: WindowProps<State>) {
             }}>
             <TitleBar titleBarRef={titleBarRef} window={window} />
             <div class="windowContent">
-                <window.contentComponent process={window.process} />
+                <window.contentComponent process={window.process} window={window} />
             </div>
         </div>
     );

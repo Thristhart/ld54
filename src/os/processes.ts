@@ -3,6 +3,7 @@ import { Process } from "~/application/process";
 import { File } from "./filesystem";
 
 export const processes = signal<Process<unknown>[]>([]);
+(window as any).processes = processes;
 
 export function createProcess<State>({ initialState, name, onOpen }: ProcessDescription<State>): Process<State> {
     const process = {

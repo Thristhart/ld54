@@ -5,12 +5,16 @@ import { taskbarHeight } from "~/desktop/taskbar/taskbar";
 
 interface WindowContentComponentProps<State> {
     process: Process<State>;
+    window: WindowState<State>;
 }
 
 export interface WindowDescription<State> {
     contentComponent: FunctionComponent<WindowContentComponentProps<State>>;
     iconUrl?: string;
     initialTitle: string;
+    minWidth?: number;
+    minHeight?: number;
+    disableResize?: boolean;
 }
 export interface WindowState<State> extends WindowDescription<State> {
     process: Process<State>;
@@ -28,6 +32,8 @@ export interface WindowState<State> extends WindowDescription<State> {
 }
 
 export const windows = signal<{ [windowId: string]: WindowState<unknown> }>({});
+
+(window as any).windows = windows;
 
 let globalWindowId = 0;
 export function openWindowForProcess<State>(
