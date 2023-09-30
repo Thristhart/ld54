@@ -1,4 +1,4 @@
-import { createProcess, ProcessDescription } from "~/os/processes";
+import { ProcessDescription } from "~/os/processes";
 import { openWindowForProcess } from "~/os/windows";
 import type { Process } from "./process";
 import iconUrl from "~/images/icons/favicons/joystick.png";
