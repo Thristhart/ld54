@@ -2,7 +2,7 @@ import { useWindowResize } from "./useWindowResize";
 import "./window.css";
 import { useRef } from "preact/hooks";
 import { RefObject } from "preact";
-import { WindowState } from "~/os/windows";
+import { closeWindowForProcess, WindowState } from "~/os/windows";
 
 interface TitleBarProps<State> {
     readonly window: WindowState<State>;
@@ -16,7 +16,7 @@ function TitleBar<State>({ titleBarRef, window }: TitleBarProps<State>) {
                 {window.iconUrl && <img class="windowIcon" src={window.iconUrl} />}
                 <span class="windowTitle">{window.title.value}</span>
                 <div class="windowButtons">
-                    <button>X</button>
+                    <button onClick={() => closeWindowForProcess(window.process, window.windowId)}>X</button>
                 </div>
             </header>
         </>
