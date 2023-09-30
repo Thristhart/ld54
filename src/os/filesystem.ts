@@ -3,6 +3,7 @@ import { buttonDescription } from "~/application/button";
 import { todoAppDescription } from "~/application/todo";
 import { getOrCreateProcess, ProcessDescription } from "./processes";
 import { minesweeperDescription } from "~/application/Minesweeper";
+import { chatterDescription } from "~/application/chatter";
 
 export interface File {
     readonly filename: string;
@@ -31,12 +32,20 @@ export const files = signal<Signal<File>[]>([
             displayName: "todo.txt",
         },
     }),
-        signal({
+    signal({
         filename: "C:/Desktop/Minesweeper.lnk",
         filesize: 0,
         shortcutProperties: {
             processDesc: minesweeperDescription,
             displayName: "Minesweeper",
+        },
+    }),
+    signal({
+        filename: "C:/Desktop/chatter.lnk",
+        filesize: 0,
+        shortcutProperties: {
+            processDesc: chatterDescription,
+            displayName: "Chatter",
         },
     }),
 ]);
