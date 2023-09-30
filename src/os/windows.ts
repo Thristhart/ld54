@@ -38,9 +38,9 @@ export function openWindowForProcess<State>(
     const maxHeight = globalThis.innerHeight - taskbarHeight - 20;
     const maxWidth = globalThis.innerWidth - 20;
 
-    if (process.windows != undefined) {
+    if (windows.value != undefined) {
         while (
-            Object.values(process.windows).find(
+            Object.values(windows.value).find(
                 (w) => w.position.value.x == initialPosition.x && w.position.value.y == initialPosition.y
             )
         ) {
