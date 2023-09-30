@@ -1,3 +1,4 @@
+import { Signal } from "@preact/signals";
 import { RefObject } from "preact";
 import { useState, useEffect } from "preact/hooks";
 
@@ -13,8 +14,8 @@ enum Cursor {
     Auto = "auto",
 }
 interface UseWindowResizeOptions {
-    initialPosition?: { x: number; y: number };
-    initialSize?: { width: number; height: number };
+    position: Signal<{ x: number; y: number }>;
+    size: Signal<{ width: number; height: number }>;
     resizeThresholds?: {
         top: number;
         right: number;
@@ -29,17 +30,14 @@ export function useWindowResize(
     ref: RefObject<HTMLElement>,
     dragTargetRef: RefObject<HTMLElement>,
     {
-        initialPosition = { x: 0, y: 0 },
-        initialSize = { width: 200, height: 200 },
+        position,
+        size,
         resizeThresholds = { top: 4, right: 4, bottom: 4, left: 4 },
         minWidth = 100,
         minHeight = 100,
         onInteract,
     }: UseWindowResizeOptions
 ) {
-    const [position, setPosition] = useState(initialPosition);
-    const [size, setSize] = useState(initialSize);
-
     useEffect(() => {
         const target = ref.current!;
         if (!target) {
@@ -57,8 +55,8 @@ export function useWindowResize(
         }
 
         // we make a mutable copy so that we don't have to redo the whole effect to update it
-        const positionBeforeDrag = { ...position };
-        const sizeBeforeDrag = { ...size };
+        const positionBeforeDrag = { ...position.value };
+        const sizeBeforeDrag = { ...size.value };
 
         let mouseDownPageX = 0;
         let mouseDownPageY = 0;
@@ -198,8 +196,8 @@ export function useWindowResize(
         }
         function onDragMove(e: MouseEvent) {
             const { x, y, width, height } = applyDrag(e);
-            setPosition({ x, y });
-            setSize({ width, height });
+            position.value = { x, y };
+            size.value = { width, height };
         }
         function endDrag(e: MouseEvent) {
             window.removeEventListener("mousemove", onDragMove);
@@ -232,5 +230,5 @@ export function useWindowResize(
         };
     }, [resizeThresholds.left, resizeThresholds.top, resizeThresholds.bottom, resizeThresholds.right]);
 
-    return [position, size] as const;
+    return size;
 }

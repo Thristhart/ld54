@@ -13,7 +13,8 @@ export interface WindowState<State> extends WindowDescription<State> {
     process: Process<State>;
     windowId: number;
     lastInteractionTime: Signal<number>;
-    initialPosition: { x: number; y: number };
+    position: Signal<{ x: number; y: number }>;
+    size: Signal<{ width: number; height: number }>;
 }
 
 export const windows = signal<{ [windowId: string]: WindowState<unknown> }>({});
@@ -29,7 +30,8 @@ export function openWindowForProcess<State>(
         process,
         windowId: globalWindowId++,
         lastInteractionTime: signal(performance.now()),
-        initialPosition,
+        position: signal(initialPosition),
+        size: signal({ width: 200, height: 200 }),
     };
     windows.value = { ...windows.value, [windowWithId.windowId]: windowWithId };
     process.windows = { ...process.windows, [windowWithId.windowId]: windowWithId };

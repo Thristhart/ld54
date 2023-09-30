@@ -22,16 +22,21 @@ interface WindowProps<State> {
 export function Window<State>({ window }: WindowProps<State>) {
     const containerRef = useRef(null);
     const titleBarRef = useRef(null);
-    const [position, size] = useWindowResize(containerRef, titleBarRef, {
-        initialPosition: window.initialPosition,
+    useWindowResize(containerRef, titleBarRef, {
         onInteract() {
             window.lastInteractionTime.value = performance.now();
         },
+        position: window.position,
+        size: window.size,
     });
     return (
         <div
             class="window"
-            style={{ width: size.width, height: size.height, transform: `translate(${position.x}px, ${position.y}px)` }}
+            style={{
+                width: window.size.value.width,
+                height: window.size.value.height,
+                transform: `translate(${window.position.value.x}px, ${window.position.value.y}px)`,
+            }}
             ref={containerRef}>
             <TitleBar titleBarRef={titleBarRef} />
             <div class="windowContent">
