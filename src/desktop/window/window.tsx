@@ -4,12 +4,12 @@ import { useRef } from "preact/hooks";
 import { RefObject } from "preact";
 
 interface TitleBarProps {
-    readonly titleBarRef?: RefObject<HTMLElement>;
+    readonly titleBarRef?: RefObject<HTMLDivElement>;
 }
 function TitleBar({ titleBarRef }: TitleBarProps) {
     return (
-        <header class="titleBar" ref={titleBarRef}>
-            <div class="titleBarBackground" />
+        <header class="titleBar">
+            <div class="titleBarBackground" ref={titleBarRef} />
         </header>
     );
 }
