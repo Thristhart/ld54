@@ -1,9 +1,10 @@
 import { Signal, signal } from "@preact/signals";
 import { buttonDescription } from "~/application/button";
+import { cassieAppDescription } from "~/application/cassie/cassie";
+import { chatterDescription } from "~/application/chatter";
+import { minesweeperDescription } from "~/application/Minesweeper";
 import { todoAppDescription } from "~/application/todo";
 import { getOrCreateProcess, ProcessDescription } from "./processes";
-import { minesweeperDescription } from "~/application/Minesweeper";
-import { chatterDescription } from "~/application/chatter";
 
 export interface File {
     readonly filename: string;
@@ -46,6 +47,14 @@ export const files = signal<Signal<File>[]>([
         shortcutProperties: {
             processDesc: chatterDescription,
             displayName: "Chatter",
+        },
+    }),
+    signal({
+        filename: "C:/Desktop/Cassie.lnk",
+        filesize: 0,
+        shortcutProperties: {
+            processDesc: cassieAppDescription,
+            displayName: "Cassie",
         },
     }),
 ]);
