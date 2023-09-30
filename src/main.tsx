@@ -1,6 +1,6 @@
-import * as ReactDOM from "react-dom/client";
+import { render } from "preact";
 import { App } from "./app";
+import "./main.css";
 
-const root = ReactDOM.createRoot(document.getElementById("ui")!);
 
-root.render(<App />);
+render(<App />, document.getElementById("ui")!);
