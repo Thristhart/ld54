@@ -63,6 +63,19 @@
     right: 3px;
     bottom: 3px;
 }
+.windowNoTitlebar .windowContent {
+    top: 3px;
+}
+.windowTransparent {
+    background: transparent;
+}
+.windowTransparent .windowContent {
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: none;
+}
 .titleBarBackground {
     background-image: linear-gradient(
         rgb(0, 88, 238) 0%,

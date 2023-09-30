@@ -1,11 +1,12 @@
 import { Signal, signal } from "@preact/signals";
-import { FunctionComponent } from "preact";
+import { FunctionComponent, RefObject } from "preact";
 import { Process } from "~/application/process";
 import { taskbarHeight } from "~/desktop/taskbar/taskbar";
 
 interface WindowContentComponentProps<State> {
     process: Process<State>;
     window: WindowState<State>;
+    dragTargetRef: RefObject<HTMLElement>;
 }
 
 export interface WindowDescription<State> {
@@ -15,6 +16,8 @@ export interface WindowDescription<State> {
     minWidth?: number;
     minHeight?: number;
     disableResize?: boolean;
+    disableTitleBar?: boolean;
+    transparent?: boolean;
 }
 export interface WindowState<State> extends WindowDescription<State> {
     process: Process<State>;
@@ -28,6 +31,10 @@ export interface WindowState<State> extends WindowDescription<State> {
     restoreDimensions?: {
         position: { x: number; y: number };
         size: { width: number; height: number };
+    };
+    attachedWindow?: {
+        offset: { x: number; y: number };
+        window: WindowState<any>;
     };
 }
 
