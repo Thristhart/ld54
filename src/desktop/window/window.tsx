@@ -2,7 +2,7 @@ import { useWindowResize } from "./useWindowResize";
 import "./window.css";
 import { useRef } from "preact/hooks";
 import { RefObject } from "preact";
-import { WindowState } from "~/application/process";
+import { WindowState } from "~/os/windows";
 
 interface TitleBarProps {
     readonly titleBarRef?: RefObject<HTMLDivElement>;

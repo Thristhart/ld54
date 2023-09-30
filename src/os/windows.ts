@@ -1,5 +1,20 @@
-import { signal } from "@preact/signals";
-import { Process, WindowDescription, WindowState } from "~/application/process";
+import { Signal, signal } from "@preact/signals";
+import { FunctionComponent } from "preact";
+import { Process } from "~/application/process";
+
+interface WindowContentComponentProps<State> {
+    process: Process<State>;
+}
+
+export interface WindowDescription<State> {
+    contentComponent: FunctionComponent<WindowContentComponentProps<State>>;
+}
+export interface WindowState<State> extends WindowDescription<State> {
+    process: Process<State>;
+    windowId: number;
+    lastInteractionTime: Signal<number>;
+    initialPosition: { x: number; y: number };
+}
 
 export const windows = signal<{ [windowId: string]: WindowState<unknown> }>({});
 

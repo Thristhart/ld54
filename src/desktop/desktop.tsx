@@ -1,6 +1,5 @@
 import { createButtonProcess, openButtonWindow } from "~/application/button";
-import { createProcess } from "~/os/processes";
-import { openWindowForProcess, windows } from "~/os/windows";
+import { windows } from "~/os/windows";
 import "./desktop.css";
 import { Taskbar } from "./taskbar/taskbar";
 import { Window } from "./window/window";
