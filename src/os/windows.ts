@@ -25,6 +25,14 @@ export function openWindowForProcess<State>(
     window: WindowDescription<State>,
     initialPosition: { x: number; y: number } = { x: 100, y: 100 }
 ) {
+    console.log(process.windows);
+    if(process.windows != undefined){
+        while(Object.values(process.windows).find(w => w.position.value.x == initialPosition.x && w.position.value.y == initialPosition.y )){
+            initialPosition.x += 32;
+            initialPosition.y += 32;
+        }
+    }
+
     const windowWithId: WindowState<State> = {
         ...window,
         process,
