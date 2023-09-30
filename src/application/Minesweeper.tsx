@@ -1,7 +1,12 @@
-import { signal, Signal, useComputed, useSignal, useSignalEffect } from "@preact/signals";
+import { signal, Signal, useSignal, useSignalEffect } from "@preact/signals";
 import classNames from "classnames";
 import { MutableRef, useMemo, useRef } from "preact/hooks";
 import "./Minesweeper.css";
+import { openWindowForProcess } from "~/os/windows";
+import iconUrl from "~/images/icons/favicons/joystick.png";
+import { ProcessDescription } from "~/os/processes";
+
+type MinesweeperState = number;
 
 enum CellState {
     Hidden = "hidden",
@@ -290,26 +295,6 @@ export const Minesweeper = () => {
             }
         }
     });
-    useSignalEffect(() => {
-        if (gameState.value === GameState.Won) {
-            //TODO: winning.
-        }
-    });
-
-    useSignalEffect(() => {
-        let isMineInCorner = false;
-        let corners = [
-            [0, 0],
-            [0, gridSize - 1],
-            [gridSize - 1, 0],
-            [gridSize - 1, gridSize - 1],
-        ];
-        for (const [x, y] of corners) {
-            if (grid.value[x][y].value === CellState.Mine || grid.value[x][y].value === CellState.FlaggedMine) {
-                isMineInCorner = true;
-            }
-        }
-    });
 
     return (
         <div class={classNames("minesweeper")} data-state={gameState.value}>
@@ -319,3 +304,16 @@ export const Minesweeper = () => {
         </div>
     );
 };
+
+export const minesweeperDescription: ProcessDescription<MinesweeperState> = {
+    initialState: 0,
+    name: "minesweeper.exe",
+    onOpen: (process) => {
+        openWindowForProcess(process, {
+            contentComponent: Minesweeper,
+            iconUrl,
+            initialTitle: "Minesweeper",
+        }, undefined, { width: 300, height: 305});
+    },
+};
+

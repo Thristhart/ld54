@@ -2,7 +2,7 @@ import { Signal, signal } from "@preact/signals";
 import { buttonDescription } from "~/application/button";
 import { todoAppDescription } from "~/application/todo";
 import { getOrCreateProcess, ProcessDescription } from "./processes";
-import { minesweeperDescription } from "~/application/minesweeperWindow";
+import { minesweeperDescription } from "~/application/Minesweeper";
 
 export interface File {
     readonly filename: string;
