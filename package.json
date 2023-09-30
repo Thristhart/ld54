@@ -3,15 +3,21 @@
   "version": "1.0.0",
   "license": "MIT",
   "scripts": {
-    "build": "node scripts/build.mjs",
-    "dev": "node scripts/watch.mjs"
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview"
   },
   "devDependencies": {
+    "@types/howler": "^2.2.7",
     "@types/react-dom": "^18.2.8",
-    "esbuild": "0.19.4"
+    "typescript": "^5.0.4",
+    "vite": "^2.5.2"
   },
   "dependencies": {
     "@parcel/watcher": "^2.3.0",
+    "@preact/preset-vite": "^2.5.0",
+    "@preact/signals": "^1.2.1",
+    "preact": "^10.18.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   }
