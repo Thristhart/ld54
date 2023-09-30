@@ -266,7 +266,7 @@ export const Minesweeper = () => {
     const initialGrid = useMemo(generateGrid, []);
     const grid = useSignal(initialGrid);
     const gameState = useSignal(GameState.Pending);
-    const mineCount = useRef(9);
+    const mineCount = useRef(10);
 
     useSignalEffect(() => {
         if (gameState.value === GameState.Lost) {
