@@ -32,10 +32,13 @@ export interface WindowState<State> extends WindowDescription<State> {
         position: { x: number; y: number };
         size: { width: number; height: number };
     };
-    attachedWindow?: {
-        offset: { x: number; y: number };
-        window: WindowState<any>;
-    };
+    attachedWindow: Signal<
+        | {
+              offset: { x: number; y: number };
+              window: WindowState<any>;
+          }
+        | undefined
+    >;
 }
 
 export const windows = signal<{ [windowId: string]: WindowState<unknown> }>({});
@@ -79,6 +82,7 @@ export function openWindowForProcess<State>(
         title: signal(window.initialTitle),
         isMaximized: signal(false),
         isMinimized: signal(false),
+        attachedWindow: signal(undefined),
     };
     windows.value = { ...windows.value, [windowWithId.windowId]: windowWithId };
     process.windows = { ...process.windows, [windowWithId.windowId]: windowWithId };
@@ -87,8 +91,7 @@ export function openWindowForProcess<State>(
 
 export function maximizeWindow(windowId: number) {
     const window = windows.value[windowId];
-    if(window.disableResize)
-    {
+    if (window.disableResize) {
         return;
     }
     window.restoreDimensions = {

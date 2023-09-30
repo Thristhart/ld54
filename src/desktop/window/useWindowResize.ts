@@ -1,6 +1,7 @@
 import { Signal } from "@preact/signals";
 import { RefObject } from "preact";
 import { useEffect } from "preact/hooks";
+import { useRef } from "react";
 import { WindowState } from "~/os/windows";
 
 enum Cursor {
@@ -46,6 +47,8 @@ export function useWindowResize(
         attachedWindow,
     }: UseWindowResizeOptions
 ) {
+    const attachedRef = useRef(attachedWindow);
+    attachedRef.current = attachedWindow;
     useEffect(() => {
         const target = ref.current!;
         if (!target) {
@@ -215,10 +218,10 @@ export function useWindowResize(
             const { x, y, width, height, dx, dy } = applyDrag(e);
             position.value = { x, y };
             size.value = { width, height };
-            if (attachedWindow) {
-                attachedWindow.window.position.value = {
-                    x: x + attachedWindow.offset.x,
-                    y: y + attachedWindow.offset.y,
+            if (attachedRef.current) {
+                attachedRef.current.window.position.value = {
+                    x: x + attachedRef.current.offset.x,
+                    y: y + attachedRef.current.offset.y,
                 };
             }
         }
@@ -254,14 +257,7 @@ export function useWindowResize(
             window.removeEventListener("mousemove", onDragMove);
             window.removeEventListener("mouseup", endDrag);
         };
-    }, [
-        resizeThresholds.left,
-        resizeThresholds.top,
-        resizeThresholds.bottom,
-        resizeThresholds.right,
-        disableResize,
-        attachedWindow,
-    ]);
+    }, [resizeThresholds.left, resizeThresholds.top, resizeThresholds.bottom, resizeThresholds.right, disableResize]);
 
     return size;
 }

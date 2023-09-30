@@ -63,7 +63,7 @@ export function Window<State>({ window }: WindowProps<State>) {
         minWidth: window.minWidth,
         minHeight: window.minHeight,
         disableResize: window.disableResize,
-        attachedWindow: window.attachedWindow,
+        attachedWindow: window.attachedWindow?.value,
     });
     return (
         <div

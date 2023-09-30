@@ -14,6 +14,8 @@
 
     background-position: 0 0;
     background-repeat: no-repeat;
+
+    overflow: hidden;
 }
 @keyframes eightFrameAnimation {
     0.00% {

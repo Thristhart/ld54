@@ -35,7 +35,7 @@ const cassieWidth = 100;
 const cassieHeight = 100;
 
 function CassieWindow({ window, dragTargetRef }: CassieWindowProps) {
-    const windowAttachPoint = useSignal<number | undefined>(undefined);
+    const windowAttach = useSignal<WindowState<any> | undefined>(undefined);
     useAnimationFrame((dt) => {
         const pos = window.position.value;
         let dy = dt * fallspeed;
@@ -70,11 +70,12 @@ function CassieWindow({ window, dragTargetRef }: CassieWindowProps) {
         });
 
         if (standingWindow) {
-            if (windowAttachPoint.value !== undefined) {
-                pos.x = standingWindow.position.value.x + windowAttachPoint.value;
-            } else {
-                windowAttachPoint.value = pos.x - standingWindow.position.value.x;
-                standingWindow.attachedWindow = {
+            if (windowAttach.value !== standingWindow) {
+                if (windowAttach.value?.attachedWindow.value?.window === window) {
+                    windowAttach.value.attachedWindow.value = undefined;
+                }
+                windowAttach.value = standingWindow;
+                standingWindow.attachedWindow.value = {
                     offset: {
                         x: pos.x - standingWindow.position.value.x,
                         y: -cassieHeight,
@@ -83,7 +84,10 @@ function CassieWindow({ window, dragTargetRef }: CassieWindowProps) {
                 };
             }
         } else {
-            windowAttachPoint.value = undefined;
+            if (windowAttach.value?.attachedWindow.value?.window === window) {
+                windowAttach.value.attachedWindow.value = undefined;
+            }
+            windowAttach.value = undefined;
         }
 
         if (pos.y + cassieHeight + dy > floor) {
