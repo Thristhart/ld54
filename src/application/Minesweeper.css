@@ -1,21 +1,21 @@
 .minesweeper {
-    padding: 1vmin;
-    border: 0.125vmin solid #7b7b7b;
+    padding: 9px;
+    border: 1.125px solid #7b7b7b;
     border-top-color: white;
     border-left-color: white;
     background-color: #c0c0c0;
 
     display: grid;
-    grid-template-columns: auto 8.66vmin 8.66vmin 8.66vmin auto;
-    grid-template-rows: max-content 26vmin;
+    grid-template-columns: auto 77.94px 77.94px 77.94px auto;
+    grid-template-rows: max-content 234px;
     grid-template-areas:
         "padding mineCount face help"
         "padding minesweeper minesweeper minesweeper";
-    gap: 0.3vmin;
+    gap: 2.7px;
 }
 .minesweeperFaceButton {
-    width: 4vmin;
-    height: 4vmin;
+    width: 36px;
+    height: 36px;
     background-image: url("../images/minesweeper/face_button.png");
     background-position-x: 0;
     background-size: calc(100% * 5);
@@ -35,8 +35,8 @@
     background-position-x: calc(-100% * 4);
 }
 .minesweeper .helpButton {
-    width: 4vmin;
-    height: 4vmin;
+    width: 36px;
+    height: 36px;
     background-image: url("../images/minesweeper/help.png");
     background-position-x: 0;
     background-size: calc(100% * 2);
@@ -59,8 +59,8 @@
     align-self: flex-end;
 }
 .minesweeperDigit {
-    width: 1.95vmin;
-    height: 3.45vmin;
+    width: 17.55px;
+    height: 31.05px;
     background-image: url("../images/minesweeper/digits.png");
     background-position-x: calc(-100% * var(--digit));
     background-size: calc(100% * 11);
@@ -72,7 +72,7 @@
     display: grid;
     grid-template-columns: repeat(var(--grid-size), 1fr);
     grid-template-rows: repeat(var(--grid-size), 1fr);
-    border: 0.125vmin solid #7b7b7b;
+    border: 1.125px solid #7b7b7b;
     border-bottom-color: white;
     border-right-color: white;
 
@@ -96,8 +96,8 @@
 }
 .helpDialog .minesweeperCell {
     cursor: unset;
-    width: 2vmin;
-    height: 2vmin;
+    width: 18px;
+    height: 18px;
 }
 
 .minesweeperCell[data-state="flagged"],
@@ -110,6 +110,12 @@
     background-size: 100%;
     cursor: unset;
 }
+
+.minesweeper[data-state="won"] .minesweeperCell[data-state="hidden"] {
+    cursor: unset;
+    pointer-events: none;
+}
+
 .minesweeperCell[data-state="revealed"] {
     background-image: url("../images/minesweeper/numbers.png");
     background-position-x: calc(-100% * var(--nearby));
@@ -122,8 +128,8 @@
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: repeat(3, 1fr);
-    width: 6vmin;
-    height: 6vmin;
+    width: 54px;
+    height: 54px;
 }
 
 .exampleLabel {
@@ -131,6 +137,6 @@
     flex-direction: row;
     align-items: center;
     justify-content: start;
-    gap: 1vmin;
-    padding: 0.5vmin;
+    gap: 9px;
+    padding: 4.5px;
 }
