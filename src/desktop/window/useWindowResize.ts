@@ -25,6 +25,7 @@ interface UseWindowResizeOptions {
     minWidth?: number;
     minHeight?: number;
     onInteract?: () => void;
+    disableResize?: boolean;
 }
 export function useWindowResize(
     ref: RefObject<HTMLElement>,
@@ -36,6 +37,7 @@ export function useWindowResize(
         minWidth = 100,
         minHeight = 100,
         onInteract,
+        disableResize,
     }: UseWindowResizeOptions
 ) {
     useEffect(() => {
@@ -72,6 +74,12 @@ export function useWindowResize(
         function onMouseMove(e: MouseEvent) {
             const { offsetX, offsetY } = e;
             const { width, height } = target.getBoundingClientRect();
+            if (disableResize) {
+                if (cursor !== Cursor.Auto) {
+                    setCursor(Cursor.Auto);
+                }
+                return;
+            }
             if (offsetX < resizeThresholds.left && offsetY < resizeThresholds.top) {
                 setCursor(Cursor.TopLeft);
             } else if (offsetX < resizeThresholds.left && offsetY > height - resizeThresholds.bottom) {
@@ -228,7 +236,7 @@ export function useWindowResize(
             window.removeEventListener("mousemove", onDragMove);
             window.removeEventListener("mouseup", endDrag);
         };
-    }, [resizeThresholds.left, resizeThresholds.top, resizeThresholds.bottom, resizeThresholds.right]);
+    }, [resizeThresholds.left, resizeThresholds.top, resizeThresholds.bottom, resizeThresholds.right, disableResize]);
 
     return size;
 }

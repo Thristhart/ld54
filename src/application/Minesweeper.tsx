@@ -309,11 +309,16 @@ export const minesweeperDescription: ProcessDescription<MinesweeperState> = {
     initialState: 0,
     name: "minesweeper.exe",
     onOpen: (process) => {
-        openWindowForProcess(process, {
-            contentComponent: Minesweeper,
-            iconUrl,
-            initialTitle: "Minesweeper",
-        }, undefined, { width: 300, height: 305});
+        openWindowForProcess(
+            process,
+            {
+                contentComponent: Minesweeper,
+                iconUrl,
+                initialTitle: "Minesweeper",
+                disableResize: true,
+            },
+            undefined,
+            { width: 300, height: 324 }
+        );
     },
 };
-

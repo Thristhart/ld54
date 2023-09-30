@@ -14,6 +14,7 @@ export interface WindowDescription<State> {
     initialTitle: string;
     minWidth?: number;
     minHeight?: number;
+    disableResize?: boolean;
 }
 export interface WindowState<State> extends WindowDescription<State> {
     process: Process<State>;
@@ -31,6 +32,8 @@ export interface WindowState<State> extends WindowDescription<State> {
 }
 
 export const windows = signal<{ [windowId: string]: WindowState<unknown> }>({});
+
+(window as any).windows = windows;
 
 let globalWindowId = 0;
 export function openWindowForProcess<State>(
