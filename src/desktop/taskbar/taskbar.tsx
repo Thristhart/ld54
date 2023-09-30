@@ -3,6 +3,9 @@ import startUrl from "~/images/start.png";
 import "./taskbar.css";
 
 interface TaskbarProps extends JSXInternal.HTMLAttributes<HTMLElement> {}
+
+export const taskbarHeight = 34;
+
 export function Taskbar({ ...footerProps }: TaskbarProps) {
     return (
         <footer class="taskbar" {...footerProps}>

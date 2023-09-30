@@ -1,6 +1,7 @@
 import { Signal, signal } from "@preact/signals";
 import { FunctionComponent } from "preact";
 import { Process } from "~/application/process";
+import { taskbarHeight } from "~/desktop/taskbar/taskbar";
 
 interface WindowContentComponentProps<State> {
     process: Process<State>;
@@ -25,11 +26,19 @@ export function openWindowForProcess<State>(
     window: WindowDescription<State>,
     initialPosition: { x: number; y: number } = { x: 100, y: 100 }
 ) {
-    console.log(process.windows);
+    const maxHeight = globalThis.innerHeight - taskbarHeight - 20;
+    const maxWidth = globalThis.innerWidth - 20;
+
     if(process.windows != undefined){
         while(Object.values(process.windows).find(w => w.position.value.x == initialPosition.x && w.position.value.y == initialPosition.y )){
             initialPosition.x += 32;
             initialPosition.y += 32;
+            if(initialPosition.y >= maxHeight){
+                initialPosition.y = 20;
+            }
+            if(initialPosition.x >= maxWidth){
+                initialPosition.x = 20;
+            }
         }
     }
 
