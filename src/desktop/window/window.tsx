@@ -1,21 +1,44 @@
 import { useWindowResize } from "./useWindowResize";
 import "./window.css";
-import { useRef } from "preact/hooks";
+import { useRef, useCallback } from "preact/hooks";
 import { RefObject } from "preact";
-import { closeWindowForProcess, WindowState } from "~/os/windows";
+import { closeWindowForProcess, maximizeWindow, restoreWindow, WindowState } from "~/os/windows";
 
 interface TitleBarProps<State> {
     readonly window: WindowState<State>;
     readonly titleBarRef?: RefObject<HTMLDivElement>;
 }
 function TitleBar<State>({ titleBarRef, window }: TitleBarProps<State>) {
+    const recentClicks = useRef(0);
+    const onDoubleClick = useCallback(() => {
+        if (window.isMaximized.value) {
+            restoreWindow(window.windowId);
+        } else {
+            maximizeWindow(window.windowId);
+        }
+    }, [window.windowId]);
     return (
         <>
             <div class="titleBarBackground" />
-            <header class="titleBar" ref={titleBarRef}>
+            <header
+                class="titleBar"
+                ref={titleBarRef}
+                onClick={() => {
+                    recentClicks.current++;
+                    if (recentClicks.current === 2) {
+                        onDoubleClick();
+                    }
+                    setTimeout(() => recentClicks.current--, 250);
+                }}>
                 {window.iconUrl && <img class="windowIcon" src={window.iconUrl} />}
                 <span class="windowTitle">{window.title.value}</span>
                 <div class="windowButtons">
+                    <button>-</button>
+                    {window.isMaximized.value ? (
+                        <button onClick={() => restoreWindow(window.windowId)}>🗗</button>
+                    ) : (
+                        <button onClick={() => maximizeWindow(window.windowId)}>🗖</button>
+                    )}
                     <button onClick={() => closeWindowForProcess(window.process, window.windowId)}>X</button>
                 </div>
             </header>

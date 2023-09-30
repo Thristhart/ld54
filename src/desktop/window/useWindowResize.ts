@@ -99,6 +99,10 @@ export function useWindowResize(
         }
 
         function startDrag(e: MouseEvent) {
+            positionBeforeDrag.x = position.value.x;
+            positionBeforeDrag.y = position.value.y;
+            sizeBeforeDrag.width = size.value.width;
+            sizeBeforeDrag.height = size.value.height;
             lockCursor = true;
             window.addEventListener("mousemove", onDragMove);
             window.addEventListener("mouseup", endDrag);

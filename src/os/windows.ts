@@ -19,6 +19,11 @@ export interface WindowState<State> extends WindowDescription<State> {
     position: Signal<{ x: number; y: number }>;
     size: Signal<{ width: number; height: number }>;
     title: Signal<string>;
+    isMaximized: Signal<boolean>;
+    restoreDimensions?: {
+        position: { x: number; y: number };
+        size: { width: number; height: number };
+    };
 }
 
 export const windows = signal<{ [windowId: string]: WindowState<unknown> }>({});
@@ -32,14 +37,18 @@ export function openWindowForProcess<State>(
     const maxHeight = globalThis.innerHeight - taskbarHeight - 20;
     const maxWidth = globalThis.innerWidth - 20;
 
-    if(process.windows != undefined){
-        while(Object.values(process.windows).find(w => w.position.value.x == initialPosition.x && w.position.value.y == initialPosition.y )){
+    if (process.windows != undefined) {
+        while (
+            Object.values(process.windows).find(
+                (w) => w.position.value.x == initialPosition.x && w.position.value.y == initialPosition.y
+            )
+        ) {
             initialPosition.x += 32;
             initialPosition.y += 32;
-            if(initialPosition.y >= maxHeight){
+            if (initialPosition.y >= maxHeight) {
                 initialPosition.y = 20;
             }
-            if(initialPosition.x >= maxWidth){
+            if (initialPosition.x >= maxWidth) {
                 initialPosition.x = 20;
             }
         }
@@ -53,10 +62,32 @@ export function openWindowForProcess<State>(
         position: signal(initialPosition),
         size: signal({ width: 200, height: 200 }),
         title: signal(window.initialTitle),
+        isMaximized: signal(false),
     };
     windows.value = { ...windows.value, [windowWithId.windowId]: windowWithId };
     process.windows = { ...process.windows, [windowWithId.windowId]: windowWithId };
     return windowWithId;
+}
+
+export function maximizeWindow(windowId: number) {
+    const window = windows.value[windowId];
+    window.restoreDimensions = {
+        position: window.position.value,
+        size: window.size.value,
+    };
+    window.position.value = { x: 0, y: 0 };
+    window.size.value = { width: globalThis.innerWidth, height: globalThis.innerHeight - taskbarHeight };
+    window.isMaximized.value = true;
+}
+
+export function restoreWindow(windowId: number) {
+    const window = windows.value[windowId];
+    console.log(window.restoreDimensions);
+    if (window.restoreDimensions) {
+        window.position.value = window.restoreDimensions.position;
+        window.size.value = window.restoreDimensions.size;
+    }
+    window.isMaximized.value = false;
 }
 
 export function closeWindowForProcess(process: Process<unknown>, windowId: number) {
