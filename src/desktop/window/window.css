@@ -3,12 +3,12 @@
     top: 0;
     left: 0;
 
-    background-image: linear-gradient(to right, rgb(237, 237, 229) 0%, rgb(237, 232, 205) 100%);
-
     border-top-left-radius: 8px;
     border-top-right-radius: 8px;
 
     overflow: hidden;
+
+    background-color: rgb(8, 49, 217);
 }
 .titleBar {
     position: absolute;
@@ -16,6 +16,14 @@
     top: 0px;
     right: 0px;
     height: 28px;
+}
+.windowContent {
+    background-image: linear-gradient(to right, rgb(237, 237, 229) 0%, rgb(237, 232, 205) 100%);
+    position: absolute;
+    left: 3px;
+    top: 28px;
+    right: 3px;
+    bottom: 3px;
 }
 .titleBarBackground {
     background-image: linear-gradient(

@@ -23,6 +23,7 @@ interface UseWindowResizeOptions {
     };
     minWidth?: number;
     minHeight?: number;
+    onInteract?: () => void;
 }
 export function useWindowResize(
     ref: RefObject<HTMLElement>,
@@ -33,6 +34,7 @@ export function useWindowResize(
         resizeThresholds = { top: 4, right: 4, bottom: 4, left: 4 },
         minWidth = 100,
         minHeight = 100,
+        onInteract,
     }: UseWindowResizeOptions
 ) {
     const [position, setPosition] = useState(initialPosition);
@@ -106,6 +108,7 @@ export function useWindowResize(
             lockCursor = true;
             window.addEventListener("mousemove", onDragMove);
             window.addEventListener("mouseup", endDrag);
+            onInteract?.();
         }
 
         function applyDrag(e: MouseEvent) {
@@ -211,6 +214,7 @@ export function useWindowResize(
             sizeBeforeDrag.height = height;
 
             setCursor(Cursor.Auto);
+            onInteract?.();
         }
         target.addEventListener("mousedown", onMouseDown);
         target.addEventListener("mouseup", onMouseUp);
