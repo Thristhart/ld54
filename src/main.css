@@ -1,7 +1,14 @@
-html, body {
+html,
+body {
     margin: 0;
     padding: 0;
     height: 100%;
+
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
 #ui {
