@@ -3,9 +3,21 @@ import { Process } from "~/application/process";
 
 export const processes = signal<Process<unknown>[]>([]);
 
-export function createProcess<State>(initialState: State): Process<State> {
+export function createProcess<State>({ initialState, name, onOpen }: ProcessDescription<State>): Process<State> {
     return {
         state: signal(initialState),
+        name,
         windows: {},
+        onOpen,
     };
+}
+
+export function getOrCreateProcess<State>(desc: ProcessDescription<State>): Process<State> {
+    return (processes.value.find((proc) => proc.name === desc.name) as Process<State>) ?? createProcess(desc);
+}
+
+export interface ProcessDescription<State> {
+    initialState: State;
+    name: string;
+    onOpen(process: Process<State>, filename?: string): void;
 }

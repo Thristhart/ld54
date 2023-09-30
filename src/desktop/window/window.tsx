@@ -11,13 +11,13 @@ import {
     WindowState,
 } from "~/os/windows";
 import classNames from "classnames";
+import { useDoubleClick } from "../useDoubleClick";
 
 interface TitleBarProps<State> {
     readonly window: WindowState<State>;
     readonly titleBarRef?: RefObject<HTMLDivElement>;
 }
 function TitleBar<State>({ titleBarRef, window }: TitleBarProps<State>) {
-    const recentClicks = useRef(0);
     const onDoubleClick = useCallback(() => {
         if (window.isMaximized.value) {
             restoreWindow(window.windowId);
@@ -25,19 +25,11 @@ function TitleBar<State>({ titleBarRef, window }: TitleBarProps<State>) {
             maximizeWindow(window.windowId);
         }
     }, [window.windowId]);
+    const onClick = useDoubleClick(onDoubleClick);
     return (
         <>
             <div class="titleBarBackground" />
-            <header
-                class="titleBar"
-                ref={titleBarRef}
-                onClick={() => {
-                    recentClicks.current++;
-                    if (recentClicks.current === 2) {
-                        onDoubleClick();
-                    }
-                    setTimeout(() => recentClicks.current--, 250);
-                }}>
+            <header class="titleBar" ref={titleBarRef} onClick={onClick}>
                 {window.iconUrl && <img class="windowIcon" src={window.iconUrl} />}
                 <span class="windowTitle">{window.title.value}</span>
                 <div class="windowButtons">

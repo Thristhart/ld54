@@ -1,7 +1,7 @@
-import { createProcess } from "~/os/processes";
+import { createProcess, ProcessDescription } from "~/os/processes";
 import { openWindowForProcess } from "~/os/windows";
-import { Process } from "./process";
-import iconUrl from "~/images/icons/joystick.png";
+import type { Process } from "./process";
+import iconUrl from "~/images/icons/favicons/joystick.png";
 
 type ButtonState = number;
 
@@ -12,13 +12,14 @@ function ButtonWindow({ process }: ButtonWindowProps) {
     return <button onClick={() => process.state.value++}>click count: {process.state.value}</button>;
 }
 
-export function createButtonProcess() {
-    return createProcess(0);
-}
-export function openButtonWindow(process: Process<number>) {
-    return openWindowForProcess(process, {
-        contentComponent: ButtonWindow,
-        iconUrl,
-        initialTitle: "Button!",
-    });
-}
+export const buttonDescription: ProcessDescription<ButtonState> = {
+    initialState: 0,
+    name: "button.exe",
+    onOpen: (process) => {
+        openWindowForProcess(process, {
+            contentComponent: ButtonWindow,
+            iconUrl,
+            initialTitle: "Button!",
+        });
+    },
+};

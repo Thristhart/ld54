@@ -3,7 +3,6 @@ import startUrl from "~/images/start.png";
 import { focusWindow, unminimizeWindow, windows, WindowState } from "~/os/windows";
 import "./taskbar.css";
 import classnames from "classnames";
-import { createButtonProcess, openButtonWindow } from "~/application/button";
 
 export const taskbarHeight = 34;
 
@@ -25,18 +24,13 @@ function TaskbarWindow({ window, focused }: TaskbarWindowProps) {
     );
 }
 
-const testProcess = createButtonProcess();
 interface TaskbarProps extends JSXInternal.HTMLAttributes<HTMLElement> {
     focused: WindowState<unknown>;
 }
 export function Taskbar({ focused, ...footerProps }: TaskbarProps) {
     return (
         <footer class="taskbar" {...footerProps}>
-            <button
-                class="startButton"
-                onClick={() => {
-                    openButtonWindow(testProcess);
-                }}>
+            <button class="startButton">
                 <img src={startUrl} />
             </button>
             {Object.values(windows.value).map((window) => (
