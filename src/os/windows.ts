@@ -80,6 +80,10 @@ export function openWindowForProcess<State>(
 
 export function maximizeWindow(windowId: number) {
     const window = windows.value[windowId];
+    if(window.disableResize)
+    {
+        return;
+    }
     window.restoreDimensions = {
         position: window.position.value,
         size: window.size.value,
