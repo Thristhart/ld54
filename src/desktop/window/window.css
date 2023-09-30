@@ -22,6 +22,9 @@
 
     color: white;
 }
+.windowMinimized {
+    display: none;
+}
 .windowIcon {
     width: 15px;
     height: 15px;

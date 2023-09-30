@@ -2,7 +2,15 @@ import { useWindowResize } from "./useWindowResize";
 import "./window.css";
 import { useRef, useCallback } from "preact/hooks";
 import { RefObject } from "preact";
-import { closeWindowForProcess, maximizeWindow, restoreWindow, WindowState } from "~/os/windows";
+import {
+    closeWindowForProcess,
+    focusWindow,
+    maximizeWindow,
+    minimizeWindow,
+    restoreWindow,
+    WindowState,
+} from "~/os/windows";
+import classNames from "classnames";
 
 interface TitleBarProps<State> {
     readonly window: WindowState<State>;
@@ -33,7 +41,7 @@ function TitleBar<State>({ titleBarRef, window }: TitleBarProps<State>) {
                 {window.iconUrl && <img class="windowIcon" src={window.iconUrl} />}
                 <span class="windowTitle">{window.title.value}</span>
                 <div class="windowButtons">
-                    <button>-</button>
+                    <button onClick={() => minimizeWindow(window.windowId)}>-</button>
                     {window.isMaximized.value ? (
                         <button onClick={() => restoreWindow(window.windowId)}>🗗</button>
                     ) : (
@@ -55,20 +63,23 @@ export function Window<State>({ window }: WindowProps<State>) {
     const titleBarRef = useRef(null);
     useWindowResize(containerRef, titleBarRef, {
         onInteract() {
-            window.lastInteractionTime.value = performance.now();
+            focusWindow(window.windowId);
         },
         position: window.position,
         size: window.size,
     });
     return (
         <div
-            class="window"
+            class={classNames("window", window.isMinimized.value && "windowMinimized")}
             style={{
                 width: window.size.value.width,
                 height: window.size.value.height,
                 transform: `translate(${window.position.value.x}px, ${window.position.value.y}px)`,
             }}
-            ref={containerRef}>
+            ref={containerRef}
+            onClick={() => {
+                focusWindow(window.windowId);
+            }}>
             <TitleBar titleBarRef={titleBarRef} window={window} />
             <div class="windowContent">
                 <window.contentComponent process={window.process} />

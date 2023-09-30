@@ -20,6 +20,7 @@ export interface WindowState<State> extends WindowDescription<State> {
     size: Signal<{ width: number; height: number }>;
     title: Signal<string>;
     isMaximized: Signal<boolean>;
+    isMinimized: Signal<boolean>;
     restoreDimensions?: {
         position: { x: number; y: number };
         size: { width: number; height: number };
@@ -63,6 +64,7 @@ export function openWindowForProcess<State>(
         size: signal({ width: 200, height: 200 }),
         title: signal(window.initialTitle),
         isMaximized: signal(false),
+        isMinimized: signal(false),
     };
     windows.value = { ...windows.value, [windowWithId.windowId]: windowWithId };
     process.windows = { ...process.windows, [windowWithId.windowId]: windowWithId };
@@ -80,9 +82,17 @@ export function maximizeWindow(windowId: number) {
     window.isMaximized.value = true;
 }
 
+export function minimizeWindow(windowId: number) {
+    const window = windows.value[windowId];
+    window.isMinimized.value = true;
+}
+export function unminimizeWindow(windowId: number) {
+    const window = windows.value[windowId];
+    window.isMinimized.value = false;
+}
+
 export function restoreWindow(windowId: number) {
     const window = windows.value[windowId];
-    console.log(window.restoreDimensions);
     if (window.restoreDimensions) {
         window.position.value = window.restoreDimensions.position;
         window.size.value = window.restoreDimensions.size;
@@ -96,4 +106,9 @@ export function closeWindowForProcess(process: Process<unknown>, windowId: numbe
 
     windows.value = windowsWithoutWindow;
     process.windows = processWindowsWithoutWindow;
+}
+
+export function focusWindow(windowId: number) {
+    const window = windows.value[windowId];
+    window.lastInteractionTime.value = performance.now();
 }

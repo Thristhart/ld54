@@ -4,6 +4,8 @@
     padding: 0;
     border: none;
     height: 34px;
+
+    margin-right: 10px;
 }
 .startButton:hover {
     filter: brightness(110%);
@@ -18,6 +20,9 @@
     bottom: 0;
     right: 0;
     height: 34px;
+
+    display: flex;
+    align-items: center;
 
     background-image: linear-gradient(
         rgb(31, 47, 134) 0px,
@@ -37,4 +42,65 @@
         rgb(29, 78, 192) 95%,
         rgb(25, 65, 165) 98%
     );
+}
+
+.taskbarButton {
+    box-sizing: border-box;
+    position: relative;
+
+    flex-grow: 1;
+    flex-shrink: 1;
+    flex-basis: 0%;
+    max-width: 150px;
+    height: 24px;
+
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+
+    text-align: start;
+    border-radius: 2px;
+
+    color: white;
+    background-color: rgb(60, 129, 243);
+
+    box-shadow: rgba(0, 0, 0, 0.3) -1px 0 inset, rgba(255, 255, 255, 0.2) 1px 1px 1px inset;
+
+    border: none;
+
+    padding-left: 8px;
+    padding-right: 8px;
+    margin-top: 2px;
+}
+.taskbarButton:hover {
+    background-color: rgb(83, 163, 255);
+    box-shadow: rgba(0, 0, 0, 0.3) -1px 0px inset, rgba(255, 255, 255, 0.2) 1px 1px 1px inset;
+}
+.taskbarIcon {
+    width: 15px;
+    height: 15px;
+
+    margin-right: 3px;
+}
+.taskbarTitle {
+    pointer-events: none;
+    padding-right: 5px;
+    letter-spacing: 0.5px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+
+    flex-grow: 1;
+    flex-shrink: 1;
+
+    position: absolute;
+    left: 25px;
+    right: 8px;
+}
+.taskbarFocused {
+    background-color: rgb(31, 88, 180);
+    box-shadow: rgba(0, 0, 0, 0.2) 0px 0px 1px 1px inset, rgba(0, 0, 0, 0.7) 1px 0px 1px inset;
+}
+.taskbarFocused:hover {
+    background-color: rgb(53, 118, 243);
 }
