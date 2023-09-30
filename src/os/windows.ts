@@ -110,5 +110,7 @@ export function closeWindowForProcess(process: Process<unknown>, windowId: numbe
 
 export function focusWindow(windowId: number) {
     const window = windows.value[windowId];
-    window.lastInteractionTime.value = performance.now();
+    if(window != undefined){
+        window.lastInteractionTime.value = performance.now();
+    }
 }
