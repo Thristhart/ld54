@@ -33,7 +33,8 @@ let globalWindowId = 0;
 export function openWindowForProcess<State>(
     process: Process<State>,
     window: WindowDescription<State>,
-    initialPosition: { x: number; y: number } = { x: 100, y: 100 }
+    initialPosition: { x: number; y: number } = { x: 100, y: 100 },
+    initialSize: { width: number; height: number } = { width: 400, height: 300 }
 ) {
     const maxHeight = globalThis.innerHeight - taskbarHeight - 20;
     const maxWidth = globalThis.innerWidth - 20;
@@ -61,7 +62,7 @@ export function openWindowForProcess<State>(
         windowId: globalWindowId++,
         lastInteractionTime: signal(performance.now()),
         position: signal(initialPosition),
-        size: signal({ width: 200, height: 200 }),
+        size: signal(initialSize),
         title: signal(window.initialTitle),
         isMaximized: signal(false),
         isMinimized: signal(false),
@@ -110,7 +111,7 @@ export function closeWindowForProcess(process: Process<unknown>, windowId: numbe
 
 export function focusWindow(windowId: number) {
     const window = windows.value[windowId];
-    if(window != undefined){
+    if (window != undefined) {
         window.lastInteractionTime.value = performance.now();
     }
 }
