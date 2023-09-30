@@ -5,12 +5,15 @@ import { taskbarHeight } from "~/desktop/taskbar/taskbar";
 
 interface WindowContentComponentProps<State> {
     process: Process<State>;
+    window: WindowState<State>;
 }
 
 export interface WindowDescription<State> {
     contentComponent: FunctionComponent<WindowContentComponentProps<State>>;
     iconUrl?: string;
     initialTitle: string;
+    minWidth?: number;
+    minHeight?: number;
 }
 export interface WindowState<State> extends WindowDescription<State> {
     process: Process<State>;

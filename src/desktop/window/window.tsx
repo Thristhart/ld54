@@ -59,6 +59,8 @@ export function Window<State>({ window }: WindowProps<State>) {
         },
         position: window.position,
         size: window.size,
+        minWidth: window.minWidth,
+        minHeight: window.minHeight,
     });
     return (
         <div
@@ -74,7 +76,7 @@ export function Window<State>({ window }: WindowProps<State>) {
             }}>
             <TitleBar titleBarRef={titleBarRef} window={window} />
             <div class="windowContent">
-                <window.contentComponent process={window.process} />
+                <window.contentComponent process={window.process} window={window} />
             </div>
         </div>
     );
