@@ -12,10 +12,33 @@
 }
 .titleBar {
     position: absolute;
-    left: 0px;
+    left: 3px;
     top: 0px;
-    right: 0px;
+    right: 3px;
     height: 28px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    color: white;
+}
+.windowIcon {
+    width: 15px;
+    height: 15px;
+
+    margin-right: 3px;
+}
+.windowTitle {
+    pointer-events: none;
+    padding-right: 5px;
+    letter-spacing: 0.5px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+
+    flex-grow: 1;
+}
+.windowButtons {
 }
 .windowContent {
     background-image: linear-gradient(to right, rgb(237, 237, 229) 0%, rgb(237, 232, 205) 100%);
@@ -48,7 +71,7 @@
     top: 0;
     left: 0;
     right: 0;
-    bottom: 0;
+    height: 28px;
 }
 .titleBarBackground::before,
 .titleBarBackground::after {

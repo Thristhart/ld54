@@ -9,6 +9,8 @@ interface WindowContentComponentProps<State> {
 
 export interface WindowDescription<State> {
     contentComponent: FunctionComponent<WindowContentComponentProps<State>>;
+    iconUrl?: string;
+    initialTitle: string;
 }
 export interface WindowState<State> extends WindowDescription<State> {
     process: Process<State>;
@@ -16,6 +18,7 @@ export interface WindowState<State> extends WindowDescription<State> {
     lastInteractionTime: Signal<number>;
     position: Signal<{ x: number; y: number }>;
     size: Signal<{ width: number; height: number }>;
+    title: Signal<string>;
 }
 
 export const windows = signal<{ [windowId: string]: WindowState<unknown> }>({});
@@ -49,6 +52,7 @@ export function openWindowForProcess<State>(
         lastInteractionTime: signal(performance.now()),
         position: signal(initialPosition),
         size: signal({ width: 200, height: 200 }),
+        title: signal(window.initialTitle),
     };
     windows.value = { ...windows.value, [windowWithId.windowId]: windowWithId };
     process.windows = { ...process.windows, [windowWithId.windowId]: windowWithId };

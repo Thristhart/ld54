@@ -64,11 +64,7 @@ export function useWindowResize(
             mouseDownPageX = e.pageX;
             mouseDownPageY = e.pageY;
 
-            if (
-                cursor !== Cursor.Auto ||
-                e.target === dragTargetRef.current ||
-                dragTargetRef.current?.contains(e.target as Node)
-            ) {
+            if (cursor !== Cursor.Auto || e.target === dragTargetRef.current) {
                 return startDrag(e);
             }
         }

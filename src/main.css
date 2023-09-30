@@ -1,11 +1,16 @@
-html, body {
+html,
+body {
     margin: 0;
     padding: 0;
     height: 100%;
+<<<<<<< HEAD
 
     -webkit-user-select: none;
     -ms-user-select: none;
     user-select: none;
+=======
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+>>>>>>> 23f9a82d311255f2e60a7a46e469e6e6d75612ee
 }
 
 #ui {
