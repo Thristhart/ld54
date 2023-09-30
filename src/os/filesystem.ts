@@ -2,6 +2,7 @@ import { Signal, signal } from "@preact/signals";
 import { buttonDescription } from "~/application/button";
 import { todoAppDescription } from "~/application/todo";
 import { getOrCreateProcess, ProcessDescription } from "./processes";
+import { minesweeperDescription } from "~/application/minesweeperWindow";
 
 export interface File {
     readonly filename: string;
@@ -28,6 +29,14 @@ export const files = signal<Signal<File>[]>([
         shortcutProperties: {
             processDesc: todoAppDescription,
             displayName: "todo.txt",
+        },
+    }),
+        signal({
+        filename: "C:/Desktop/Minesweeper.lnk",
+        filesize: 0,
+        shortcutProperties: {
+            processDesc: minesweeperDescription,
+            displayName: "Minesweeper",
         },
     }),
 ]);
