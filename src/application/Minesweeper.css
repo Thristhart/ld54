@@ -101,10 +101,12 @@
 }
 
 .minesweeperCell[data-state="flagged"],
-.minesweeperCell[data-state="flaggedMine"] {
+.minesweeperCell[data-state="flaggedMine"],
+.minesweeper[data-state="won"] .minesweeperCell[data-state="hidden"] {
     background-image: url("../images/minesweeper/flag.png");
     background-size: 100%;
 }
+
 .minesweeperCell[data-state="mine"] {
     background-image: url("../images/minesweeper/mine.png");
     background-size: 100%;

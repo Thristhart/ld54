@@ -291,6 +291,7 @@ export const Minesweeper = () => {
                 }
             }
             if (revealed >= gridSize * gridSize - mineCount.current) {
+                mineCount.current = 0;
                 gameState.value = GameState.Won;
             }
         }

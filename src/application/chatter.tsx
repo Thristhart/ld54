@@ -25,7 +25,7 @@ function ChatterWindow({ process }: ChatterWindowProps) {
         chat.push(<br />);
     })
     return <div class="chatWindow">
-        <div class="chatBody">{process.state.value}</div>
+        <div class="chatBody">{chat}</div>
         <div class="chatBottom">
             <div class="textbox"></div><div class="sendButton">Send</div>
         </div>
