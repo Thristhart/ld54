@@ -3,7 +3,7 @@ import "./taskbar.css";
 
 export function Taskbar() {
     return (
-        <footer>
+        <footer class="taskbar">
             <button class="startButton">
                 <img src={startUrl} />
             </button>
