@@ -12,11 +12,13 @@ interface WindowContentComponentProps<State> {
 export interface WindowDescription<State> {
     contentComponent: FunctionComponent<WindowContentComponentProps<State>>;
     iconUrl?: string;
+    taskbarIconUrl?: string;
     initialTitle: string;
     minWidth?: number;
     minHeight?: number;
     disableResize?: boolean;
     disableTitleBar?: boolean;
+    disableBorder?: boolean;
     transparent?: boolean;
     windowParams?: any;
 }

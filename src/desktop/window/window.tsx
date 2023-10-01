@@ -33,14 +33,14 @@ function TitleBar<State>({ titleBarRef, window }: TitleBarProps<State>) {
                 {window.iconUrl && <img class="windowIcon" src={window.iconUrl} />}
                 <span class="windowTitle">{window.title.value}</span>
                 <div class="windowButtons">
-                    <button onClick={() => minimizeWindow(window.windowId)}>-</button>
+                    <button onClick={() => minimizeWindow(window.windowId)}>🗕</button>
                     {!window.disableResize &&
                         (window.isMaximized.value ? (
                             <button onClick={() => restoreWindow(window.windowId)}>🗗</button>
                         ) : (
                             <button onClick={() => maximizeWindow(window.windowId)}>🗖</button>
                         ))}
-                    <button onClick={() => closeWindowForProcess(window.process, window.windowId)}>X</button>
+                    <button onClick={() => closeWindowForProcess(window.process, window.windowId)}>🞫</button>
                 </div>
             </header>
         </>
@@ -49,9 +49,10 @@ function TitleBar<State>({ titleBarRef, window }: TitleBarProps<State>) {
 
 interface WindowProps<State> {
     readonly window: WindowState<State>;
+    readonly isFocused: boolean;
 }
 
-export function Window<State>({ window }: WindowProps<State>) {
+export function Window<State>({ window, isFocused }: WindowProps<State>) {
     const containerRef = useRef(null);
     const titleBarRef = useRef<HTMLElement>(null);
     useWindowResize(containerRef, titleBarRef, {
@@ -69,10 +70,13 @@ export function Window<State>({ window }: WindowProps<State>) {
         <div
             class={classNames(
                 "window",
+                isFocused && "windowFocused",
                 window.isMinimized.value && "windowMinimized",
                 window.disableTitleBar && "windowNoTitlebar",
-                window.transparent && "windowTransparent"
+                window.transparent && "windowTransparent",
+                window.disableBorder && "windowNoBorder"
             )}
+            data-process={window.process.name}
             style={{
                 width: window.size.value.width,
                 height: window.size.value.height,
