@@ -30,3 +30,9 @@
     color: white;
     text-align: center;
 }
+
+.spaceDetails{
+    
+    font-size: 9px;
+    white-space: nowrap;
+}

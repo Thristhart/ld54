@@ -18,10 +18,12 @@ export interface File {
     };
 }
 
+export const totalSize = 10000; //10GB
+
 export const files = signal<Signal<File>[]>([
     signal({
         filename: "C:/Desktop/Button.lnk",
-        filesize: 0,
+        filesize: 10,
         shortcutProperties: {
             processDesc: buttonDescription,
             displayName: "Button",
@@ -29,7 +31,7 @@ export const files = signal<Signal<File>[]>([
     }),
     signal({
         filename: "C:/Desktop/todo.txt",
-        filesize: 0,
+        filesize: 1,
         shortcutProperties: {
             processDesc: todoAppDescription,
             displayName: "todo.txt",
@@ -37,7 +39,7 @@ export const files = signal<Signal<File>[]>([
     }),
     signal({
         filename: "C:/Desktop/Minesweeper.lnk",
-        filesize: 0,
+        filesize: 10,
         shortcutProperties: {
             processDesc: minesweeperDescription,
             displayName: "Minesweeper",
@@ -45,7 +47,7 @@ export const files = signal<Signal<File>[]>([
     }),
     signal({
         filename: "C:/Desktop/chatter.lnk",
-        filesize: 0,
+        filesize: 30,
         shortcutProperties: {
             processDesc: chatterDescription,
             displayName: "Chatter",
@@ -53,7 +55,7 @@ export const files = signal<Signal<File>[]>([
     }),
     signal({
         filename: "C:/Desktop/explorer.lnk",
-        filesize: 0,
+        filesize: 15,
         shortcutProperties: {
             processDesc: explorerAppDescription,
             displayName: "My Computer",
@@ -64,7 +66,7 @@ export const files = signal<Signal<File>[]>([
     }),
     signal({
         filename: "C:/Desktop/Cassie.lnk",
-        filesize: 0,
+        filesize: 300,
         shortcutProperties: {
             processDesc: cassieAppDescription,
             displayName: "Cassie",
@@ -72,7 +74,7 @@ export const files = signal<Signal<File>[]>([
     }),
     signal({
         filename: "My Computer/C:/",
-        filesize: 0,
+        filesize: 0.1,
         shortcutProperties: {
             processDesc: explorerAppDescription,
             displayName: "Local Disk (C:)",

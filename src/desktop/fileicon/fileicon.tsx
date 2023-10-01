@@ -1,7 +1,7 @@
 import { useCallback } from "preact/hooks";
 import joystickIconUrl from "~/images/icons/joystick.png";
 import joystickFaviconUrl from "~/images/icons/favicons/joystick.png";
-import { File, openFile } from "~/os/filesystem";
+import { File, files, openFile, totalSize } from "~/os/filesystem";
 import { useDoubleClick } from "../useDoubleClick";
 import "./fileicon.css";
 
@@ -32,6 +32,21 @@ function getDisplayNameForFile(file: File) {
     return getFileBasename(file);
 }
 
+function displayFilesize(size: number){
+    if(size > 1000){
+        return (size/1000).toFixed(2) + "GB";
+    }
+    return size.toFixed(2) + "MB";
+}
+
+function getCDriveSpace(){
+    let usedSize = 0;
+    files.value.forEach(file => {
+        usedSize += file.value.filesize;
+    });
+    return `${displayFilesize(usedSize)} / ${displayFilesize(totalSize)}`
+}
+
 interface FileIconProps {
     file: File;
 }
@@ -40,10 +55,13 @@ export function FileIcon({ file }: FileIconProps) {
         openFile(file);
     }, [file]);
     const onClick = useDoubleClick(onDoubleClick);
+    console.log(file.filename);
+    const spaceDetails = file.filename === "My Computer/C:/" ? <span class="spaceDetails">{getCDriveSpace()}</span> : undefined;
     return (
         <button class="fileIcon" onClick={onClick}>
             <img src={getIconForFile(file)} />
             <span class="fileIconLabel">{getDisplayNameForFile(file)}</span>
+            {spaceDetails}
         </button>
     );
 }

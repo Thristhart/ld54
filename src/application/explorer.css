@@ -54,3 +54,7 @@
     width: 100%;
     flex-grow: 1;
 }
+
+.fileDetails{
+    border-top: solid thin black;
+}

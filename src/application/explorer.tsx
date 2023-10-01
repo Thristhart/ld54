@@ -18,6 +18,7 @@ interface ExplorerWindowProps {
 }
 function ExplorerWindow({ process, window }: ExplorerWindowProps) {
     const location = useSignal<string>(window.windowParams);
+    const filesInPath = getFilesInPath(location.value);
     return (
         <div className={"explorerWindowContent"}>
             <Dropdown
@@ -68,9 +69,12 @@ function ExplorerWindow({ process, window }: ExplorerWindowProps) {
                 </span>
             </section>
             <section class="fileList">
-                {getFilesInPath(location.value).map((file) => (
+                {filesInPath.map((file) => (
                     <FileIcon file={file} key={file.filename} />
                 ))}
+            </section>
+            <section class="fileDetails">
+                    File size: 0
             </section>
         </div>
     );
