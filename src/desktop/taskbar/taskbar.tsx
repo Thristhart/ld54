@@ -18,7 +18,9 @@ function TaskbarWindow({ window, focused }: TaskbarWindowProps) {
                 unminimizeWindow(window.windowId);
                 focusWindow(window.windowId);
             }}>
-            {window.iconUrl && <img class="taskbarIcon" src={window.iconUrl} />}
+            {(window.taskbarIconUrl ?? window.iconUrl) && (
+                <img class="taskbarIcon" src={window.taskbarIconUrl ?? window.iconUrl} />
+            )}
             <span class="taskbarTitle">{window.title.value}</span>
         </button>
     );

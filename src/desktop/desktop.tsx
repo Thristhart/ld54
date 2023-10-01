@@ -18,8 +18,8 @@ export function Desktop() {
                     <FileIcon file={file} key={file.filename} />
                 ))}
             </div>
-            {windowsToRender.map((window) => (
-                <Window window={window} key={window.windowId} />
+            {windowsToRender.map((window, index) => (
+                <Window window={window} key={window.windowId} isFocused={index === windowsToRender.length - 1} />
             ))}
             <Taskbar focused={windowsToRender[windowsToRender.length - 1]} />
         </div>

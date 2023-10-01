@@ -6,6 +6,7 @@ import { explorerAppDescription } from "~/application/explorer";
 import { minesweeperDescription } from "~/application/Minesweeper";
 import { todoAppDescription } from "~/application/todo";
 import { getOrCreateProcess, ProcessDescription } from "./processes";
+import { steamAppDescription } from "~/application/steam/steam";
 
 export interface File {
     readonly filename: string;
@@ -70,6 +71,14 @@ export const files = signal<Signal<File>[]>([
         shortcutProperties: {
             processDesc: cassieAppDescription,
             displayName: "Cassie",
+        },
+    }),
+    signal({
+        filename: "C:/Desktop/Steam.lnk",
+        filesize: 0,
+        shortcutProperties: {
+            processDesc: steamAppDescription,
+            displayName: "Steam",
         },
     }),
     signal({

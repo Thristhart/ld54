@@ -1,0 +1,126 @@
+body {
+    --steam-green: #4c5945;
+    --steam-text-light: #8a9682;
+    --steam-dark-green: #414538;
+    --steam-text-highlight: #b2b682;
+}
+
+.steamWindowContent {
+    background-color: var(--steam-green);
+    color: var(--steam-text-light);
+    width: 100%;
+    height: 100%;
+
+    font-size: 12px;
+}
+
+.steamWindowContent hr {
+    border-color: var(--steam-text-light);
+    background-color: var(--steam-text-light);
+}
+
+.window[data-process="steam.exe"] {
+    background-color: var(--steam-green);
+}
+
+.window[data-process="steam.exe"] .titleBarBackground {
+    background: var(--steam-green);
+}
+.window[data-process="steam.exe"] .titleBarBackground:before {
+    display: none;
+}
+.window[data-process="steam.exe"] .titleBarBackground:after {
+    display: none;
+}
+
+.window[data-process="steam.exe"] .windowIcon {
+    width: 20px;
+    height: 20px;
+}
+
+.window[data-process="steam.exe"] .titleBar {
+    font-weight: normal;
+}
+
+.window[data-process="steam.exe"]:not(.windowFocused) .titleBar {
+    color: var(--steam-text-light);
+}
+
+.window[data-process="steam.exe"] .windowButtons button {
+    background-color: transparent;
+    border: none;
+    color: var(--steam-text-light);
+}
+
+.steamMainWindow {
+    padding-top: 4px;
+    padding-left: 24px;
+    padding-right: 24px;
+    box-sizing: border-box;
+}
+
+.steamMainWindowButtons {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    grid-template-rows: repeat(6, 30px);
+    gap: 4px;
+    align-items: center;
+}
+.steamButton {
+    height: 24px;
+    width: 76px;
+    text-align: start;
+    background-color: transparent;
+    color: white;
+    border: 1px solid var(--steam-dark-green);
+    border-top-color: var(--steam-text-light);
+    border-left-color: var(--steam-text-light);
+}
+.steamButton:active {
+    background-color: var(--steam-dark-green);
+}
+
+.steamMainWindowFooter {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.steamHighlightText {
+    color: var(--steam-text-highlight);
+}
+.steamGamesHeader .steamHighlightText {
+    padding-left: 20px;
+    font-size: 10px;
+}
+.steamGamesHeader hr {
+    background-color: black;
+    border-color: black;
+    margin-bottom: 0;
+    margin-top: 2px;
+}
+
+.steamGamesList {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.steamGamesListGame {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+.steamGamesListGame img {
+    padding-right: 4px;
+    width: 16px;
+    height: 16px;
+}
+.steamGamesListGame.installed {
+    color: white;
+}
+
+.steamGamesWindow {
+    padding-left: 6px;
+    box-sizing: border-box;
+}
