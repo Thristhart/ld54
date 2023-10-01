@@ -3,15 +3,16 @@ import { focusWindow, openWindowForProcess, windows, WindowState } from "~/os/wi
 import type { Process } from "~/application/process";
 import "./cassie.css";
 import iconUrl from "~/images/icons/favicons/joystick.png";
-import { RefObject, useEffect } from "react";
+import { RefObject, useCallback, useEffect } from "react";
 import { taskbarHeight } from "~/desktop/taskbar/taskbar";
-import { useSignal } from "@preact/signals";
+import { signal, useSignal } from "@preact/signals";
 
 function useAnimationFrame(callback: (dt: number) => void) {
     return useEffect(() => {
         let lastTimestamp = performance.now();
         function tick(timestamp: number) {
             const dt = timestamp - lastTimestamp;
+            lastTimestamp = timestamp;
             callback(dt);
             frameHandle = requestAnimationFrame(tick);
         }
@@ -29,14 +30,29 @@ interface CassieWindowProps {
     dragTargetRef: RefObject<HTMLElement>;
 }
 
-const fallspeed = 0.3;
+const fallspeed = 0.5;
 
 const cassieWidth = 100;
 const cassieHeight = 100;
 
+interface CassieDialog {
+    text: string;
+    onDismiss?: () => void;
+}
+export const cassieDialogQueue = signal<CassieDialog[]>([
+    { text: "My name is Cassie, your Personal Engagement Tool for navigating LANPlanner!" },
+    { text: "Looks like you've got a todo list. Kinda underwhelming if you ask me, where's the personality?" },
+    {
+        text: "No need to worry, because I'm here now and I'll be sure to keep you on task and notified, with a little magical flair!",
+        onDismiss() {
+            console.log("boop");
+        },
+    },
+]);
+
 function CassieWindow({ window, dragTargetRef }: CassieWindowProps) {
     const windowAttach = useSignal<WindowState<any> | undefined>(undefined);
-    useAnimationFrame((dt) => {
+    const animationFrame = useCallback((dt: number) => {
         const pos = window.position.value;
         let dy = dt * fallspeed;
         if (dragTargetRef.current?.dataset.isDragging === "true") {
@@ -99,8 +115,34 @@ function CassieWindow({ window, dragTargetRef }: CassieWindowProps) {
             ...pos,
             y: pos.y + dy,
         };
-    });
-    return <div class={"cassie"} ref={dragTargetRef as RefObject<HTMLDivElement>} />;
+    }, []);
+
+    useAnimationFrame(animationFrame);
+
+    const nextDialog = cassieDialogQueue.value[0];
+    return (
+        <>
+            {nextDialog && (
+                <p class="cassieDialog" onClick={() => advanceCassieDialog()}>
+                    {nextDialog.text}
+                </p>
+            )}
+            <div class="cassieWrapper">
+                <div class={"cassie"} ref={dragTargetRef as RefObject<HTMLDivElement>} />
+            </div>
+        </>
+    );
+}
+
+function advanceCassieDialog() {
+    const current = cassieDialogQueue.value[0];
+    if (!current) {
+        return;
+    }
+    cassieDialogQueue.value = cassieDialogQueue.value.slice(1);
+    if (current.onDismiss) {
+        current.onDismiss();
+    }
 }
 
 export const cassieAppDescription: ProcessDescription<CassieState> = {
