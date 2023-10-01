@@ -4,6 +4,7 @@ body {
     --steam-primary-text: #d2dfca;
     --steam-dark-green: #414538;
     --steam-text-highlight: #b2b682;
+    --steam-yellow: #c6b552;
 }
 
 @font-face {
@@ -30,6 +31,12 @@ body {
 
 .window[data-process="steam.exe"] {
     background-color: var(--steam-green);
+    border: 1px solid var(--steam-dark-green);
+    border-top-color: var(--steam-text-light);
+    border-left-color: var(--steam-text-light);
+    box-sizing: border-box;
+    border-radius: 0;
+    overflow: hidden;
 }
 
 .window[data-process="steam.exe"] .titleBarBackground {
@@ -194,4 +201,30 @@ body {
 
 .cancelButton {
     margin-left: 20px;
+}
+
+.steamInstallingLabel {
+    margin-bottom: 4px;
+    display: inline-block;
+}
+
+.steamInstallProgress {
+    height: 24px;
+    width: 100%;
+    background-color: var(--steam-dark-green);
+    border: 1px solid var(--steam-text-light);
+    border-top-color: var(--steam-dark-green);
+    border-left-color: var(--steam-dark-green);
+
+    display: flex;
+    flex-direction: row;
+    gap: 3px;
+    align-items: center;
+    padding-left: 3px;
+}
+
+.steamInstallBlock {
+    width: 8px;
+    height: 16px;
+    background-color: var(--steam-yellow);
 }

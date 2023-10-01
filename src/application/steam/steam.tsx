@@ -8,6 +8,8 @@ import { Process } from "../process";
 import classNames from "classnames";
 import { useDoubleClick } from "~/desktop/useDoubleClick";
 import { useCallback } from "react";
+import { Signal, useSignal } from "@preact/signals";
+import { useEffect } from "preact/hooks";
 
 interface SteamWindowProps {
     window: WindowState<SteamProcessState>;
@@ -115,35 +117,120 @@ function openGamesWindow(process: Process<SteamProcessState>) {
     }
 }
 
-function SteamInstallWizardIntroPage({ window }: SteamWindowProps) {
-    const game = window.windowParams as SteamGame;
-    return (
-        <div class="steamInstallIntro steamInstallStep">
-            <p class="aboutToInstall">You're about to install {game.displayName}.</p>
-            <div class="steamInstallDetails">
-                <label class="steamInstallDetail">Disk space required:</label>
-                <span class="steamFilesize">180 MB</span>
-                <label class="steamInstallDetail">Disk space available:</label>
-                <span class="steamFilesize">38196 MB</span>
-            </div>
-            <p class="allFilesDownloaded">All files for this game will now be downloaded through Steam.</p>
-        </div>
-    );
+interface SteamInstallWizardStepProps extends SteamWindowProps {
+    step: Signal<number>;
 }
 
-function SteamInstallWindow({ window }: SteamWindowProps) {
+function SteamInstallWizardIntroPage({ window, step }: SteamInstallWizardStepProps) {
+    const game = window.windowParams as SteamGame;
     return (
-        <div class="steamWindowContent steamInstallWindow">
-            <SteamInstallWizardIntroPage window={window} />
+        <>
+            <div class="steamInstallIntro steamInstallStep">
+                <p class="aboutToInstall">You're about to install {game.displayName}.</p>
+                <div class="steamInstallDetails">
+                    <label class="steamInstallDetail">Disk space required:</label>
+                    <span class="steamFilesize">180 MB</span>
+                    <label class="steamInstallDetail">Disk space available:</label>
+                    <span class="steamFilesize">38196 MB</span>
+                </div>
+                <p class="allFilesDownloaded">All files for this game will now be downloaded through Steam.</p>
+            </div>
             <div class="wizardButtons">
                 <div>
                     <button class="steamButton" disabled>
                         &lt; Back
                     </button>
-                    <button class="steamButton">Next &gt;</button>
+                    <button class="steamButton" onClick={() => step.value++}>
+                        Next &gt;
+                    </button>
                 </div>
-                <button class="steamButton cancelButton">Cancel</button>
+                <button
+                    class="steamButton cancelButton"
+                    onClick={() => closeWindowForProcess(window.process, window.windowId)}>
+                    Cancel
+                </button>
             </div>
+        </>
+    );
+}
+
+// maybe make this depend on game filesize
+const installDuration = 10000;
+
+function SteamInstallWizardInstallProgress({ window, step }: SteamInstallWizardStepProps) {
+    const game = window.windowParams as SteamGame;
+    const isInstalled = window.process.state.value.installedGames.includes(game);
+    const installProgress = useSignal(isInstalled ? 1 : 0);
+
+    // shrug emoji
+    const barsThatFit = 31;
+
+    useEffect(() => {
+        if (isInstalled) {
+            return;
+        }
+
+        let accumulatedTime = 0;
+        let lastTick = performance.now();
+        let installSpeed = 1;
+        function tick(timestamp: number) {
+            const dt = timestamp - lastTick;
+            lastTick = timestamp;
+
+            if (Math.random() < 0.5) {
+                installSpeed = Math.random();
+                if (installSpeed > 0.5) {
+                    installSpeed *= 2;
+                }
+            }
+            accumulatedTime += dt * installSpeed;
+            let progress = accumulatedTime / installDuration;
+            if (progress >= 1) {
+                progress = 1;
+                installGame(window.process, game);
+            } else {
+                animFrameHandle = requestAnimationFrame(tick);
+            }
+            installProgress.value = progress;
+        }
+
+        let animFrameHandle = requestAnimationFrame(tick);
+        return () => {
+            cancelAnimationFrame(animFrameHandle);
+        };
+    }, [isInstalled]);
+
+    return (
+        <>
+            <div class="steamInstallIntro steamInstallStep">
+                <span class="steamInstallingLabel">
+                    {isInstalled ? `${game.displayName} installed.` : `Installing ${game.displayName}...`}
+                </span>
+                <div class="steamInstallProgress">
+                    {Array.from({ length: Math.round(installProgress.value * barsThatFit) }, (_, index) => (
+                        <div class="steamInstallBlock" key={index} />
+                    ))}
+                </div>
+            </div>
+            <div class="wizardButtons">
+                <button
+                    class="steamButton cancelButton"
+                    onClick={() => closeWindowForProcess(window.process, window.windowId)}>
+                    {isInstalled ? "Finish" : "Cancel"}
+                </button>
+            </div>
+        </>
+    );
+}
+
+const stepComponents = [SteamInstallWizardIntroPage, SteamInstallWizardInstallProgress];
+
+function SteamInstallWindow({ window }: SteamWindowProps) {
+    const step = useSignal(0);
+    const StepComponent = stepComponents[step.value];
+    return (
+        <div class="steamWindowContent steamInstallWindow">
+            <StepComponent window={window} step={step} />
         </div>
     );
 }
@@ -169,6 +256,13 @@ function openInstallWindow(process: Process<SteamProcessState>, game: SteamGame)
             { width: 400, height: 400 }
         );
     }
+}
+
+function installGame(process: Process<SteamProcessState>, game: SteamGame) {
+    process.state.value = {
+        installedGames: [...process.state.value.installedGames, game],
+        uninstalledGames: process.state.value.uninstalledGames.filter((uninstalled) => uninstalled !== game),
+    };
 }
 
 interface SteamProcessState {
