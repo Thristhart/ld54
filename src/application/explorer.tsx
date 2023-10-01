@@ -2,13 +2,14 @@ import { useSignal } from "@preact/signals";
 import { Dropdown } from "~/desktop/dropdown/dropdown";
 import { FileIcon, getFaviconForPath, displayFilesize } from "~/desktop/fileicon/fileicon";
 import iconUrl from "~/images/icons/favicons/joystick.png";
-import { getFilesInPath, File, openFile } from "~/os/filesystem";
+import { getFilesInPath, File, openFile, removeFile } from "~/os/filesystem";
 import { ProcessDescription } from "~/os/processes";
 import { closeWindowForProcess, openWindowForProcess, WindowState } from "~/os/windows";
 import "./explorer.css";
 import "./notepad/notepad.css";
 import type { Process } from "./process";
 import "./todo.css";
+import { useCallback } from "react";
 
 type ExplorerState = undefined;
 
@@ -20,6 +21,12 @@ function ExplorerWindow({ process, window }: ExplorerWindowProps) {
     const location = useSignal<string>(window.windowParams);
     const selectedFile = useSignal<File | undefined>(undefined);
     const filesInPath = getFilesInPath(location.value);
+    const onKeyDown = useCallback(({key}:KeyboardEvent) => {
+        if(key === "Delete"){
+            removeFile(selectedFile.value);
+        }
+    }, [])
+
     return (
         <div className={"explorerWindowContent"}>
             <Dropdown
@@ -77,6 +84,7 @@ function ExplorerWindow({ process, window }: ExplorerWindowProps) {
                         onFocus={() => {
                             selectedFile.value = file;
                         }}
+                        onKeyDown={onKeyDown}
                         onDoubleClick={() => {
                             if (file.shortcutProperties) {
                                 if (
@@ -94,7 +102,7 @@ function ExplorerWindow({ process, window }: ExplorerWindowProps) {
                     />
                 ))}
             </section>
-            <section class="fileDetails">File size: {displayFilesize(selectedFile.value?.filesize)}</section>
+            <section class="fileDetails">File size: {displayFilesize(selectedFile.value?.filesize)} <button onClick={() => removeFile(selectedFile.value)}>Delete!</button></section>
         </div>
     );
 }

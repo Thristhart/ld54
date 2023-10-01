@@ -53,9 +53,10 @@ function getCDriveSpace() {
 interface FileIconProps {
     file: File;
     onFocus?: () => void;
+    onKeyDown?: (e: KeyboardEvent) => void;
     onDoubleClick?: () => void;
 }
-export function FileIcon({ file, onFocus, onDoubleClick }: FileIconProps) {
+export function FileIcon({ file, onFocus, onKeyDown, onDoubleClick }: FileIconProps) {
     const doubleClickFn = useCallback(() => {
         if (onDoubleClick) {
             onDoubleClick();
@@ -67,7 +68,7 @@ export function FileIcon({ file, onFocus, onDoubleClick }: FileIconProps) {
     const spaceDetails =
         file.filename === "My Computer/C:/" ? <span class="spaceDetails">{getCDriveSpace()}</span> : undefined;
     return (
-        <button class="fileIcon" onClick={onClick} onFocus={onFocus}>
+        <button class="fileIcon" onClick={onClick} onFocus={onFocus} onKeyDown={onKeyDown}>
             <img src={getIconForFile(file)} />
             <span class="fileIconLabel">{getDisplayNameForFile(file)}</span>
             {spaceDetails}

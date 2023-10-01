@@ -128,6 +128,13 @@ export function getFilesInPath(path: string) {
     return results;
 }
 
+export function removeFile(file: File | undefined){
+    if(file !== undefined)
+    {
+        files.value = files.value.filter(x => x.value !== file);
+    }
+}
+
 function getProcessForFile(file: File) {
     if (file.shortcutProperties) {
         return getOrCreateProcess(file.shortcutProperties.processDesc);
