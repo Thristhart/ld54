@@ -50,12 +50,13 @@ function CassieWindow({ window, dragTargetRef }: CassieWindowProps) {
             if (maybeCollidingWindow === window) {
                 return;
             }
-            if (
-                (maybeCollidingWindow.position.value.x > pos.x &&
-                    pos.x + window.size.value.width > maybeCollidingWindow.position.value.x) ||
-                (pos.x > maybeCollidingWindow.position.value.x &&
-                    maybeCollidingWindow.position.value.x + maybeCollidingWindow.size.value.width > pos.x)
-            ) {
+            const cassieLeft = pos.x + cassieWidth * 0.2;
+            const cassieRight = pos.x + cassieWidth - cassieWidth * 0.35;
+
+            const windowLeft = maybeCollidingWindow.position.value.x;
+            const windowRight = maybeCollidingWindow.position.value.x + maybeCollidingWindow.size.value.width;
+
+            if (cassieLeft < windowRight && cassieRight > windowLeft) {
                 let windowTop = maybeCollidingWindow.position.value.y;
                 if (windowTop + cassieHeight / 10 >= pos.y + cassieHeight && windowTop < floor) {
                     floor = windowTop;
