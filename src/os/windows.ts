@@ -18,6 +18,7 @@ export interface WindowDescription<State> {
     disableResize?: boolean;
     disableTitleBar?: boolean;
     transparent?: boolean;
+    windowParams?: any;
 }
 export interface WindowState<State> extends WindowDescription<State> {
     process: Process<State>;

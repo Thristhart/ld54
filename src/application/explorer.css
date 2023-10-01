@@ -1,0 +1,51 @@
+.addressBar {
+    height: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.7);
+
+    font-size: 11px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding-left: 2px;
+    padding-right: 2px;
+    box-shadow: rgb(176, 176, 176) 0px -2px 3px -1px inset;
+}
+.addressLabel {
+    line-height: 100%;
+    color: rgba(0, 0, 0, 0.5);
+    padding: 5px;
+}
+.addressContents {
+    border: 1px solid rgba(122, 122, 255, 0.6);
+    height: 100%;
+    display: flex;
+    flex-grow: 1;
+    align-items: center;
+    background-color: white;
+    position: relative;
+}
+.addressText {
+    position: absolute;
+    white-space: nowrap;
+    left: 16px;
+    right: 17px;
+}
+
+.explorerWindowContent {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+}
+.fileList {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 100px);
+    grid-template-rows: repeat(auto-fit, 100px);
+    grid-auto-flow: column;
+
+    align-items: center;
+    justify-items: center;
+
+    width: 100%;
+    flex-grow: 1;
+}
