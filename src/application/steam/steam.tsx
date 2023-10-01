@@ -13,6 +13,7 @@ import { useEffect } from "preact/hooks";
 import { File, files, totalSize } from "~/os/filesystem";
 import { displayFilesize } from "~/desktop/fileicon/fileicon";
 import { calculateCumulativeFileSize } from "../helpers";
+import { eventEmitter } from "~/events";
 
 interface SteamWindowProps {
     window: WindowState<SteamProcessState>;
@@ -132,9 +133,13 @@ function SteamInstallWizardIntroPage({ window, step }: SteamInstallWizardStepPro
                 <p class="aboutToInstall">You're about to install {game.displayName}.</p>
                 <div class="steamInstallDetails">
                     <label class="steamInstallDetail">Disk space required:</label>
-                    <span class="steamFilesize">{displayFilesize(calculateCumulativeFileSize(game.files))}</span>
+                    <span class="steamFilesize">
+                        {displayFilesize(calculateCumulativeFileSize([...game.files, ...game.optionalFiles]))}
+                    </span>
                     <label class="steamInstallDetail">Disk space available:</label>
-                    <span class="steamFilesize">{displayFilesize(totalSize-calculateCumulativeFileSize(files.value))}</span>
+                    <span class="steamFilesize">
+                        {displayFilesize(totalSize - calculateCumulativeFileSize(files.value))}
+                    </span>
                 </div>
                 <p class="allFilesDownloaded">All files for this game will now be downloaded through Steam.</p>
             </div>
@@ -161,7 +166,7 @@ function SteamInstallWizardIntroPage({ window, step }: SteamInstallWizardStepPro
 
 function SteamInstallWizardInstallProgress({ window, step }: SteamInstallWizardStepProps) {
     const game = window.windowParams as SteamGame;
-    const installDuration = 100 * calculateCumulativeFileSize(game.files);
+    const installDuration = 100 * calculateCumulativeFileSize([...game.files, ...game.optionalFiles]);
     const isInstalled = window.process.state.value.installedGames.includes(game);
     const installProgress = useSignal(isInstalled ? 1 : 0);
 
@@ -268,7 +273,8 @@ function installGame(process: Process<SteamProcessState>, game: SteamGame) {
     };
 
     const filesCopy = [...files.value];
-    for (const newFile of game.files) {
+    const gameFiles = [...game.files, ...game.optionalFiles];
+    for (const newFile of gameFiles) {
         const existingFile = filesCopy.find((file) => file.value.filename === newFile.filename);
         if (existingFile) {
             existingFile.value = newFile;
@@ -288,37 +294,52 @@ interface SteamGame {
     readonly displayName: string;
     readonly iconUrl: string;
     readonly files: File[];
+    readonly optionalFiles: File[];
 }
+
+export const Games: { [key: string]: SteamGame } = {
+    counterStrike: {
+        displayName: "Counter-Strike",
+        iconUrl,
+        files: [
+            {
+                filename: "C:/Steam/steamapps/common/cstrike/hl.exe",
+                filesize: 30,
+            },
+            {
+                filename: "C:/Steam/steamapps/common/cstrike/vgui.dll",
+                filesize: 20,
+            },
+        ],
+        optionalFiles: [
+            {
+                filename: "C:/Steam/steamapps/common/cstrike/cs_office.wad",
+                filesize: 30,
+            },
+            {
+                filename: "C:/Steam/steamapps/common/cstrike/de_vertigo.wad",
+                filesize: 30,
+            },
+        ],
+    },
+    halfLife: {
+        displayName: "Half-Life",
+        iconUrl,
+        files: [],
+        optionalFiles: [],
+    },
+    dayOfDefeat: {
+        displayName: "Day of Defeat",
+        iconUrl,
+        files: [],
+        optionalFiles: [],
+    },
+};
 
 export const steamAppDescription: ProcessDescription<SteamProcessState> = {
     initialState: {
         installedGames: [],
-        uninstalledGames: [
-            {
-                displayName: "Counter-Strike",
-                iconUrl,
-                files: [
-                    {
-                        filename: "C:/Steam/steamapps/common/cstrike/cs_office.wad",
-                        filesize: 30,
-                    },
-                    {
-                        filename: "C:/Steam/steamapps/common/cstrike/de_vertigo.wad",
-                        filesize: 30,
-                    },
-                ],
-            },
-            {
-                displayName: "Half-Life",
-                iconUrl,
-                files: [],
-            },
-            {
-                displayName: "Day of Defeat",
-                iconUrl,
-                files: [],
-            },
-        ],
+        uninstalledGames: [Games.counterStrike, Games.halfLife, Games.dayOfDefeat],
     },
     name: "steam.exe",
     onOpen: (process) => {
@@ -327,6 +348,7 @@ export const steamAppDescription: ProcessDescription<SteamProcessState> = {
         if (mainWindow) {
             focusWindow(mainWindow.windowId);
         } else {
+            eventEmitter.emit("openSteam");
             openWindowForProcess(
                 process,
                 {

@@ -10,7 +10,7 @@
     line-height: 14px;
     resize: none;
     padding: 2px;
-    white-space: nowrap;
+    white-space: pre;
     overflow: scroll;
     flex-grow: 1;
 }

@@ -50,6 +50,10 @@ export const cassieDialogQueue = signal<CassieDialog[]>([
     },
 ]);
 
+export function AddCassieDialog(dialog: CassieDialog) {
+    cassieDialogQueue.value = [...cassieDialogQueue.value, dialog];
+}
+
 function CassieWindow({ window, dragTargetRef }: CassieWindowProps) {
     const windowAttach = useSignal<WindowState<any> | undefined>(undefined);
     const animationFrame = useCallback((dt: number) => {

@@ -5,11 +5,35 @@ import iconUrl from "~/images/icons/favicons/joystick.png";
 import "./notepad/notepad.css";
 import "./todo.css";
 import { getFileBasename } from "~/desktop/fileicon/fileicon";
-import { Dropdown, MenuDescription } from "~/desktop/dropdown/dropdown";
+import { Dropdown } from "~/desktop/dropdown/dropdown";
+import { signal } from "@preact/signals";
+import { Games } from "./steam/steam";
+import { files } from "~/os/filesystem";
 
 // this state might not actually end up living here
-interface TodoState {
-    readonly todos: string[];
+type TodoState = undefined;
+
+export interface TodoDescription {
+    readonly displayText: string;
+    readonly isSatisfied: () => boolean;
+}
+const todos = signal<TodoDescription[]>([
+    {
+        displayText: "Install Counter-Strike",
+        isSatisfied: () => {
+            return Games.counterStrike.files.every((file) => {
+                console.log(
+                    file,
+                    files.value.some((fileSignal) => fileSignal.value.filename === file.filename)
+                );
+                return files.value.some((fileSignal) => fileSignal.value.filename === file.filename);
+            });
+        },
+    },
+]);
+
+export function addTodo(todo: TodoDescription) {
+    todos.value = [...todos.value, todo];
 }
 
 interface TodoWindowProps {
@@ -60,14 +84,18 @@ function TodoWindow({ process, window }: TodoWindowProps) {
                 }}
             />
             <textarea class="notepadTextarea todoTextarea" readonly>
-                [ ]: Ask Todd about the LAN party on AIM
+                {todos.value
+                    .map((todo) => {
+                        return `[${todo.isSatisfied() ? "X" : " "}] ${todo.displayText}`;
+                    })
+                    .join("\n")}
             </textarea>
         </div>
     );
 }
 
 export const todoAppDescription: ProcessDescription<TodoState> = {
-    initialState: { todos: [] },
+    initialState: undefined,
     name: "todos.exe",
     onOpen: (process, file) => {
         const windows = Object.values(process.windows);
