@@ -1,8 +1,14 @@
 body {
     --steam-green: #4c5945;
     --steam-text-light: #8a9682;
+    --steam-primary-text: #d2dfca;
     --steam-dark-green: #414538;
     --steam-text-highlight: #b2b682;
+}
+
+@font-face {
+    font-family: "Steam Tahoma Bitmap";
+    src: url(./SteamTahomaBitmap.ttf);
 }
 
 .steamWindowContent {
@@ -12,6 +18,9 @@ body {
     height: 100%;
 
     font-size: 12px;
+    box-sizing: border-box;
+
+    font-family: "Steam Tahoma Bitmap", Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .steamWindowContent hr {
@@ -64,6 +73,7 @@ body {
     grid-template-columns: auto 1fr;
     grid-template-rows: repeat(6, 30px);
     gap: 4px;
+    column-gap: 8px;
     align-items: center;
 }
 .steamButton {
@@ -75,9 +85,19 @@ body {
     border: 1px solid var(--steam-dark-green);
     border-top-color: var(--steam-text-light);
     border-left-color: var(--steam-text-light);
+
+    font-family: "Steam Tahoma Bitmap", Tahoma, Geneva, Verdana, sans-serif;
 }
 .steamButton:active {
     background-color: var(--steam-dark-green);
+}
+.steamButton:focus {
+    border: 1px solid black;
+    outline: none;
+}
+.steamButton:disabled {
+    color: var(--steam-dark-green);
+    text-shadow: 1px 1px var(--steam-text-light);
 }
 
 .steamMainWindowFooter {
@@ -131,4 +151,47 @@ body {
     text-align: start;
     margin: 0;
     padding: 0;
+}
+
+.steamInstallWindow {
+    padding: 28px;
+    padding-bottom: 10px;
+    padding-right: 20px;
+
+    color: var(--steam-primary-text);
+    display: flex;
+    flex-direction: column;
+
+    font-size: 14px;
+}
+.steamInstallStep {
+    flex-grow: 1;
+}
+
+.aboutToInstall {
+    margin-bottom: 50px;
+}
+
+.steamInstallDetails {
+    display: grid;
+    gap: 16px;
+    column-gap: 28px;
+    grid-template-columns: auto 1fr;
+}
+.steamFilesize {
+    color: var(--steam-text-highlight);
+}
+.allFilesDownloaded {
+    color: var(--steam-text-light);
+}
+
+.wizardButtons {
+    display: flex;
+    flex-direction: row;
+
+    justify-content: flex-end;
+}
+
+.cancelButton {
+    margin-left: 20px;
 }

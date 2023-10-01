@@ -21,15 +21,25 @@ function SteamMainWindow({ window }: SteamWindowProps) {
                     Games
                 </button>
                 <span class="steamButtonLabel">Choose a game and start playing!</span>
-                <button class="steamButton">Friends</button>
+                <button class="steamButton" disabled>
+                    Friends
+                </button>
                 <span class="steamButtonLabel">Find friends, chat, play together</span>
-                <button class="steamButton">Servers</button>
+                <button class="steamButton" disabled>
+                    Servers
+                </button>
                 <span class="steamButtonLabel">Browse multiplayer games-in-progress</span>
-                <button class="steamButton">Monitor</button>
+                <button class="steamButton" disabled>
+                    Monitor
+                </button>
                 <span class="steamButtonLabel">Monitor Steam network activity</span>
-                <button class="steamButton">Settings</button>
+                <button class="steamButton" disabled>
+                    Settings
+                </button>
                 <span class="steamButtonLabel">Change Steam options</span>
-                <button class="steamButton">News</button>
+                <button class="steamButton" disabled>
+                    News
+                </button>
                 <span class="steamButtonLabel">Keep up with the latest Steam news</span>
             </div>
             <hr />
@@ -105,9 +115,37 @@ function openGamesWindow(process: Process<SteamProcessState>) {
     }
 }
 
-function SteamInstallWindow({ window }: SteamWindowProps) {
+function SteamInstallWizardIntroPage({ window }: SteamWindowProps) {
     const game = window.windowParams as SteamGame;
-    return <div>You're about to install {game.displayName}.</div>;
+    return (
+        <div class="steamInstallIntro steamInstallStep">
+            <p class="aboutToInstall">You're about to install {game.displayName}.</p>
+            <div class="steamInstallDetails">
+                <label class="steamInstallDetail">Disk space required:</label>
+                <span class="steamFilesize">180 MB</span>
+                <label class="steamInstallDetail">Disk space available:</label>
+                <span class="steamFilesize">38196 MB</span>
+            </div>
+            <p class="allFilesDownloaded">All files for this game will now be downloaded through Steam.</p>
+        </div>
+    );
+}
+
+function SteamInstallWindow({ window }: SteamWindowProps) {
+    return (
+        <div class="steamWindowContent steamInstallWindow">
+            <SteamInstallWizardIntroPage window={window} />
+            <div class="wizardButtons">
+                <div>
+                    <button class="steamButton" disabled>
+                        &lt; Back
+                    </button>
+                    <button class="steamButton">Next &gt;</button>
+                </div>
+                <button class="steamButton cancelButton">Cancel</button>
+            </div>
+        </div>
+    );
 }
 
 function openInstallWindow(process: Process<SteamProcessState>, game: SteamGame) {
