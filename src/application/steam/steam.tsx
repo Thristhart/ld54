@@ -10,7 +10,9 @@ import { useDoubleClick } from "~/desktop/useDoubleClick";
 import { useCallback } from "react";
 import { Signal, signal, useSignal } from "@preact/signals";
 import { useEffect } from "preact/hooks";
-import { File, files } from "~/os/filesystem";
+import { File, files, totalSize } from "~/os/filesystem";
+import { displayFilesize } from "~/desktop/fileicon/fileicon";
+import { calculateCumulativeFileSize } from "../helpers";
 
 interface SteamWindowProps {
     window: WindowState<SteamProcessState>;
@@ -130,9 +132,9 @@ function SteamInstallWizardIntroPage({ window, step }: SteamInstallWizardStepPro
                 <p class="aboutToInstall">You're about to install {game.displayName}.</p>
                 <div class="steamInstallDetails">
                     <label class="steamInstallDetail">Disk space required:</label>
-                    <span class="steamFilesize">180 MB</span>
+                    <span class="steamFilesize">{displayFilesize(calculateCumulativeFileSize(game.files))}</span>
                     <label class="steamInstallDetail">Disk space available:</label>
-                    <span class="steamFilesize">38196 MB</span>
+                    <span class="steamFilesize">{displayFilesize(calculateCumulativeFileSize(files.value))}</span>
                 </div>
                 <p class="allFilesDownloaded">All files for this game will now be downloaded through Steam.</p>
             </div>
@@ -156,10 +158,10 @@ function SteamInstallWizardIntroPage({ window, step }: SteamInstallWizardStepPro
 }
 
 // maybe make this depend on game filesize
-const installDuration = 10000;
 
 function SteamInstallWizardInstallProgress({ window, step }: SteamInstallWizardStepProps) {
     const game = window.windowParams as SteamGame;
+    const installDuration = 100 * calculateCumulativeFileSize(game.files);
     const isInstalled = window.process.state.value.installedGames.includes(game);
     const installProgress = useSignal(isInstalled ? 1 : 0);
 
