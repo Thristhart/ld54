@@ -75,7 +75,7 @@ export const files = signal<Signal<File>[]>([
     }),
     signal({
         filename: "C:/Desktop/Steam.lnk",
-        filesize: 0,
+        filesize: 4000,
         shortcutProperties: {
             processDesc: steamAppDescription,
             displayName: "Steam",
@@ -83,7 +83,7 @@ export const files = signal<Signal<File>[]>([
     }),
     signal({
         filename: "My Computer/C:/",
-        filesize: 0.1,
+        filesize: 0,
         shortcutProperties: {
             processDesc: explorerAppDescription,
             displayName: "Local Disk (C:)",

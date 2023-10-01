@@ -1,14 +1,15 @@
 import { useSignal } from "@preact/signals";
 import { Dropdown } from "~/desktop/dropdown/dropdown";
-import { FileIcon, getFaviconForPath } from "~/desktop/fileicon/fileicon";
+import { FileIcon, getFaviconForPath, displayFilesize } from "~/desktop/fileicon/fileicon";
 import iconUrl from "~/images/icons/favicons/joystick.png";
-import { getFilesInPath } from "~/os/filesystem";
+import { getFilesInPath, File } from "~/os/filesystem";
 import { ProcessDescription } from "~/os/processes";
 import { closeWindowForProcess, openWindowForProcess, WindowState } from "~/os/windows";
 import "./explorer.css";
 import "./notepad/notepad.css";
 import type { Process } from "./process";
 import "./todo.css";
+
 
 type ExplorerState = undefined;
 
@@ -18,6 +19,7 @@ interface ExplorerWindowProps {
 }
 function ExplorerWindow({ process, window }: ExplorerWindowProps) {
     const location = useSignal<string>(window.windowParams);
+    const selectedFile = useSignal<File|undefined>(undefined);
     const filesInPath = getFilesInPath(location.value);
     return (
         <div className={"explorerWindowContent"}>
@@ -70,11 +72,11 @@ function ExplorerWindow({ process, window }: ExplorerWindowProps) {
             </section>
             <section class="fileList">
                 {filesInPath.map((file) => (
-                    <FileIcon file={file} key={file.filename} />
+                    <FileIcon file={file} key={file.filename} onFocus={() => { selectedFile.value = file}} />
                 ))}
             </section>
             <section class="fileDetails">
-                    File size: 0
+                    File size: {displayFilesize(selectedFile.value?.filesize)}
             </section>
         </div>
     );

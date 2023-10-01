@@ -32,11 +32,14 @@ function getDisplayNameForFile(file: File) {
     return getFileBasename(file);
 }
 
-function displayFilesize(size: number){
-    if(size > 1000){
-        return (size/1000).toFixed(2) + "GB";
+export function displayFilesize(size: number|undefined){
+    if(size != 0 && size != undefined){
+        if(size > 1000){
+            return (size/1000).toFixed(2) + "GB";
+        }
+        return size.toFixed(2) + "MB";
     }
-    return size.toFixed(2) + "MB";
+    return "";
 }
 
 function getCDriveSpace(){
@@ -49,15 +52,16 @@ function getCDriveSpace(){
 
 interface FileIconProps {
     file: File;
+    onFocus: () => void;
 }
-export function FileIcon({ file }: FileIconProps) {
+export function FileIcon({ file, onFocus }: FileIconProps) {
     const onDoubleClick = useCallback(() => {
         openFile(file);
     }, [file]);
     const onClick = useDoubleClick(onDoubleClick);
     const spaceDetails = file.filename === "My Computer/C:/" ? <span class="spaceDetails">{getCDriveSpace()}</span> : undefined;
     return (
-        <button class="fileIcon" onClick={onClick}>
+        <button class="fileIcon" onClick={onClick} onFocus={onFocus}>
             <img src={getIconForFile(file)} />
             <span class="fileIconLabel">{getDisplayNameForFile(file)}</span>
             {spaceDetails}
