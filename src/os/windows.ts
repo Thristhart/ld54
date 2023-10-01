@@ -79,7 +79,7 @@ export function openWindowForProcess<State>(
         ...window,
         process,
         windowId: globalWindowId++,
-        lastInteractionTime: signal(performance.now()),
+        lastInteractionTime: signal(performance.now() + 10),
         position: signal(initialPosition),
         size: signal(initialSize),
         title: signal(window.initialTitle),
