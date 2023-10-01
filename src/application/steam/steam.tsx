@@ -134,7 +134,7 @@ function SteamInstallWizardIntroPage({ window, step }: SteamInstallWizardStepPro
                     <label class="steamInstallDetail">Disk space required:</label>
                     <span class="steamFilesize">{displayFilesize(calculateCumulativeFileSize(game.files))}</span>
                     <label class="steamInstallDetail">Disk space available:</label>
-                    <span class="steamFilesize">{displayFilesize(calculateCumulativeFileSize(files.value))}</span>
+                    <span class="steamFilesize">{displayFilesize(totalSize-calculateCumulativeFileSize(files.value))}</span>
                 </div>
                 <p class="allFilesDownloaded">All files for this game will now be downloaded through Steam.</p>
             </div>
