@@ -55,7 +55,6 @@ export function FileIcon({ file }: FileIconProps) {
         openFile(file);
     }, [file]);
     const onClick = useDoubleClick(onDoubleClick);
-    console.log(file.filename);
     const spaceDetails = file.filename === "My Computer/C:/" ? <span class="spaceDetails">{getCDriveSpace()}</span> : undefined;
     return (
         <button class="fileIcon" onClick={onClick}>
