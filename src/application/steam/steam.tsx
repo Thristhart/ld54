@@ -8,8 +8,9 @@ import { Process } from "../process";
 import classNames from "classnames";
 import { useDoubleClick } from "~/desktop/useDoubleClick";
 import { useCallback } from "react";
-import { Signal, useSignal } from "@preact/signals";
+import { Signal, signal, useSignal } from "@preact/signals";
 import { useEffect } from "preact/hooks";
+import { File, files } from "~/os/filesystem";
 
 interface SteamWindowProps {
     window: WindowState<SteamProcessState>;
@@ -263,6 +264,17 @@ function installGame(process: Process<SteamProcessState>, game: SteamGame) {
         installedGames: [...process.state.value.installedGames, game],
         uninstalledGames: process.state.value.uninstalledGames.filter((uninstalled) => uninstalled !== game),
     };
+
+    const filesCopy = [...files.value];
+    for (const newFile of game.files) {
+        const existingFile = filesCopy.find((file) => file.value.filename === newFile.filename);
+        if (existingFile) {
+            existingFile.value = newFile;
+        } else {
+            filesCopy.push(signal(newFile));
+        }
+    }
+    files.value = filesCopy;
 }
 
 interface SteamProcessState {
@@ -273,15 +285,37 @@ interface SteamProcessState {
 interface SteamGame {
     readonly displayName: string;
     readonly iconUrl: string;
-    // todo: files
+    readonly files: File[];
 }
 
 export const steamAppDescription: ProcessDescription<SteamProcessState> = {
     initialState: {
-        installedGames: [{ displayName: "Counter-Strike", iconUrl }],
+        installedGames: [],
         uninstalledGames: [
-            { displayName: "Half-Life", iconUrl },
-            { displayName: "Day of Defeat", iconUrl },
+            {
+                displayName: "Counter-Strike",
+                iconUrl,
+                files: [
+                    {
+                        filename: "C:/Steam/steamapps/common/cstrike/cs_office.wad",
+                        filesize: 30,
+                    },
+                    {
+                        filename: "C:/Steam/steamapps/common/cstrike/de_vertigo.wad",
+                        filesize: 30,
+                    },
+                ],
+            },
+            {
+                displayName: "Half-Life",
+                iconUrl,
+                files: [],
+            },
+            {
+                displayName: "Day of Defeat",
+                iconUrl,
+                files: [],
+            },
         ],
     },
     name: "steam.exe",
