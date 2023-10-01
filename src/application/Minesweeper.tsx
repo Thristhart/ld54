@@ -291,7 +291,14 @@ export const Minesweeper = () => {
                 }
             }
             if (revealed >= gridSize * gridSize - mineCount.current) {
-                mineCount.current = 0;
+                
+                for (let y = 0; y < gridSize; y++) {
+                    for (let x = 0; x < gridSize; x++) {
+                        if (grid.value[x][y].value === CellState.Mine) {
+                            grid.value[x][y].value === CellState.Flagged;
+                        }
+                    }
+                }
                 gameState.value = GameState.Won;
             }
         }
