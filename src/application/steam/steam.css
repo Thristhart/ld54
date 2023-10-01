@@ -106,11 +106,6 @@ body {
     padding: 0;
     margin: 0;
 }
-.steamGamesListGame {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-}
 .steamGamesListGame img {
     padding-right: 4px;
     width: 16px;
@@ -123,4 +118,17 @@ body {
 .steamGamesWindow {
     padding-left: 6px;
     box-sizing: border-box;
+}
+.steamGamesListGame button {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    background-color: transparent;
+    color: inherit;
+    border: none;
+    text-align: start;
+    margin: 0;
+    padding: 0;
 }

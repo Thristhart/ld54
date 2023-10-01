@@ -1,10 +1,13 @@
 import { ProcessDescription } from "~/os/processes";
-import { WindowState, focusWindow, openWindowForProcess } from "~/os/windows";
+import { WindowState, closeWindowForProcess, focusWindow, openWindowForProcess } from "~/os/windows";
 import taskbarIconUrl from "~/images/icons/favicons/steam.png";
 import iconUrl from "~/images/icons/steam_small.png";
 import valveLogoUrl from "~/images/valvelogo.png";
 import "./steam.css";
 import { Process } from "../process";
+import classNames from "classnames";
+import { useDoubleClick } from "~/desktop/useDoubleClick";
+import { useCallback } from "react";
 
 interface SteamWindowProps {
     window: WindowState<SteamProcessState>;
@@ -32,9 +35,32 @@ function SteamMainWindow({ window }: SteamWindowProps) {
             <hr />
             <footer class="steamMainWindowFooter">
                 <img src={valveLogoUrl} />
-                <button class="steamButton">Close</button>
+                <button class="steamButton" onClick={() => closeWindowForProcess(window.process, window.windowId)}>
+                    Close
+                </button>
             </footer>
         </div>
+    );
+}
+
+interface GamesListProps {
+    game: SteamGame;
+    window: WindowState<SteamProcessState>;
+    installed: boolean;
+}
+function GamesListItem({ game, window, installed }: GamesListProps) {
+    const install = useCallback(() => {
+        openInstallWindow(window.process, game);
+    }, [game, window]);
+    const installOnDoubleclick = useDoubleClick(install);
+
+    return (
+        <li key={game.displayName} class={classNames("steamGamesListGame", installed && "installed")}>
+            <button onClick={!installed ? installOnDoubleclick : undefined}>
+                <img src={game.iconUrl} />
+                {game.displayName}
+            </button>
+        </li>
     );
 }
 
@@ -47,16 +73,10 @@ function SteamGamesWindow({ window }: SteamWindowProps) {
             </header>
             <ul class="steamGamesList">
                 {window.process.state.value.installedGames.map((game) => (
-                    <li key={game.displayName} class="steamGamesListGame installed">
-                        <img src={game.iconUrl} />
-                        {game.displayName}
-                    </li>
+                    <GamesListItem game={game} window={window} installed={true} />
                 ))}
                 {window.process.state.value.uninstalledGames.map((game) => (
-                    <li key={game.displayName} class="steamGamesListGame">
-                        <img src={game.iconUrl} />
-                        {game.displayName}
-                    </li>
+                    <GamesListItem game={game} window={window} installed={false} />
                 ))}
             </ul>
         </div>
@@ -85,6 +105,34 @@ function openGamesWindow(process: Process<SteamProcessState>) {
     }
 }
 
+function SteamInstallWindow({ window }: SteamWindowProps) {
+    const game = window.windowParams as SteamGame;
+    return <div>You're about to install {game.displayName}.</div>;
+}
+
+function openInstallWindow(process: Process<SteamProcessState>, game: SteamGame) {
+    const windows = Object.values(process.windows);
+    const installWindow = windows.find((window) => window.title.value.startsWith("Install"));
+    if (installWindow) {
+        focusWindow(installWindow.windowId);
+    } else {
+        openWindowForProcess(
+            process,
+            {
+                contentComponent: SteamInstallWindow,
+                iconUrl,
+                taskbarIconUrl,
+                initialTitle: `Install - ${game.displayName}`,
+                disableBorder: true,
+                disableResize: true,
+                windowParams: game,
+            },
+            undefined,
+            { width: 400, height: 400 }
+        );
+    }
+}
+
 interface SteamProcessState {
     installedGames: SteamGame[];
     uninstalledGames: SteamGame[];
@@ -107,8 +155,9 @@ export const steamAppDescription: ProcessDescription<SteamProcessState> = {
     name: "steam.exe",
     onOpen: (process) => {
         const windows = Object.values(process.windows);
-        if (windows.length > 0) {
-            focusWindow(windows[0].windowId);
+        const mainWindow = windows.find((window) => window.title.value.startsWith("Steam"));
+        if (mainWindow) {
+            focusWindow(mainWindow.windowId);
         } else {
             openWindowForProcess(
                 process,
