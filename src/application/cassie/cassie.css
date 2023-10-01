@@ -1,3 +1,6 @@
+.window[data-process="cassie.exe"] {
+    overflow: unset;
+}
 .cassieWrapper {
     display: block;
     width: 100%;

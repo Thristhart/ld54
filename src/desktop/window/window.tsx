@@ -33,14 +33,22 @@ function TitleBar<State>({ titleBarRef, window }: TitleBarProps<State>) {
                 {window.iconUrl && <img class="windowIcon" src={window.iconUrl} />}
                 <span class="windowTitle">{window.title.value}</span>
                 <div class="windowButtons">
-                    <button onClick={() => minimizeWindow(window.windowId)}>🗕</button>
+                    <button class="minimizeButton" onClick={() => minimizeWindow(window.windowId)}>
+                        <span class="buttonIcon">🗕</span>
+                    </button>
                     {!window.disableResize &&
                         (window.isMaximized.value ? (
-                            <button onClick={() => restoreWindow(window.windowId)}>🗗</button>
+                            <button class="maximizeButton" onClick={() => restoreWindow(window.windowId)}>
+                                <span class="buttonIcon">🗗</span>
+                            </button>
                         ) : (
-                            <button onClick={() => maximizeWindow(window.windowId)}>🗖</button>
+                            <button class="maximizeButton" onClick={() => maximizeWindow(window.windowId)}>
+                                <span class="buttonIcon"> 🗖</span>
+                            </button>
                         ))}
-                    <button onClick={() => closeWindowForProcess(window.process, window.windowId)}>🞫</button>
+                    <button class="closeButton" onClick={() => closeWindowForProcess(window.process, window.windowId)}>
+                        <span class="buttonIcon"> 🞫</span>
+                    </button>
                 </div>
             </header>
         </>

@@ -63,8 +63,9 @@ body {
 }
 
 .window[data-process="steam.exe"] .windowButtons button {
-    background-color: transparent;
+    background: transparent;
     border: none;
+    box-shadow: none;
     color: var(--steam-text-light);
 }
 
