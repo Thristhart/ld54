@@ -266,7 +266,7 @@ export const Minesweeper = () => {
     const initialGrid = useMemo(generateGrid, []);
     const grid = useSignal(initialGrid);
     const gameState = useSignal(GameState.Pending);
-    const mineCount = useRef(9);
+    const mineCount = useRef(10);
 
     useSignalEffect(() => {
         if (gameState.value === GameState.Lost) {
@@ -291,6 +291,14 @@ export const Minesweeper = () => {
                 }
             }
             if (revealed >= gridSize * gridSize - mineCount.current) {
+                
+                for (let y = 0; y < gridSize; y++) {
+                    for (let x = 0; x < gridSize; x++) {
+                        if (grid.value[x][y].value === CellState.Mine) {
+                            grid.value[x][y].value === CellState.Flagged;
+                        }
+                    }
+                }
                 gameState.value = GameState.Won;
             }
         }

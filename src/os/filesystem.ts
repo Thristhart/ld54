@@ -1,9 +1,11 @@
 import { Signal, signal } from "@preact/signals";
 import { buttonDescription } from "~/application/button";
+import { cassieAppDescription } from "~/application/cassie/cassie";
+import { chatterDescription } from "~/application/chatter";
+import { explorerAppDescription } from "~/application/explorer";
+import { minesweeperDescription } from "~/application/Minesweeper";
 import { todoAppDescription } from "~/application/todo";
 import { getOrCreateProcess, ProcessDescription } from "./processes";
-import { minesweeperDescription } from "~/application/Minesweeper";
-import { chatterDescription } from "~/application/chatter";
 
 export interface File {
     readonly filename: string;
@@ -12,6 +14,7 @@ export interface File {
     readonly shortcutProperties?: {
         readonly processDesc: ProcessDescription<unknown>;
         readonly displayName: string;
+        readonly params?: any;
     };
 }
 
@@ -48,10 +51,70 @@ export const files = signal<Signal<File>[]>([
             displayName: "Chatter",
         },
     }),
+    signal({
+        filename: "C:/Desktop/explorer.lnk",
+        filesize: 0,
+        shortcutProperties: {
+            processDesc: explorerAppDescription,
+            displayName: "My Computer",
+            params: {
+                initialLocation: "My Computer",
+            },
+        },
+    }),
+    signal({
+        filename: "C:/Desktop/Cassie.lnk",
+        filesize: 0,
+        shortcutProperties: {
+            processDesc: cassieAppDescription,
+            displayName: "Cassie",
+        },
+    }),
+    signal({
+        filename: "My Computer/C:/",
+        filesize: 0,
+        shortcutProperties: {
+            processDesc: explorerAppDescription,
+            displayName: "Local Disk (C:)",
+            params: {
+                initialLocation: "C:/",
+            },
+        },
+    }),
 ]);
 
 export function getFilesInPath(path: string) {
-    return files.value.filter((fileSignal) => fileSignal.value.filename.startsWith(path));
+    const matchingFiles = files.value
+        .filter((fileSignal) => fileSignal.value.filename.startsWith(path))
+        .map((fileSignal) => fileSignal.value);
+    const pathMap = new Map<string, File | "fillIn">();
+    for (const match of matchingFiles) {
+        let remainder = match.filename.substring(path.length);
+        if (remainder.startsWith("/")) {
+            remainder = remainder.substring(1);
+        }
+        const base = remainder.split("/", 2)[0];
+        const childPath = path + (path.endsWith("/") ? "" : "/") + base;
+        if (!pathMap.has(childPath) || pathMap.get(childPath) === "fillIn") {
+            if (childPath === match.filename || childPath + "/" === match.filename) {
+                pathMap.set(childPath, match);
+            } else {
+                pathMap.set(childPath, "fillIn");
+            }
+        }
+    }
+    const results: File[] = [];
+    for (const [path, file] of pathMap) {
+        if (file === "fillIn") {
+            results.push({
+                filename: path,
+                filesize: 0,
+            });
+        } else {
+            results.push(file);
+        }
+    }
+    return results;
 }
 
 function getProcessForFile(file: File) {
@@ -60,7 +123,7 @@ function getProcessForFile(file: File) {
     }
 
     // TODO: smarter selection
-    return getOrCreateProcess(buttonDescription);
+    return getOrCreateProcess(explorerAppDescription);
 }
 
 export function openFile(file: File) {

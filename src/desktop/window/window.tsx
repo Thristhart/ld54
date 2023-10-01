@@ -15,7 +15,7 @@ import { useDoubleClick } from "../useDoubleClick";
 
 interface TitleBarProps<State> {
     readonly window: WindowState<State>;
-    readonly titleBarRef?: RefObject<HTMLDivElement>;
+    readonly titleBarRef?: RefObject<HTMLElement>;
 }
 function TitleBar<State>({ titleBarRef, window }: TitleBarProps<State>) {
     const onDoubleClick = useCallback(() => {
@@ -53,7 +53,7 @@ interface WindowProps<State> {
 
 export function Window<State>({ window }: WindowProps<State>) {
     const containerRef = useRef(null);
-    const titleBarRef = useRef(null);
+    const titleBarRef = useRef<HTMLElement>(null);
     useWindowResize(containerRef, titleBarRef, {
         onInteract() {
             focusWindow(window.windowId);
@@ -63,10 +63,16 @@ export function Window<State>({ window }: WindowProps<State>) {
         minWidth: window.minWidth,
         minHeight: window.minHeight,
         disableResize: window.disableResize,
+        attachedWindow: window.attachedWindow?.value,
     });
     return (
         <div
-            class={classNames("window", window.isMinimized.value && "windowMinimized")}
+            class={classNames(
+                "window",
+                window.isMinimized.value && "windowMinimized",
+                window.disableTitleBar && "windowNoTitlebar",
+                window.transparent && "windowTransparent"
+            )}
             style={{
                 width: window.size.value.width,
                 height: window.size.value.height,
@@ -76,9 +82,9 @@ export function Window<State>({ window }: WindowProps<State>) {
             onClick={() => {
                 focusWindow(window.windowId);
             }}>
-            <TitleBar titleBarRef={titleBarRef} window={window} />
+            {!window.disableTitleBar && <TitleBar titleBarRef={titleBarRef} window={window} />}
             <div class="windowContent">
-                <window.contentComponent process={window.process} window={window} />
+                <window.contentComponent process={window.process} window={window} dragTargetRef={titleBarRef} />
             </div>
         </div>
     );

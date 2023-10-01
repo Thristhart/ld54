@@ -1,5 +1,6 @@
 import { useCallback } from "preact/hooks";
 import joystickIconUrl from "~/images/icons/joystick.png";
+import joystickFaviconUrl from "~/images/icons/favicons/joystick.png";
 import { File, openFile } from "~/os/filesystem";
 import { useDoubleClick } from "../useDoubleClick";
 import "./fileicon.css";
@@ -14,6 +15,13 @@ export function getFileBasename(file: File) {
 
 export function getIconForFile(file: File) {
     const extension = getFileExtension(file);
+    return joystickIconUrl;
+}
+export function getFaviconForPath(path: string) {
+    return joystickFaviconUrl;
+}
+
+export function getIconForPath(path: string) {
     return joystickIconUrl;
 }
 

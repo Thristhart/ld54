@@ -3,7 +3,6 @@ import { openWindowForProcess } from "~/os/windows";
 import type { Process } from "./process";
 import iconUrl from "~/images/icons/favicons/joystick.png";
 import "./chatter.css";
-import { options } from "preact";
 
 type Message = {
     timestamp: Date,
@@ -16,6 +15,7 @@ type ChatterState = Array<Message>;
 interface ChatterWindowProps {
     process: Process<ChatterState>;
 }
+
 function ChatterWindow({ process }: ChatterWindowProps) {
     var chat: Array<preact.JSX.Element> = [] ;
     process.state.value.forEach(element => {
@@ -59,3 +59,7 @@ export const chatterDescription: ProcessDescription<ChatterState> = {
         });
     },
 };
+
+function addMessage(process: Process<ChatterState>, message: Message){
+    process.state.value.push(message);
+}

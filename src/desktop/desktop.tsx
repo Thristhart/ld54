@@ -14,8 +14,8 @@ export function Desktop() {
     return (
         <div id="desktop">
             <div class="desktopIcons">
-                {getFilesInPath("C:/Desktop").map((fileSignal) => (
-                    <FileIcon file={fileSignal.value} key={fileSignal.value.filename} />
+                {getFilesInPath("C:/Desktop").map((file) => (
+                    <FileIcon file={file} key={file.filename} />
                 ))}
             </div>
             {windowsToRender.map((window) => (

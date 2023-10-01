@@ -27,5 +27,6 @@
 .fileIcon:focus .fileIconLabel {
     padding: 0px 3px 2px;
     background-color: rgb(11, 97, 255);
+    color: white;
     text-align: center;
 }

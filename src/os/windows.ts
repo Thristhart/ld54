@@ -1,11 +1,12 @@
 import { Signal, signal } from "@preact/signals";
-import { FunctionComponent } from "preact";
+import { FunctionComponent, RefObject } from "preact";
 import { Process } from "~/application/process";
 import { taskbarHeight } from "~/desktop/taskbar/taskbar";
 
 interface WindowContentComponentProps<State> {
     process: Process<State>;
     window: WindowState<State>;
+    dragTargetRef: RefObject<HTMLElement>;
 }
 
 export interface WindowDescription<State> {
@@ -15,6 +16,9 @@ export interface WindowDescription<State> {
     minWidth?: number;
     minHeight?: number;
     disableResize?: boolean;
+    disableTitleBar?: boolean;
+    transparent?: boolean;
+    windowParams?: any;
 }
 export interface WindowState<State> extends WindowDescription<State> {
     process: Process<State>;
@@ -29,6 +33,13 @@ export interface WindowState<State> extends WindowDescription<State> {
         position: { x: number; y: number };
         size: { width: number; height: number };
     };
+    attachedWindow: Signal<
+        | {
+              offset: { x: number; y: number };
+              window: WindowState<any>;
+          }
+        | undefined
+    >;
 }
 
 export const windows = signal<{ [windowId: string]: WindowState<unknown> }>({});
@@ -72,6 +83,7 @@ export function openWindowForProcess<State>(
         title: signal(window.initialTitle),
         isMaximized: signal(false),
         isMinimized: signal(false),
+        attachedWindow: signal(undefined),
     };
     windows.value = { ...windows.value, [windowWithId.windowId]: windowWithId };
     process.windows = { ...process.windows, [windowWithId.windowId]: windowWithId };
@@ -80,6 +92,9 @@ export function openWindowForProcess<State>(
 
 export function maximizeWindow(windowId: number) {
     const window = windows.value[windowId];
+    if (window.disableResize) {
+        return;
+    }
     window.restoreDimensions = {
         position: window.position.value,
         size: window.size.value,

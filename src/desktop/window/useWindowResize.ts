@@ -1,6 +1,8 @@
 import { Signal } from "@preact/signals";
 import { RefObject } from "preact";
-import { useState, useEffect } from "preact/hooks";
+import { useEffect } from "preact/hooks";
+import { useRef } from "react";
+import { WindowState } from "~/os/windows";
 
 enum Cursor {
     Top = "n-resize",
@@ -26,6 +28,10 @@ interface UseWindowResizeOptions {
     minHeight?: number;
     onInteract?: () => void;
     disableResize?: boolean;
+    attachedWindow?: {
+        window: WindowState<unknown>;
+        offset: { x: number; y: number };
+    };
 }
 export function useWindowResize(
     ref: RefObject<HTMLElement>,
@@ -38,8 +44,11 @@ export function useWindowResize(
         minHeight = 100,
         onInteract,
         disableResize,
+        attachedWindow,
     }: UseWindowResizeOptions
 ) {
+    const attachedRef = useRef(attachedWindow);
+    attachedRef.current = attachedWindow;
     useEffect(() => {
         const target = ref.current!;
         if (!target) {
@@ -115,6 +124,9 @@ export function useWindowResize(
             window.addEventListener("mousemove", onDragMove);
             window.addEventListener("mouseup", endDrag);
             onInteract?.();
+            if (dragTargetRef.current) {
+                dragTargetRef.current.dataset.isDragging = "true";
+            }
         }
 
         function applyDrag(e: MouseEvent) {
@@ -200,12 +212,18 @@ export function useWindowResize(
                 }
             }
 
-            return { x, y, width, height };
+            return { x, y, width, height, dx, dy };
         }
         function onDragMove(e: MouseEvent) {
-            const { x, y, width, height } = applyDrag(e);
+            const { x, y, width, height, dx, dy } = applyDrag(e);
             position.value = { x, y };
             size.value = { width, height };
+            if (attachedRef.current) {
+                attachedRef.current.window.position.value = {
+                    x: x + attachedRef.current.offset.x,
+                    y: y + attachedRef.current.offset.y,
+                };
+            }
         }
         function endDrag(e: MouseEvent) {
             window.removeEventListener("mousemove", onDragMove);
@@ -221,6 +239,9 @@ export function useWindowResize(
 
             setCursor(Cursor.Auto);
             onInteract?.();
+            if (dragTargetRef.current) {
+                dragTargetRef.current.dataset.isDragging = "false";
+            }
         }
         target.addEventListener("mousedown", onMouseDown);
         target.addEventListener("mouseup", onMouseUp);
