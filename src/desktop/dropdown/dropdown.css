@@ -39,6 +39,7 @@
 
     box-shadow: rgb(100, 100, 100) 2px 2px 1px;
     border: 1px solid gray;
+    z-index: 100;
 }
 .submenuEntry {
     background-color: white;

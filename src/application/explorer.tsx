@@ -27,6 +27,22 @@ function ExplorerWindow({ process, window }: ExplorerWindowProps) {
         }
     }, []);
 
+    const goUpAFolder = function(location:string){
+        if(location === "My Computer")
+        {
+            return location;
+        }
+        if(location === "C:/")
+        {
+            return "My Computer";
+        }
+        location = location.split("/").slice(0, -1).join("/");
+        if(location === "C:"){
+            location += "/";
+        }
+        return location;
+    }
+
     useSignalEffect(() => {
         window.overrideIconUrl.value = getFaviconForPath(location.value);
     });
@@ -79,6 +95,7 @@ function ExplorerWindow({ process, window }: ExplorerWindowProps) {
                     <img src={getFaviconForPath(location.value)} />
                     <span class="addressText">{location.value}</span>
                 </span>
+                <button class="upFolder" onClick={() => location.value = goUpAFolder(location.value)}>🗁</button>
             </section>
             <section class="fileList">
                 {filesInPath.map((file) => (

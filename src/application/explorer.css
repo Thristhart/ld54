@@ -62,3 +62,9 @@
 .fileDetails {
     border-top: solid thin black;
 }
+
+.upFolder{
+    float: right;
+    font-size: 11px;
+    margin-left: 1px;
+}
