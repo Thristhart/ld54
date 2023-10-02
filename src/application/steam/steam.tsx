@@ -130,9 +130,8 @@ function SteamInstallWizardIntroPage({ window, step }: SteamInstallWizardStepPro
     const spaceAvailable = totalSize - calculateCumulativeFileSize(files.value);
     const spaceRequired = calculateCumulativeFileSize([...game.files, ...game.optionalFiles]);
     const canAdvance = () => {
-        return (step.value !== 0 || spaceAvailable > spaceRequired);
-    }
-    console.log(!canAdvance());
+        return step.value !== 0 || spaceAvailable > spaceRequired;
+    };
 
     return (
         <>
@@ -140,13 +139,9 @@ function SteamInstallWizardIntroPage({ window, step }: SteamInstallWizardStepPro
                 <p class="aboutToInstall">You're about to install {game.displayName}.</p>
                 <div class="steamInstallDetails">
                     <label class="steamInstallDetail">Disk space required:</label>
-                    <span class="steamFilesize">
-                        {displayFilesize(spaceRequired)}
-                    </span>
+                    <span class="steamFilesize">{displayFilesize(spaceRequired)}</span>
                     <label class="steamInstallDetail">Disk space available:</label>
-                    <span class="steamFilesize">
-                        {displayFilesize(spaceAvailable)}
-                    </span>
+                    <span class="steamFilesize">{displayFilesize(spaceAvailable)}</span>
                 </div>
                 <p class="allFilesDownloaded">All files for this game will now be downloaded through Steam.</p>
             </div>
@@ -286,6 +281,9 @@ function installGame(process: Process<SteamProcessState>, game: SteamGame) {
         if (!existingFile) {
             filesCopy.push(newFile);
         }
+    }
+    if (game.displayName === "Counter-Strike") {
+        eventEmitter.emit("csInstalled");
     }
     files.value = filesCopy;
 }

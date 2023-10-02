@@ -9,6 +9,7 @@ import { Dropdown } from "~/desktop/dropdown/dropdown";
 import { signal } from "@preact/signals";
 import { Games } from "./steam/steam";
 import { File, files } from "~/os/filesystem";
+import { eventEmitter } from "~/events";
 
 // this state might not actually end up living here
 type TodoState = undefined;
@@ -24,6 +25,18 @@ export const installCSTodo: TodoDescription = {
         return Games.counterStrike.files.every((file) => {
             return files.value.some((fileOnDisk) => fileOnDisk.filename === file.filename);
         });
+    },
+};
+export const deleteVertigoTodo: TodoDescription = {
+    displayText: "Delete de_vertigo from the counter-strike install folder",
+    isSatisfied() {
+        const satisfied = files.value.every(
+            (fileOnDisk) => fileOnDisk.filename !== "C:/Steam/steamapps/common/cstrike/de_vertigo.wad"
+        );
+        if (satisfied) {
+            eventEmitter.emit("vertigoDeleted");
+        }
+        return satisfied;
     },
 };
 const todos = signal<TodoDescription[]>([installCSTodo]);

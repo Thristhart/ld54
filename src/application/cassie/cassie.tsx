@@ -6,7 +6,8 @@ import { RefObject, useCallback, useEffect } from "react";
 import { taskbarHeight } from "~/desktop/taskbar/taskbar";
 import { signal, useSignal } from "@preact/signals";
 import { createFile, openFile } from "~/os/filesystem";
-import { installCSTodo, todoFile } from "../todo";
+import { addTodo, deleteVertigoTodo, installCSTodo, todoFile } from "../todo";
+import { eventEmitter } from "~/events";
 
 function useAnimationFrame(callback: (dt: number) => void) {
     return useEffect(() => {
@@ -47,19 +48,17 @@ export const cassieDialogQueue = signal<CassieDialog[]>([
         onDismiss() {
             createFile(todoFile);
             openFile(todoFile);
+            eventEmitter.emit("csInstallTodoAdded");
             if (installCSTodo.isSatisfied()) {
                 AddCassieDialog({
                     text: "Great, you already have CS installed!",
                     onDismiss() {
-                        console.log("boop");
+                        eventEmitter.emit("csInstalled");
                     },
                 });
             } else {
                 AddCassieDialog({
                     text: "It looks like you don't have CS installed. What kind of LAN party would it be without CS?",
-                    onDismiss() {
-                        console.log("boop");
-                    },
                 });
             }
         },
@@ -183,7 +182,7 @@ export const cassieAppDescription: ProcessDescription<CassieState> = {
                     disableTitleBar: true,
                     transparent: true,
                 },
-                undefined,
+                { x: 200, y: window.innerHeight - cassieHeight },
                 {
                     width: cassieWidth,
                     height: cassieHeight,

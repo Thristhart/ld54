@@ -47,11 +47,18 @@ export const chatterDescription: ProcessDescription<ChatterState> = {
     initialState: [],
     name: "chatter.exe",
     onOpen: (process) => {
-        openWindowForProcess(process, {
-            contentComponent: ChatterWindow,
-            iconUrl,
-            initialTitle: "Chatter",
-        });
+        openWindowForProcess(
+            process,
+            {
+                contentComponent: ChatterWindow,
+                iconUrl,
+                initialTitle: "Chatter",
+                minWidth: 490,
+                minHeight: 320,
+            },
+            undefined,
+            { width: 490, height: 320 }
+        );
     },
 };
 
@@ -62,10 +69,17 @@ export function addMessage(message: Omit<Message, "timestamp">) {
     if (window) {
         focusWindow(window.windowId);
     } else {
-        openWindowForProcess(process, {
-            contentComponent: ChatterWindow,
-            iconUrl,
-            initialTitle: "Chatter",
-        });
+        openWindowForProcess(
+            process,
+            {
+                contentComponent: ChatterWindow,
+                iconUrl,
+                initialTitle: "Chatter",
+                minWidth: 490,
+                minHeight: 320,
+            },
+            undefined,
+            { width: 490, height: 320 }
+        );
     }
 }
