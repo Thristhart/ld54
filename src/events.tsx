@@ -5,14 +5,17 @@ import { openBrowserToUrl } from "./application/browser/browser";
 
 export const eventEmitter = new EventEmitter();
 
-setTimeout(() => {
+function wait(duration: number) {
+    return new Promise((resolve) => setTimeout(resolve, duration));
+}
+
+async function startup() {
+    await wait(3000);
     addMessage({
         username: "TheGreatTodd",
         message: "check it out",
     });
-}, 1000);
-
-setTimeout(() => {
+    await wait(1000);
     addMessage({
         username: "TheGreatTodd",
         message: (
@@ -25,14 +28,14 @@ setTimeout(() => {
             </a>
         ),
     });
-}, 1800);
-
-setTimeout(() => {
+    await wait(3000);
     addMessage({
         username: "TheGreatTodd",
         message: "I got us an official website. go get the latest version of LANPlanner from there",
     });
-}, 4800);
+}
+
+startup();
 
 eventEmitter.once("openSteam", () => {
     AddCassieDialog({

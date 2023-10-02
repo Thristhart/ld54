@@ -67,7 +67,7 @@ function CassieInstallerShortcutsPage({ pageIndex, window }: InstallerPageProps)
                     onClick={() => {
                         closeWindowForProcess(window.process, window.windowId);
                         if (startMenu.value) {
-                            // add to start menu
+                            createFile({ ...cassieShortcutFile, filename: "C:/StartMenu/LANPlanner.lnk" });
                         }
                         if (desktop.value) {
                             createFile(cassieShortcutFile);
