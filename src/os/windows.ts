@@ -42,6 +42,7 @@ export interface WindowState<State> extends WindowDescription<State> {
           }
         | undefined
     >;
+    overrideIconUrl: Signal<string | undefined>;
 }
 
 export const windows = signal<{ [windowId: string]: WindowState<unknown> }>({});
@@ -86,6 +87,7 @@ export function openWindowForProcess<State>(
         isMaximized: signal(false),
         isMinimized: signal(false),
         attachedWindow: signal(undefined),
+        overrideIconUrl: signal(window.iconUrl),
     };
     windows.value = { ...windows.value, [windowWithId.windowId]: windowWithId };
     process.windows = { ...process.windows, [windowWithId.windowId]: windowWithId };

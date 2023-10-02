@@ -10,6 +10,8 @@ import { steamAppDescription } from "~/application/steam/steam";
 import { browserAppDescription } from "~/application/browser/browser";
 import ieIcon from "~/images/icons/ie.png";
 import minesweeperIcon from "~/images/icons/minesweeper.png";
+import myComputerIcon from "~/images/icons/mycomputer.png";
+import steamIcon from "~/images/icons/steam.png";
 
 export interface File {
     readonly filename: string;
@@ -65,6 +67,7 @@ export const files = signal<File[]>([
         shortcutProperties: {
             processDesc: explorerAppDescription,
             displayName: "My Computer",
+            iconUrl: myComputerIcon,
             params: {
                 initialLocation: "My Computer",
             },
@@ -84,6 +87,7 @@ export const files = signal<File[]>([
         shortcutProperties: {
             processDesc: steamAppDescription,
             displayName: "Steam",
+            iconUrl: steamIcon,
         },
     },
     {

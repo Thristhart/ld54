@@ -1,4 +1,4 @@
-import { useSignal } from "@preact/signals";
+import { useSignal, useSignalEffect } from "@preact/signals";
 import { Dropdown } from "~/desktop/dropdown/dropdown";
 import { FileIcon, getFaviconForPath, displayFilesize } from "~/desktop/fileicon/fileicon";
 import iconUrl from "~/images/icons/favicons/joystick.png";
@@ -26,6 +26,10 @@ function ExplorerWindow({ process, window }: ExplorerWindowProps) {
             removeFile(selectedFile.value);
         }
     }, []);
+
+    useSignalEffect(() => {
+        window.overrideIconUrl.value = getFaviconForPath(location.value);
+    });
 
     return (
         <div className={"explorerWindowContent"}>

@@ -1,6 +1,8 @@
 import { useCallback } from "preact/hooks";
 import joystickIconUrl from "~/images/icons/joystick.png";
+import notepadIconUrl from "~/images/icons/notepad.png";
 import joystickFaviconUrl from "~/images/icons/favicons/joystick.png";
+import myComputerFaviconUrl from "~/images/icons/favicons/mycomputer.png";
 import { File, files, openFile, totalSize } from "~/os/filesystem";
 import { useDoubleClick } from "../useDoubleClick";
 import "./fileicon.css";
@@ -18,14 +20,16 @@ export function getIconForFile(file: File) {
         return file.shortcutProperties.iconUrl;
     }
     const extension = getFileExtension(file);
+    if (extension === "txt") {
+        return notepadIconUrl;
+    }
     return joystickIconUrl;
 }
 export function getFaviconForPath(path: string) {
+    if (path.endsWith("My Computer")) {
+        return myComputerFaviconUrl;
+    }
     return joystickFaviconUrl;
-}
-
-export function getIconForPath(path: string) {
-    return joystickIconUrl;
 }
 
 function getDisplayNameForFile(file: File) {

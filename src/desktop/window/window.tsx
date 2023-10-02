@@ -26,11 +26,12 @@ function TitleBar<State>({ titleBarRef, window }: TitleBarProps<State>) {
         }
     }, [window.windowId]);
     const onClick = useDoubleClick(onDoubleClick);
+    const iconUrl = window.overrideIconUrl.value ?? window.iconUrl;
     return (
         <>
             <div class="titleBarBackground" />
             <header class="titleBar" ref={titleBarRef} onClick={onClick}>
-                {window.iconUrl && <img class="windowIcon" src={window.iconUrl} />}
+                {iconUrl && <img class="windowIcon" src={iconUrl} />}
                 <span class="windowTitle">{window.title.value}</span>
                 <div class="windowButtons">
                     <button class="minimizeButton" onClick={() => minimizeWindow(window.windowId)}>

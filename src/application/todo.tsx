@@ -1,7 +1,7 @@
 import { ProcessDescription } from "~/os/processes";
 import { closeWindowForProcess, focusWindow, openWindowForProcess, WindowState } from "~/os/windows";
 import type { Process } from "./process";
-import iconUrl from "~/images/icons/favicons/joystick.png";
+import iconUrl from "~/images/icons/favicons/notepad.png";
 import "./notepad/notepad.css";
 import "./todo.css";
 import { getFileBasename } from "~/desktop/fileicon/fileicon";
