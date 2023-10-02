@@ -5,13 +5,20 @@ import { useSignal } from "@preact/signals";
 import { useEffect } from "preact/hooks";
 import { StartupPhase, startupPhase } from "~/app";
 import { eventEmitter } from "~/events";
+import calChime from "~/audio/cal_reminder.mp3";
+import { Howl } from "howler";
+
+const bootMusic = new Howl({ src: calChime, volume: 0.8 });
 
 function WelcomeSplash() {
     useEffect(() => {
         setTimeout(() => {
+            bootMusic.play();
+        }, 500);
+        setTimeout(() => {
             startupPhase.value = StartupPhase.Desktop;
             eventEmitter.emit("login");
-        }, 3000);
+        }, 3500);
     });
     return (
         <div class="login">
