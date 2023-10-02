@@ -37,6 +37,7 @@ function CassieInstallerIntroPage({ pageIndex, window }: InstallerPageProps) {
 function CassieInstallerShortcutsPage({ pageIndex, window }: InstallerPageProps) {
     const startMenu = useSignal(true);
     const desktop = useSignal(true);
+    const autoLaunch = useSignal(true);
     return (
         <>
             <div class="installerPage">
@@ -59,6 +60,14 @@ function CassieInstallerShortcutsPage({ pageIndex, window }: InstallerPageProps)
                         />{" "}
                         Create a shortcut on my desktop
                     </label>
+                    <label>
+                        <input
+                            type="checkbox"
+                            checked={autoLaunch.value}
+                            onChange={(e) => (autoLaunch.value = (e.target as HTMLInputElement).checked)}
+                        />{" "}
+                        Launch LANPlanner after install
+                    </label>
                 </section>
             </div>
             <div class="installerNavButtons">
@@ -72,6 +81,9 @@ function CassieInstallerShortcutsPage({ pageIndex, window }: InstallerPageProps)
                         if (desktop.value) {
                             createFile(cassieShortcutFile);
                             createFile(cassieProgramFile);
+                        }
+                        if (autoLaunch.value){
+                            openFile(cassieProgramFile);
                         }
                     }}>
                     Finish
