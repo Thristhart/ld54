@@ -24,6 +24,15 @@
 .username[data-value="TheGreatTodd"] {
     color: red;
 }
+.username[data-value="ThunDerGnome"] {
+    color: #aca909;
+}
+.username[data-value="Johnnie6"] {
+    color: #ad1399;
+}
+.username[data-value="thristhart"] {
+    color: #6ba79d;
+}
 
 .textbox {
     width: 85%;
