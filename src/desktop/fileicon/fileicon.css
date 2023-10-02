@@ -44,8 +44,8 @@
 .fileContextMenu {
     position: absolute;
     z-index: 1;
-    left: 100%;
-    bottom: -1px;
+    left: 0;
+    top: 0;
     background-color: white;
     padding-left: 1px;
     box-shadow: rgb(114, 173, 233) 0px 0px 0px 1px inset, rgba(0, 0, 0, 0.5) 2px 3px 3px;
@@ -89,4 +89,10 @@
 }
 .fileContextMenuBold {
     font-weight: bold;
+}
+
+#contextmenu {
+    position: absolute;
+    top: 0;
+    left: 0;
 }

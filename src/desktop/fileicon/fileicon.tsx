@@ -67,15 +67,19 @@ function getCDriveSpace() {
     return `${displayFilesize(usedSize)} / ${displayFilesize(totalSize)}`;
 }
 
+import { createPortal } from "preact/compat";
+
 interface FileContextMenuProps {
     file: File;
     menuRef: RefObject<HTMLUListElement>;
+    position: { x: number; y: number };
+    onOpen: () => void;
 }
-function FileContextMenu({ file, menuRef }: FileContextMenuProps) {
-    return (
-        <ul class="fileContextMenu" ref={menuRef}>
+function FileContextMenu({ file, menuRef, position, onOpen }: FileContextMenuProps) {
+    return createPortal(
+        <ul class="fileContextMenu" ref={menuRef} style={{ transform: `translate(${position.x}px, ${position.y}px)` }}>
             <li>
-                <button className="fileContextMenuBold" onClick={() => openFile(file)}>
+                <button className="fileContextMenuBold" onClick={onOpen}>
                     Open
                 </button>
             </li>
@@ -109,7 +113,8 @@ function FileContextMenu({ file, menuRef }: FileContextMenuProps) {
             <li>
                 <button disabled>Properties</button>
             </li>
-        </ul>
+        </ul>,
+        document.getElementById("contextmenu")!
     );
 }
 
@@ -130,7 +135,7 @@ export function FileIcon({ file, onFocus, onKeyDown, onDoubleClick }: FileIconPr
     const onClick = useDoubleClick(doubleClickFn);
     const spaceDetails =
         file.filename === "My Computer/C:/" ? <span class="spaceDetails">{getCDriveSpace()}</span> : undefined;
-    const showContextMenu = useSignal(false);
+    const showContextMenu = useSignal<false | { x: number; y: number }>(false);
     const menuRef = useRef<HTMLUListElement>(null);
     useEffect(() => {
         function onClick(e: MouseEvent) {
@@ -150,7 +155,14 @@ export function FileIcon({ file, onFocus, onKeyDown, onDoubleClick }: FileIconPr
     }, [showContextMenu.value]);
     return (
         <div class="fileIconContainer">
-            {showContextMenu.value && <FileContextMenu menuRef={menuRef} file={file} />}
+            {showContextMenu.value && (
+                <FileContextMenu
+                    menuRef={menuRef}
+                    file={file}
+                    onOpen={doubleClickFn}
+                    position={showContextMenu.value}
+                />
+            )}
             <button
                 class="fileIcon"
                 onClick={onClick}
@@ -158,7 +170,7 @@ export function FileIcon({ file, onFocus, onKeyDown, onDoubleClick }: FileIconPr
                 onKeyDown={onKeyDown}
                 onContextMenu={(e) => {
                     e.preventDefault();
-                    showContextMenu.value = true;
+                    showContextMenu.value = { x: e.pageX, y: e.pageY };
                 }}>
                 <img src={getIconForFile(file)} />
                 <span class="fileIconLabel">{getDisplayNameForFile(file)}</span>

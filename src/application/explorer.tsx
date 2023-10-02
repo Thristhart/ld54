@@ -120,6 +120,9 @@ function ExplorerWindow({ process, window }: ExplorerWindowProps) {
                                 } else {
                                     openFile(file);
                                 }
+                            } else if (file.filename.includes(".")) {
+                                // horrible hacks
+                                openFile(file);
                             } else {
                                 location.value = file.filename;
                             }
