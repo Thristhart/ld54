@@ -67,7 +67,7 @@ function CassieWindow({ window, dragTargetRef }: CassieWindowProps) {
         let standingWindow: WindowState<unknown> | undefined;
 
         Object.values(windows.value).forEach((maybeCollidingWindow) => {
-            if (maybeCollidingWindow === window) {
+            if (maybeCollidingWindow === window || maybeCollidingWindow.isMinimized.value) {
                 return;
             }
             const cassieLeft = pos.x + cassieWidth * 0.2;
