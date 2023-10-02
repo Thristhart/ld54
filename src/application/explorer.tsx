@@ -127,10 +127,7 @@ function ExplorerWindow({ process, window }: ExplorerWindowProps) {
                     />
                 ))}
             </section>
-            <section class="fileDetails">
-                File size: {displayFilesize(selectedFile.value?.filesize)}{" "}
-                <button onClick={() => removeFile(selectedFile.value)}>Delete!</button>
-            </section>
+            <section class="fileDetails">File size: {displayFilesize(selectedFile.value?.filesize)}</section>
         </div>
     );
 }
