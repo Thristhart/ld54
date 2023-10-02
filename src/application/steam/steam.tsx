@@ -316,12 +316,96 @@ export const Games: { [key: string]: SteamGame } = {
         ],
         optionalFiles: [
             {
+                filename: "C:/Program Files/Steam/steamapps/common/cstrike/ajawad.wad",
+                filesize: 3,
+            },
+            {
+                filename: "C:/Program Files/Steam/steamapps/common/cstrike/cached.wad",
+                filesize: 3,
+            },
+            {
+                filename: "C:/Program Files/Steam/steamapps/common/cstrike/chateau.wad",
+                filesize: 3,
+            },
+            {
+                filename: "C:/Program Files/Steam/steamapps/common/cstrike/cstraining.wad",
+                filesize: 3,
+            },
+            {
+                filename: "C:/Program Files/Steam/steamapps/common/cstrike/cstrike.wad",
+                filesize: 3,
+            },
+            {
+                filename: "C:/Program Files/Steam/steamapps/common/cstrike/cs_747.wad",
+                filesize: 3,
+            },
+            {
+                filename: "C:/Program Files/Steam/steamapps/common/cstrike/cs_assault.wad",
+                filesize: 3,
+            },
+            {
+                filename: "C:/Program Files/Steam/steamapps/common/cstrike/cs_bdog.wad",
+                filesize: 3,
+            },
+            {
+                filename: "C:/Program Files/Steam/steamapps/common/cstrike/cs_cbble.wad",
+                filesize: 3,
+            },
+            {
+                filename: "C:/Program Files/Steam/steamapps/common/cstrike/cs_dust.wad",
+                filesize: 3,
+            },
+            {
+                filename: "C:/Program Files/Steam/steamapps/common/cstrike/cs_havana.wad",
+                filesize: 3,
+            },
+            {
                 filename: "C:/Program Files/Steam/steamapps/common/cstrike/cs_office.wad",
-                filesize: 30,
+                filesize: 3,
+            },
+            {
+                filename: "C:/Program Files/Steam/steamapps/common/cstrike/decals.wad",
+                filesize: 3,
+            },
+            {
+                filename: "C:/Program Files/Steam/steamapps/common/cstrike/de_airstrip.wad",
+                filesize: 3,
+            },
+            {
+                filename: "C:/Program Files/Steam/steamapps/common/cstrike/de_aztec.wad",
+                filesize: 3,
+            },
+            {
+                filename: "C:/Program Files/Steam/steamapps/common/cstrike/de_piranesi.wad",
+                filesize: 3,
+            },
+            {
+                filename: "C:/Program Files/Steam/steamapps/common/cstrike/de_storm.wad",
+                filesize: 3,
             },
             {
                 filename: "C:/Program Files/Steam/steamapps/common/cstrike/de_vertigo.wad",
-                filesize: 30,
+                filesize: 3,
+            },
+            {
+                filename: "C:/Program Files/Steam/steamapps/common/cstrike/itsitaly.wad",
+                filesize: 3,
+            },
+            {
+                filename: "C:/Program Files/Steam/steamapps/common/cstrike/n0th1ng.wad",
+                filesize: 3,
+            },
+            {
+                filename: "C:/Program Files/Steam/steamapps/common/cstrike/prodigy.wad",
+                filesize: 3,
+            },
+            {
+                filename: "C:/Program Files/Steam/steamapps/common/cstrike/torntextures.wad",
+                filesize: 3,
+            },
+            {
+                filename: "C:/Program Files/Steam/steamapps/common/cstrike/tswad.wad",
+                filesize: 3,
             },
         ],
     },
