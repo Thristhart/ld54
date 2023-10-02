@@ -10,6 +10,7 @@ import "./notepad/notepad.css";
 import type { Process } from "./process";
 import "./todo.css";
 import { useCallback } from "react";
+import goUpIcon from "~/images/icons/upfolder.png";
 
 type ExplorerState = undefined;
 
@@ -27,21 +28,19 @@ function ExplorerWindow({ process, window }: ExplorerWindowProps) {
         }
     }, []);
 
-    const goUpAFolder = function(location:string){
-        if(location === "My Computer")
-        {
+    const goUpAFolder = function (location: string) {
+        if (location === "My Computer") {
             return location;
         }
-        if(location === "C:/")
-        {
+        if (location === "C:/") {
             return "My Computer";
         }
         location = location.split("/").slice(0, -1).join("/");
-        if(location === "C:"){
+        if (location === "C:") {
             location += "/";
         }
         return location;
-    }
+    };
 
     useSignalEffect(() => {
         window.overrideIconUrl.value = getFaviconForPath(location.value);
@@ -95,7 +94,12 @@ function ExplorerWindow({ process, window }: ExplorerWindowProps) {
                     <img src={getFaviconForPath(location.value)} />
                     <span class="addressText">{location.value}</span>
                 </span>
-                <button class="upFolder" onClick={() => location.value = goUpAFolder(location.value)}>🗁</button>
+                <button
+                    class="upFolder"
+                    onClick={() => (location.value = goUpAFolder(location.value))}
+                    disabled={location.value === "My Computer"}>
+                    <img src={goUpIcon} />
+                </button>
             </section>
             <section class="fileList">
                 {filesInPath.map((file) => (
