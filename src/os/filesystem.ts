@@ -26,6 +26,19 @@ export interface File {
 
 export const totalSize = 10000; //10GB
 
+export const myComputerShortcut = {
+    filename: "C:/Desktop/MyComputer.lnk",
+    filesize: 15,
+    shortcutProperties: {
+        processDesc: explorerAppDescription,
+        displayName: "My Computer",
+        iconUrl: myComputerIcon,
+        params: {
+            initialLocation: "My Computer",
+        },
+    },
+};
+
 export const files = signal<File[]>([
     {
         filename: "C:/Desktop/Button.lnk",
@@ -60,18 +73,7 @@ export const files = signal<File[]>([
             displayName: "Chatter",
         },
     },
-    {
-        filename: "C:/Desktop/explorer.lnk",
-        filesize: 15,
-        shortcutProperties: {
-            processDesc: explorerAppDescription,
-            displayName: "My Computer",
-            iconUrl: myComputerIcon,
-            params: {
-                initialLocation: "My Computer",
-            },
-        },
-    },
+    myComputerShortcut,
     {
         filename: "C:/Desktop/Steam.lnk",
         filesize: 4000,
@@ -99,6 +101,41 @@ export const files = signal<File[]>([
             params: {
                 initialLocation: "C:/",
             },
+        },
+    },
+    {
+        filename: "C:/StartMenu/InternetExplorer.lnk",
+        filesize: 0,
+        shortcutProperties: {
+            processDesc: browserAppDescription,
+            displayName: "Internet Explorer",
+            iconUrl: ieIcon,
+        },
+    },
+    {
+        filename: "C:/StartMenu/Minesweeper.lnk",
+        filesize: 0,
+        shortcutProperties: {
+            processDesc: minesweeperDescription,
+            displayName: "Minesweeper",
+            iconUrl: minesweeperIcon,
+        },
+    },
+    {
+        filename: "C:/StartMenu/chatter.lnk",
+        filesize: 0,
+        shortcutProperties: {
+            processDesc: chatterDescription,
+            displayName: "Chatter",
+        },
+    },
+    {
+        filename: "C:/StartMenu/Steam.lnk",
+        filesize: 0,
+        shortcutProperties: {
+            processDesc: steamAppDescription,
+            displayName: "Steam",
+            iconUrl: steamIcon,
         },
     },
 ]);

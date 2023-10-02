@@ -3,6 +3,9 @@ import startUrl from "~/images/start.png";
 import { focusWindow, unminimizeWindow, windows, WindowState } from "~/os/windows";
 import "./taskbar.css";
 import classnames from "classnames";
+import { StartMenu } from "./startmenu";
+import { useSignal, useSignalEffect } from "@preact/signals";
+import { useEffect, useRef } from "preact/hooks";
 
 export const taskbarHeight = 34;
 
@@ -30,11 +33,27 @@ interface TaskbarProps extends JSXInternal.HTMLAttributes<HTMLElement> {
     focused: WindowState<unknown>;
 }
 export function Taskbar({ focused, ...footerProps }: TaskbarProps) {
+    const menuRef = useRef<HTMLDivElement>(null);
+    const showStartMenu = useSignal(false);
+    useEffect(() => {
+        function onClick(e: MouseEvent) {
+            if (!menuRef.current?.contains(e.target as Node)) {
+                showStartMenu.value = false;
+            }
+        }
+        if (showStartMenu.value) {
+            document.body.addEventListener("click", onClick);
+        } else {
+            document.body.removeEventListener("click", onClick);
+        }
+        return () => document.body.removeEventListener("click", onClick);
+    }, [showStartMenu.value]);
     return (
         <footer class="taskbar" {...footerProps}>
-            <button class="startButton">
+            <button class="startButton" onClick={() => (showStartMenu.value = !showStartMenu.value)}>
                 <img src={startUrl} />
             </button>
+            {showStartMenu.value && <StartMenu menuRef={menuRef} />}
             {Object.values(windows.value).map((window) => (
                 <TaskbarWindow
                     window={window}

@@ -40,7 +40,7 @@ export function getFaviconForPath(path: string) {
     return joystickFaviconUrl;
 }
 
-function getDisplayNameForFile(file: File) {
+export function getDisplayNameForFile(file: File) {
     if (file.shortcutProperties) {
         return file.shortcutProperties.displayName;
     }
