@@ -8,7 +8,7 @@ import { getFileBasename } from "~/desktop/fileicon/fileicon";
 import { Dropdown } from "~/desktop/dropdown/dropdown";
 import { signal } from "@preact/signals";
 import { Games } from "./steam/steam";
-import { files } from "~/os/filesystem";
+import { File, files } from "~/os/filesystem";
 
 // this state might not actually end up living here
 type TodoState = undefined;
@@ -17,16 +17,16 @@ export interface TodoDescription {
     readonly displayText: string;
     readonly isSatisfied: () => boolean;
 }
-const todos = signal<TodoDescription[]>([
-    {
-        displayText: "Install Counter-Strike",
-        isSatisfied: () => {
-            return Games.counterStrike.files.every((file) => {
-                return files.value.some((fileOnDisk) => fileOnDisk.filename === file.filename);
-            });
-        },
+
+export const installCSTodo: TodoDescription = {
+    displayText: "Install Counter-Strike",
+    isSatisfied: () => {
+        return Games.counterStrike.files.every((file) => {
+            return files.value.some((fileOnDisk) => fileOnDisk.filename === file.filename);
+        });
     },
-]);
+};
+const todos = signal<TodoDescription[]>([installCSTodo]);
 
 export function addTodo(todo: TodoDescription) {
     todos.value = [...todos.value, todo];
@@ -106,5 +106,14 @@ export const todoAppDescription: ProcessDescription<TodoState> = {
                 minHeight: 150,
             });
         }
+    },
+};
+
+export const todoFile: File = {
+    filename: "C:/Desktop/todo.txt",
+    filesize: 1,
+    shortcutProperties: {
+        processDesc: todoAppDescription,
+        displayName: "todo.txt",
     },
 };

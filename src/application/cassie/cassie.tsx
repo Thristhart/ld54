@@ -6,6 +6,8 @@ import iconUrl from "~/images/icons/favicons/joystick.png";
 import { RefObject, useCallback, useEffect } from "react";
 import { taskbarHeight } from "~/desktop/taskbar/taskbar";
 import { signal, useSignal } from "@preact/signals";
+import { createFile, openFile } from "~/os/filesystem";
+import { installCSTodo, todoFile } from "../todo";
 
 function useAnimationFrame(callback: (dt: number) => void) {
     return useEffect(() => {
@@ -40,12 +42,27 @@ interface CassieDialog {
     onDismiss?: () => void;
 }
 export const cassieDialogQueue = signal<CassieDialog[]>([
-    { text: "My name is Cassie, your Personal Engagement Tool for navigating LANPlanner!" },
-    { text: "Looks like you've got a todo list. Kinda underwhelming if you ask me, where's the personality?" },
+    { text: "I'm your Personal Engagement Tool for navigating LANPlanner! You can call me Cassie, your PETNav." },
     {
-        text: "No need to worry, because I'm here now and I'll be sure to keep you on task and notified, with a little magical flair!",
+        text: "Let's start by getting you a TODO list!",
         onDismiss() {
-            console.log("boop");
+            createFile(todoFile);
+            openFile(todoFile);
+            if (installCSTodo.isSatisfied()) {
+                AddCassieDialog({
+                    text: "Great, you already have CS installed!",
+                    onDismiss() {
+                        console.log("boop");
+                    },
+                });
+            } else {
+                AddCassieDialog({
+                    text: "It looks like you don't have CS installed. What kind of LAN party would it be without CS?",
+                    onDismiss() {
+                        console.log("boop");
+                    },
+                });
+            }
         },
     },
 ]);

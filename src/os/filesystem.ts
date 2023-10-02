@@ -49,14 +49,6 @@ export const files = signal<File[]>([
         },
     },
     {
-        filename: "C:/Desktop/todo.txt",
-        filesize: 1,
-        shortcutProperties: {
-            processDesc: todoAppDescription,
-            displayName: "todo.txt",
-        },
-    },
-    {
         filename: "C:/Desktop/Minesweeper.lnk",
         filesize: 10,
         shortcutProperties: {
