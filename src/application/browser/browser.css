@@ -1,0 +1,86 @@
+.browserFunctionBar {
+    display: flex;
+    align-items: center;
+}
+.browserFunctionBar button {
+    background: transparent;
+    border: none;
+    outline: none;
+    display: flex;
+    align-items: center;
+}
+.browserFunctionBar button:disabled {
+    filter: grayscale(1);
+    opacity: 0.7;
+}
+.pageContents {
+    background-color: white;
+    flex-grow: 1;
+    user-select: text;
+    overflow: auto;
+}
+.browserWindowContent {
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+    flex-direction: column;
+}
+
+.website {
+    margin: 8px;
+}
+
+.installProgress {
+    height: 13px;
+    width: 100%;
+    background-color: white;
+    border: 1px solid black;
+    border-radius: 4px;
+
+    display: flex;
+    flex-direction: row;
+    gap: 2px;
+    align-items: center;
+    padding-left: 3px;
+
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+.installBlock {
+    width: 6px;
+    height: 7px;
+    background-color: #2ed331;
+}
+
+.downloadWindowContent {
+    box-sizing: border-box;
+    padding: 6px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+}
+.downloadDestinationLabel {
+    display: block;
+}
+.downloadWindowButtons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+}
+.downloadWindowButtons button {
+    width: 73px;
+    height: 21px;
+    font-size: 12px;
+    background-color: white;
+    border-radius: 2px;
+    outline: none;
+    border: 1px solid black;
+    padding: 0;
+    font-family: Tahoma, Geneva, Verdana, sans-serif;
+}
+.downloadWindowButtons button:focus {
+    box-shadow: #adc7f1 -1px -1px inset, #adc7f1 1px 1px inset;
+}

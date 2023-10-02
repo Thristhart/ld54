@@ -14,6 +14,9 @@ export function getFileBasename(file: File) {
 }
 
 export function getIconForFile(file: File) {
+    if (file.shortcutProperties?.iconUrl) {
+        return file.shortcutProperties.iconUrl;
+    }
     const extension = getFileExtension(file);
     return joystickIconUrl;
 }
@@ -45,7 +48,7 @@ export function displayFilesize(size: number | undefined) {
 function getCDriveSpace() {
     let usedSize = 0;
     files.value.forEach((file) => {
-        usedSize += file.value.filesize;
+        usedSize += file.filesize;
     });
     return `${displayFilesize(usedSize)} / ${displayFilesize(totalSize)}`;
 }

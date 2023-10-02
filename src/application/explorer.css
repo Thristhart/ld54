@@ -9,6 +9,7 @@
     padding-left: 2px;
     padding-right: 2px;
     box-shadow: rgb(176, 176, 176) 0px -2px 3px -1px inset;
+    box-sizing: border-box;
 }
 .addressLabel {
     line-height: 100%;
@@ -23,11 +24,12 @@
     align-items: center;
     background-color: white;
     position: relative;
+    box-sizing: border-box;
 }
 .addressText {
     position: absolute;
     white-space: nowrap;
-    left: 16px;
+    left: 20px;
     right: 17px;
 }
 
@@ -55,6 +57,6 @@
     flex-grow: 1;
 }
 
-.fileDetails{
+.fileDetails {
     border-top: solid thin black;
 }

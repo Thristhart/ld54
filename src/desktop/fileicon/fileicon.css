@@ -23,6 +23,7 @@
     margin-top: 5px;
     display: flex;
     justify-content: center;
+    text-align: center;
 }
 .fileIcon:focus .fileIconLabel {
     padding: 0px 3px 2px;
@@ -31,8 +32,7 @@
     text-align: center;
 }
 
-.spaceDetails{
-    
+.spaceDetails {
     font-size: 9px;
     white-space: nowrap;
 }

@@ -8,7 +8,10 @@ body {
     -ms-user-select: none;
     user-select: none;
 
-    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    font-family: Tahoma, Geneva, Verdana, sans-serif;
+}
+button {
+    font-family: Tahoma, Geneva, Verdana, sans-serif;
 }
 
 #ui {

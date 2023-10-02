@@ -7,6 +7,9 @@ import { minesweeperDescription } from "~/application/Minesweeper";
 import { todoAppDescription } from "~/application/todo";
 import { getOrCreateProcess, ProcessDescription } from "./processes";
 import { steamAppDescription } from "~/application/steam/steam";
+import { browserAppDescription } from "~/application/browser/browser";
+import ieIcon from "~/images/icons/ie.png";
+import minesweeperIcon from "~/images/icons/minesweeper.png";
 
 export interface File {
     readonly filename: string;
@@ -15,46 +18,48 @@ export interface File {
     readonly shortcutProperties?: {
         readonly processDesc: ProcessDescription<unknown>;
         readonly displayName: string;
+        readonly iconUrl?: string;
         readonly params?: any;
     };
 }
 
 export const totalSize = 10000; //10GB
 
-export const files = signal<Signal<File>[]>([
-    signal({
+export const files = signal<File[]>([
+    {
         filename: "C:/Desktop/Button.lnk",
         filesize: 10,
         shortcutProperties: {
             processDesc: buttonDescription,
             displayName: "Button",
         },
-    }),
-    signal({
+    },
+    {
         filename: "C:/Desktop/todo.txt",
         filesize: 1,
         shortcutProperties: {
             processDesc: todoAppDescription,
             displayName: "todo.txt",
         },
-    }),
-    signal({
+    },
+    {
         filename: "C:/Desktop/Minesweeper.lnk",
         filesize: 10,
         shortcutProperties: {
             processDesc: minesweeperDescription,
             displayName: "Minesweeper",
+            iconUrl: minesweeperIcon,
         },
-    }),
-    signal({
+    },
+    {
         filename: "C:/Desktop/chatter.lnk",
         filesize: 30,
         shortcutProperties: {
             processDesc: chatterDescription,
             displayName: "Chatter",
         },
-    }),
-    signal({
+    },
+    {
         filename: "C:/Desktop/explorer.lnk",
         filesize: 15,
         shortcutProperties: {
@@ -64,24 +69,33 @@ export const files = signal<Signal<File>[]>([
                 initialLocation: "My Computer",
             },
         },
-    }),
-    signal({
+    },
+    {
         filename: "C:/Desktop/Cassie.lnk",
         filesize: 300,
         shortcutProperties: {
             processDesc: cassieAppDescription,
             displayName: "Cassie",
         },
-    }),
-    signal({
+    },
+    {
         filename: "C:/Desktop/Steam.lnk",
         filesize: 4000,
         shortcutProperties: {
             processDesc: steamAppDescription,
             displayName: "Steam",
         },
-    }),
-    signal({
+    },
+    {
+        filename: "C:/Desktop/InternetExplorer.lnk",
+        filesize: 4000,
+        shortcutProperties: {
+            processDesc: browserAppDescription,
+            displayName: "Internet Explorer",
+            iconUrl: ieIcon,
+        },
+    },
+    {
         filename: "My Computer/C:/",
         filesize: 0,
         shortcutProperties: {
@@ -91,13 +105,11 @@ export const files = signal<Signal<File>[]>([
                 initialLocation: "C:/",
             },
         },
-    }),
+    },
 ]);
 
 export function getFilesInPath(path: string) {
-    const matchingFiles = files.value
-        .filter((fileSignal) => fileSignal.value.filename.startsWith(path))
-        .map((fileSignal) => fileSignal.value);
+    const matchingFiles = files.value.filter((file) => file.filename.startsWith(path));
     const pathMap = new Map<string, File | "fillIn">();
     for (const match of matchingFiles) {
         let remainder = match.filename.substring(path.length);
@@ -128,10 +140,9 @@ export function getFilesInPath(path: string) {
     return results;
 }
 
-export function removeFile(file: File | undefined){
-    if(file !== undefined)
-    {
-        files.value = files.value.filter(x => x.value !== file);
+export function removeFile(file: File | undefined) {
+    if (file !== undefined) {
+        files.value = files.value.filter((x) => x !== file);
     }
 }
 
@@ -147,4 +158,11 @@ function getProcessForFile(file: File) {
 export function openFile(file: File) {
     const process = getProcessForFile(file);
     process.onOpen(process, file);
+}
+
+export function createFile(file: File) {
+    if (files.value.includes(file)) {
+        return;
+    }
+    files.value = [...files.value, file];
 }

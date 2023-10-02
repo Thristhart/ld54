@@ -275,11 +275,9 @@ function installGame(process: Process<SteamProcessState>, game: SteamGame) {
     const filesCopy = [...files.value];
     const gameFiles = [...game.files, ...game.optionalFiles];
     for (const newFile of gameFiles) {
-        const existingFile = filesCopy.find((file) => file.value.filename === newFile.filename);
-        if (existingFile) {
-            existingFile.value = newFile;
-        } else {
-            filesCopy.push(signal(newFile));
+        const existingFile = filesCopy.find((file) => file.filename === newFile.filename);
+        if (!existingFile) {
+            filesCopy.push(newFile);
         }
     }
     files.value = filesCopy;

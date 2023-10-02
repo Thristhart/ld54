@@ -1,4 +1,4 @@
-import { files, getFilesInPath } from "~/os/filesystem";
+import { getFilesInPath } from "~/os/filesystem";
 import { windows } from "~/os/windows";
 import "./desktop.css";
 import { FileIcon } from "./fileicon/fileicon";

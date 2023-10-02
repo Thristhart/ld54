@@ -22,7 +22,7 @@ const todos = signal<TodoDescription[]>([
         displayText: "Install Counter-Strike",
         isSatisfied: () => {
             return Games.counterStrike.files.every((file) => {
-                return files.value.some((fileSignal) => fileSignal.value.filename === file.filename);
+                return files.value.some((fileOnDisk) => fileOnDisk.filename === file.filename);
             });
         },
     },
