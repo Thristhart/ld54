@@ -152,5 +152,3 @@ const cassieProgramFile: File = {
         displayName: "LANPLanner",
     },
 };
-
-openFile(cassieInstallerFile);

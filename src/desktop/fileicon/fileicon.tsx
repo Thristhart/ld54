@@ -22,7 +22,6 @@ export function getIconForFile(file: File) {
         return file.shortcutProperties.iconUrl;
     }
     const extension = getFileExtension(file);
-    console.log(file);
     if (file.filename === "My Computer/C:/") {
         return hardDriveIconUrl;
     }

@@ -1,5 +1,5 @@
 import { ProcessDescription, getOrCreateProcess } from "~/os/processes";
-import { openWindowForProcess } from "~/os/windows";
+import { focusWindow, openWindowForProcess } from "~/os/windows";
 import type { Process } from "./process";
 import iconUrl from "~/images/icons/favicons/joystick.png";
 import "./chatter.css";
@@ -58,4 +58,14 @@ export const chatterDescription: ProcessDescription<ChatterState> = {
 export function addMessage(message: Omit<Message, "timestamp">) {
     const process = getOrCreateProcess(chatterDescription);
     process.state.value = [...process.state.value, { ...message, timestamp: new Date() }];
+    const window = Object.values(process.windows)[0];
+    if (window) {
+        focusWindow(window.windowId);
+    } else {
+        openWindowForProcess(process, {
+            contentComponent: ChatterWindow,
+            iconUrl,
+            initialTitle: "Chatter",
+        });
+    }
 }
