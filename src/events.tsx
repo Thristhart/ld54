@@ -73,4 +73,7 @@ eventEmitter.once("vertigoDeleted", async () => {
         username: "thristhart",
         message: "but we ran out of time. so it goes! thanks for playing!",
     });
+    AddCassieDialog({
+        text: "Thanks for playing!",
+    });
 });

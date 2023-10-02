@@ -328,13 +328,31 @@ export const Games: { [key: string]: SteamGame } = {
     halfLife: {
         displayName: "Half-Life",
         iconUrl,
-        files: [],
+        files: [
+            {
+                filename: "C:/Program Files/Steam/steamapps/common/half-life/hl.exe",
+                filesize: 30,
+            },
+            {
+                filename: "C:/Program Files/Steam/steamapps/common/half-life/vgui.dll",
+                filesize: 20,
+            },
+        ],
         optionalFiles: [],
     },
     dayOfDefeat: {
         displayName: "Day of Defeat",
         iconUrl,
-        files: [],
+        files: [
+            {
+                filename: "C:/Program Files/Steam/steamapps/common/dod/hl.exe",
+                filesize: 30,
+            },
+            {
+                filename: "C:/Program Files/Steam/steamapps/common/dod/vgui.dll",
+                filesize: 20,
+            },
+        ],
         optionalFiles: [],
     },
 };
