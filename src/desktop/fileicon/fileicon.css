@@ -36,3 +36,57 @@
     font-size: 9px;
     white-space: nowrap;
 }
+
+.fileIconContainer {
+    position: relative;
+}
+
+.fileContextMenu {
+    position: absolute;
+    z-index: 1;
+    left: 100%;
+    bottom: -1px;
+    background-color: white;
+    padding-left: 1px;
+    box-shadow: rgb(114, 173, 233) 0px 0px 0px 1px inset, rgba(0, 0, 0, 0.5) 2px 3px 3px;
+
+    list-style: none;
+    padding: 0;
+
+    margin: 0;
+
+    min-width: 180px;
+    box-sizing: border-box;
+}
+.fileContextMenu li {
+    padding: 0;
+    margin: 0;
+    display: flex;
+}
+.fileContextMenu hr {
+    margin: 0;
+    margin-bottom: 2px;
+    margin-top: 2px;
+    flex-grow: 1;
+}
+.fileContextMenu button {
+    background: transparent;
+    border: none;
+    text-align: start;
+    white-space: nowrap;
+    padding: 0;
+    padding-left: 16px;
+    padding-right: 2px;
+    padding-top: 4px;
+    padding-bottom: 4px;
+    width: 100%;
+    height: 100%;
+    flex-grow: 1;
+}
+.fileContextMenu button:hover {
+    background: rgb(22, 96, 232);
+    color: white;
+}
+.fileContextMenuBold {
+    font-weight: bold;
+}

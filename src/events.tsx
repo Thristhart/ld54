@@ -36,7 +36,7 @@ eventEmitter.once("login", async () => {
     });
 });
 
-eventEmitter.once("csInstallTodoAdded", () => {
+eventEmitter.once("csInstallTodoAdded", async () => {
     eventEmitter.once("csInstalled", async () => {
         await wait(4000);
         addMessage({

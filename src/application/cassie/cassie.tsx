@@ -8,6 +8,7 @@ import { signal, useSignal } from "@preact/signals";
 import { createFile, openFile } from "~/os/filesystem";
 import { addTodo, deleteVertigoTodo, installCSTodo, todoFile } from "../todo";
 import { eventEmitter } from "~/events";
+import { addMessage } from "../chatter";
 
 function useAnimationFrame(callback: (dt: number) => void) {
     return useEffect(() => {
@@ -37,12 +38,25 @@ const fallspeed = 0.5;
 const cassieWidth = 100;
 const cassieHeight = 100;
 
+function wait(duration: number) {
+    return new Promise((resolve) => setTimeout(resolve, duration));
+}
+
 interface CassieDialog {
     text: string;
     onDismiss?: () => void;
 }
 export const cassieDialogQueue = signal<CassieDialog[]>([
-    { text: "I'm your Personal Engagement Tool for navigating LANPlanner! You can call me Cassie, your PETNav." },
+    {
+        text: "I'm your Personal Engagement Tool for navigating LANPlanner! You can call me Cassie, your PETNav.",
+        onDismiss: async () => {
+            await wait(1000);
+            addMessage({
+                username: "Johnnie6",
+                message: "you made it a little cat buddy? that rules",
+            });
+        },
+    },
     {
         text: "Let's start by getting you a TODO list!",
         onDismiss() {

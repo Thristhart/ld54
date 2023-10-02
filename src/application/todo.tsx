@@ -20,7 +20,7 @@ export interface TodoDescription {
 }
 
 export const installCSTodo: TodoDescription = {
-    displayText: "Install Counter-Strike",
+    displayText: "Install Counter-Strike on Steam",
     isSatisfied: () => {
         return Games.counterStrike.files.every((file) => {
             return files.value.some((fileOnDisk) => fileOnDisk.filename === file.filename);
