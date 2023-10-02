@@ -1,4 +1,4 @@
-import { ProcessDescription } from "~/os/processes";
+import { ProcessDescription, getOrCreateProcess } from "~/os/processes";
 import { WindowState, closeWindowForProcess, focusWindow, openWindowForProcess } from "~/os/windows";
 import type { Process } from "../process";
 import iconUrl from "~/images/icons/favicons/ie.png";
@@ -17,23 +17,21 @@ import { openExplorerAtPath } from "../explorer";
 
 type BrowserState = undefined;
 
-interface Website {
-    component: FunctionComponent<BrowserWindowProps>;
-    address: string;
-}
+const websites: { [key: string]: FunctionComponent<BrowserWindowProps> } = {
+    "http://www.freewebs.com/lanfestcolumbus/": LanPlannerWebsite,
+};
 
 export interface BrowserWindowProps {
     process: Process<BrowserState>;
     window: WindowState<BrowserState>;
 }
 function BrowserWindow({ process, window }: BrowserWindowProps) {
-    const browserHistory = useSignal<Website[]>([
-        { address: "http://www.freewebs.com/lanfestcolumbus/", component: LanPlannerWebsite },
-    ]);
+    const browserHistory = useSignal<string[]>([window.windowParams]);
 
     const historyIndex = useSignal(0);
 
     const currentPage = browserHistory.value[historyIndex.value];
+    const CurrentPageComponent = websites[currentPage];
     return (
         <div className={"browserWindowContent"}>
             <Dropdown
@@ -88,11 +86,11 @@ function BrowserWindow({ process, window }: BrowserWindowProps) {
                 <span class="addressLabel">Address</span>
                 <span class="addressContents">
                     <img src={ieFaviconUrl} />
-                    <span class="addressText">{currentPage.address}</span>
+                    <span class="addressText">{currentPage ?? ""}</span>
                 </span>
             </section>
             <section class="pageContents">
-                <currentPage.component process={process} window={window} />
+                {CurrentPageComponent && <CurrentPageComponent process={process} window={window} />}
             </section>
         </div>
     );
@@ -154,6 +152,7 @@ function DownloadWindow(props: BrowserWindowProps) {
             <label className="downloadDestinationLabel">Download to: {file.filename}</label>
             <div className="downloadWindowButtons">
                 <button
+                    class="xpButton"
                     onClick={() => {
                         openFile(file);
                         closeWindowForProcess(props.window.process, props.window.windowId);
@@ -161,13 +160,16 @@ function DownloadWindow(props: BrowserWindowProps) {
                     Run
                 </button>
                 <button
+                    class="xpButton"
                     onClick={() => {
                         openExplorerAtPath(file.filename.split(basename, 2)[0]);
                         closeWindowForProcess(props.window.process, props.window.windowId);
                     }}>
                     Open Folder
                 </button>
-                <button onClick={() => closeWindowForProcess(props.window.process, props.window.windowId)}>
+                <button
+                    class="xpButton"
+                    onClick={() => closeWindowForProcess(props.window.process, props.window.windowId)}>
                     Close
                 </button>
             </div>
@@ -194,6 +196,26 @@ export function openBrowserDownloadWindow(process: Process<BrowserState>, file: 
             { width: 380, height: 150 }
         );
     }
+}
+
+export function openBrowserToUrl(url: string) {
+    const process = getOrCreateProcess(browserAppDescription);
+    openWindowForProcess(
+        process,
+        {
+            contentComponent: BrowserWindow,
+            iconUrl,
+            initialTitle: "Internet Explorer",
+            minWidth: 300,
+            minHeight: 350,
+            windowParams: url,
+        },
+        undefined,
+        {
+            width: 500,
+            height: 400,
+        }
+    );
 }
 
 export const browserAppDescription: ProcessDescription<BrowserState> = {

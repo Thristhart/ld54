@@ -17,3 +17,18 @@ button {
 #ui {
     height: 100%;
 }
+
+.xpButton {
+    width: 73px;
+    height: 21px;
+    font-size: 12px;
+    background-color: white;
+    border-radius: 2px;
+    outline: none;
+    border: 1px solid black;
+    padding: 0;
+    font-family: Tahoma, Geneva, Verdana, sans-serif;
+}
+.xpButton:focus {
+    box-shadow: #adc7f1 -1px -1px inset, #adc7f1 1px 1px inset;
+}

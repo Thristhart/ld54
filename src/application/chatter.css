@@ -1,31 +1,31 @@
-.chatBody{
+.chatBody {
     margin-left: 4px;
     flex-grow: 1;
+    overflow: auto;
 }
 
-.chatWindow
-{
+.chatWindow {
     width: 100%;
     height: 100%;
     display: flex;
     flex-direction: column;
 }
 
-.timestamp{
+.timestamp {
     padding-right: 3px;
     font-weight: bold;
 }
 
-.username{
+.username {
     padding-right: 3px;
     font-weight: bold;
 }
 
-.username[data-value="Test User"]{
+.username[data-value="TheGreatTodd"] {
     color: red;
 }
 
-.textbox{
+.textbox {
     width: 85%;
     background-color: white;
     border: solid thin black;
@@ -33,7 +33,7 @@
     display: inline-block;
 }
 
-.sendButton{
+.sendButton {
     margin-left: 4px;
     padding-left: 2px;
     padding-bottom: 2px;
@@ -45,7 +45,7 @@
     background-color: rgb(129, 229, 207);
 }
 
-.chatBottom{
+.chatBottom {
     display: flex;
     flex-direction: row;
     align-items: center;

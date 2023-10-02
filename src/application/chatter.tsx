@@ -1,14 +1,14 @@
-import { ProcessDescription } from "~/os/processes";
+import { ProcessDescription, getOrCreateProcess } from "~/os/processes";
 import { openWindowForProcess } from "~/os/windows";
 import type { Process } from "./process";
 import iconUrl from "~/images/icons/favicons/joystick.png";
 import "./chatter.css";
 
 type Message = {
-    timestamp: Date,
-    username: string,
-    message: string,
-}
+    timestamp: Date;
+    username: string;
+    message: preact.JSX.Element | string;
+};
 
 type ChatterState = Array<Message>;
 
@@ -17,39 +17,34 @@ interface ChatterWindowProps {
 }
 
 function ChatterWindow({ process }: ChatterWindowProps) {
-    var chat: Array<preact.JSX.Element> = [] ;
-    process.state.value.forEach(element => {
-        chat.push(<span class="timestamp">{element.timestamp.toLocaleTimeString(undefined, {hour: "2-digit", minute: "2-digit"})} |</span>)
-        chat.push(<span class="username" data-value={element.username}>{element.username}: </span>)
+    const chat: Array<preact.JSX.Element> = [];
+    process.state.value.forEach((element) => {
+        chat.push(
+            <span class="timestamp">
+                {element.timestamp.toLocaleTimeString(undefined, { hour: "2-digit", minute: "2-digit" })} |
+            </span>
+        );
+        chat.push(
+            <span class="username" data-value={element.username}>
+                {element.username}:{" "}
+            </span>
+        );
         chat.push(<span class="chatline">{element.message}</span>);
         chat.push(<br />);
-    })
-    return <div class="chatWindow">
-        <div class="chatBody">{chat}</div>
-        <div class="chatBottom">
-            <div class="textbox"></div><div class="sendButton">Send</div>
+    });
+    return (
+        <div class="chatWindow">
+            <div class="chatBody">{chat}</div>
+            <div class="chatBottom">
+                <div class="textbox"></div>
+                <div class="sendButton">Send</div>
+            </div>
         </div>
-    </div>
+    );
 }
 
 export const chatterDescription: ProcessDescription<ChatterState> = {
-    initialState: [
-        {
-            timestamp: new Date(Date.now()),
-            username: "Test User",
-            message: "Hello, World!"
-        },
-        {
-            timestamp: new Date(Date.now()),
-            username: "Test User",
-            message: "Second Beat."
-        },
-        {
-            timestamp: new Date(Date.now()),
-            username: "Test User",
-            message: "Profit!"
-        },
-    ],
+    initialState: [],
     name: "chatter.exe",
     onOpen: (process) => {
         openWindowForProcess(process, {
@@ -60,6 +55,7 @@ export const chatterDescription: ProcessDescription<ChatterState> = {
     },
 };
 
-function addMessage(process: Process<ChatterState>, message: Message){
-    process.state.value.push(message);
+export function addMessage(message: Omit<Message, "timestamp">) {
+    const process = getOrCreateProcess(chatterDescription);
+    process.state.value = [...process.state.value, { ...message, timestamp: new Date() }];
 }

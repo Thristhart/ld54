@@ -8,7 +8,7 @@ export function LanPlannerWebsite({ process, window }: BrowserWindowProps) {
             <h1>LANFest Columbus 2003</h1>
             <p>Get ready for the coolest LAN party in Ohio!</p>
             <p>
-                LANPlanner is a wizard I wrote to help you get everything you need to be ready for pure frags in
+                LANPlanner is a wizard by TheGreatTodd to help you get everything you need to be ready for pure frags in
                 Columbus.
             </p>
             <button onClick={() => openBrowserDownloadWindow(process, cassieInstallerFile)}>

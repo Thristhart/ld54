@@ -1,17 +1,16 @@
-import { Signal, signal } from "@preact/signals";
+import { signal } from "@preact/signals";
+import { minesweeperDescription } from "~/application/Minesweeper";
+import { browserAppDescription } from "~/application/browser/browser";
 import { buttonDescription } from "~/application/button";
-import { cassieAppDescription } from "~/application/cassie/cassie";
 import { chatterDescription } from "~/application/chatter";
 import { explorerAppDescription } from "~/application/explorer";
-import { minesweeperDescription } from "~/application/Minesweeper";
-import { todoAppDescription } from "~/application/todo";
-import { getOrCreateProcess, ProcessDescription } from "./processes";
 import { steamAppDescription } from "~/application/steam/steam";
-import { browserAppDescription } from "~/application/browser/browser";
+import { todoAppDescription } from "~/application/todo";
 import ieIcon from "~/images/icons/ie.png";
 import minesweeperIcon from "~/images/icons/minesweeper.png";
 import myComputerIcon from "~/images/icons/mycomputer.png";
 import steamIcon from "~/images/icons/steam.png";
+import { ProcessDescription, getOrCreateProcess } from "./processes";
 
 export interface File {
     readonly filename: string;
@@ -71,14 +70,6 @@ export const files = signal<File[]>([
             params: {
                 initialLocation: "My Computer",
             },
-        },
-    },
-    {
-        filename: "C:/Desktop/Cassie.lnk",
-        filesize: 300,
-        shortcutProperties: {
-            processDesc: cassieAppDescription,
-            displayName: "Cassie",
         },
     },
     {

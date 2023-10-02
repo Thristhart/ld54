@@ -3,6 +3,8 @@ import joystickIconUrl from "~/images/icons/joystick.png";
 import notepadIconUrl from "~/images/icons/notepad.png";
 import joystickFaviconUrl from "~/images/icons/favicons/joystick.png";
 import myComputerFaviconUrl from "~/images/icons/favicons/mycomputer.png";
+import folderIconUrl from "~/images/icons/folder.png";
+import hardDriveIconUrl from "~/images/icons/harddrive.png";
 import { File, files, openFile, totalSize } from "~/os/filesystem";
 import { useDoubleClick } from "../useDoubleClick";
 import "./fileicon.css";
@@ -20,6 +22,13 @@ export function getIconForFile(file: File) {
         return file.shortcutProperties.iconUrl;
     }
     const extension = getFileExtension(file);
+    console.log(file);
+    if (file.filename === "My Computer/C:/") {
+        return hardDriveIconUrl;
+    }
+    if (!extension) {
+        return folderIconUrl;
+    }
     if (extension === "txt") {
         return notepadIconUrl;
     }
