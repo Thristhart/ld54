@@ -19,6 +19,7 @@
     "@preact/signals": "^1.2.1",
     "classnames": "^2.3.2",
     "eventemitter3": "^5.0.1",
+    "howler": "^2.2.4",
     "preact": "^10.18.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"

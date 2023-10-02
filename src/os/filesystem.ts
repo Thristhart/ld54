@@ -76,6 +76,31 @@ export const files = signal<File[]>([
         },
     },
     {
+        filename: "C:/Program Files/Steam/steam.exe",
+        filesize: 400,
+        shortcutProperties: {
+            processDesc: steamAppDescription,
+            displayName: "steam.exe",
+            iconUrl: steamIcon,
+        },
+    },
+    {
+        filename: "C:/Desktop/crashhandler.dll",
+        filesize: 200,
+    },
+    {
+        filename: "C:/Program Files/Steam/crashhandler.dll",
+        filesize: 200,
+    },
+    {
+        filename: "C:/Program Files/Steam/steamclient.dll",
+        filesize: 200,
+    },
+    {
+        filename: "C:/Program Files/Steam/vgui.dll",
+        filesize: 200,
+    },
+    {
         filename: "C:/Desktop/InternetExplorer.lnk",
         filesize: 4000,
         shortcutProperties: {
@@ -170,17 +195,32 @@ export function removeFile(file: File | undefined) {
     }
 }
 
+import { Howl } from "howler";
+import errorSoundUrl from "~/audio/win_alert.mp3";
+
+const errorBeep = new Howl({
+    src: [errorSoundUrl],
+    volume: 0.3,
+});
+
 function getProcessForFile(file: File) {
     if (file.shortcutProperties) {
         return getOrCreateProcess(file.shortcutProperties.processDesc);
     }
 
-    // TODO: smarter selection
-    return getOrCreateProcess(explorerAppDescription);
+    if (file.filename.endsWith("/")) {
+        return getOrCreateProcess(explorerAppDescription);
+    }
+
+    return undefined;
 }
 
 export function openFile(file: File) {
     const process = getProcessForFile(file);
+    if (!process) {
+        errorBeep.play();
+        return;
+    }
     process.onOpen(process, file);
 }
 

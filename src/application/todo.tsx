@@ -31,7 +31,7 @@ export const deleteVertigoTodo: TodoDescription = {
     displayText: "Delete de_vertigo from the counter-strike install folder",
     isSatisfied() {
         const satisfied = files.value.every(
-            (fileOnDisk) => fileOnDisk.filename !== "C:/Steam/steamapps/common/cstrike/de_vertigo.wad"
+            (fileOnDisk) => fileOnDisk.filename !== "C:/Program Files/Steam/steamapps/common/cstrike/de_vertigo.wad"
         );
         if (satisfied) {
             eventEmitter.emit("vertigoDeleted");

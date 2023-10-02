@@ -57,7 +57,7 @@ eventEmitter.once("csInstallTodoAdded", () => {
         await wait(4000);
         addTodo(deleteVertigoTodo);
         AddCassieDialog({
-            text: "Sounds like de_vertigo is banned. Let's delete it from the cstrike folder in C:/Steam/steamapps/common!",
+            text: "Sounds like de_vertigo is banned. Let's delete it from the cstrike folder in C:/Program Files/Steam/steamapps/common!",
         });
     });
 });

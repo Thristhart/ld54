@@ -3,6 +3,13 @@ import { focusWindow, openWindowForProcess } from "~/os/windows";
 import type { Process } from "./process";
 import iconUrl from "~/images/icons/favicons/joystick.png";
 import "./chatter.css";
+import { Howl } from "howler";
+import msgRecieveSoundUrl from "~/audio/IM_rcv.mp3";
+
+const msgBeep = new Howl({
+    src: [msgRecieveSoundUrl],
+    volume: 0.3,
+});
 
 type Message = {
     timestamp: Date;
@@ -47,18 +54,23 @@ export const chatterDescription: ProcessDescription<ChatterState> = {
     initialState: [],
     name: "chatter.exe",
     onOpen: (process) => {
-        openWindowForProcess(
-            process,
-            {
-                contentComponent: ChatterWindow,
-                iconUrl,
-                initialTitle: "Chatter",
-                minWidth: 490,
-                minHeight: 320,
-            },
-            undefined,
-            { width: 490, height: 320 }
-        );
+        const window = Object.values(process.windows)[0];
+        if (window) {
+            focusWindow(window.windowId);
+        } else {
+            openWindowForProcess(
+                process,
+                {
+                    contentComponent: ChatterWindow,
+                    iconUrl,
+                    initialTitle: "Chatter",
+                    minWidth: 490,
+                    minHeight: 320,
+                },
+                undefined,
+                { width: 490, height: 320 }
+            );
+        }
     },
 };
 
@@ -82,4 +94,5 @@ export function addMessage(message: Omit<Message, "timestamp">) {
             { width: 490, height: 320 }
         );
     }
+    msgBeep.play();
 }

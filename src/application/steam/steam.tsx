@@ -306,21 +306,21 @@ export const Games: { [key: string]: SteamGame } = {
         iconUrl,
         files: [
             {
-                filename: "C:/Steam/steamapps/common/cstrike/hl.exe",
+                filename: "C:/Program Files/Steam/steamapps/common/cstrike/hl.exe",
                 filesize: 30,
             },
             {
-                filename: "C:/Steam/steamapps/common/cstrike/vgui.dll",
+                filename: "C:/Program Files/Steam/steamapps/common/cstrike/vgui.dll",
                 filesize: 20,
             },
         ],
         optionalFiles: [
             {
-                filename: "C:/Steam/steamapps/common/cstrike/cs_office.wad",
+                filename: "C:/Program Files/Steam/steamapps/common/cstrike/cs_office.wad",
                 filesize: 30,
             },
             {
-                filename: "C:/Steam/steamapps/common/cstrike/de_vertigo.wad",
+                filename: "C:/Program Files/Steam/steamapps/common/cstrike/de_vertigo.wad",
                 filesize: 30,
             },
         ],
