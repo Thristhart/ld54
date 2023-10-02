@@ -62,11 +62,13 @@ eventEmitter.once("csInstallTodoAdded", () => {
     });
 });
 
-eventEmitter.once("vertigoDeleted", () => {
+eventEmitter.once("vertigoDeleted", async () => {
+    await wait(1000);
     addMessage({
         username: "TheGreatTodd",
         message: "that's all the content. there were supposed to be puzzles around managing your disk space",
     });
+    await wait(1200);
     addMessage({
         username: "TheGreatTodd",
         message: "but we ran out of time. so it goes!",
