@@ -85,10 +85,6 @@ export const files = signal<File[]>([
         },
     },
     {
-        filename: "C:/Desktop/crashhandler.dll",
-        filesize: 200,
-    },
-    {
         filename: "C:/Program Files/Steam/crashhandler.dll",
         filesize: 200,
     },
