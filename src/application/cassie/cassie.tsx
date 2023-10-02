@@ -1,6 +1,5 @@
 import { ProcessDescription } from "~/os/processes";
 import { focusWindow, openWindowForProcess, windows, WindowState } from "~/os/windows";
-import type { Process } from "~/application/process";
 import "./cassie.css";
 import iconUrl from "~/images/icons/favicons/joystick.png";
 import { RefObject, useCallback, useEffect } from "react";
