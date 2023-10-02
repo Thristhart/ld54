@@ -127,6 +127,13 @@ interface SteamInstallWizardStepProps extends SteamWindowProps {
 
 function SteamInstallWizardIntroPage({ window, step }: SteamInstallWizardStepProps) {
     const game = window.windowParams as SteamGame;
+    const spaceAvailable = totalSize - calculateCumulativeFileSize(files.value);
+    const spaceRequired = calculateCumulativeFileSize([...game.files, ...game.optionalFiles]);
+    const canAdvance = () => {
+        return (step.value !== 0 || spaceAvailable > spaceRequired);
+    }
+    console.log(!canAdvance());
+
     return (
         <>
             <div class="steamInstallIntro steamInstallStep">
@@ -134,11 +141,11 @@ function SteamInstallWizardIntroPage({ window, step }: SteamInstallWizardStepPro
                 <div class="steamInstallDetails">
                     <label class="steamInstallDetail">Disk space required:</label>
                     <span class="steamFilesize">
-                        {displayFilesize(calculateCumulativeFileSize([...game.files, ...game.optionalFiles]))}
+                        {displayFilesize(spaceRequired)}
                     </span>
                     <label class="steamInstallDetail">Disk space available:</label>
                     <span class="steamFilesize">
-                        {displayFilesize(totalSize - calculateCumulativeFileSize(files.value))}
+                        {displayFilesize(spaceAvailable)}
                     </span>
                 </div>
                 <p class="allFilesDownloaded">All files for this game will now be downloaded through Steam.</p>
@@ -148,7 +155,7 @@ function SteamInstallWizardIntroPage({ window, step }: SteamInstallWizardStepPro
                     <button class="steamButton" disabled>
                         &lt; Back
                     </button>
-                    <button class="steamButton" onClick={() => step.value++}>
+                    <button class="steamButton" disabled={!canAdvance()} onClick={() => step.value++}>
                         Next &gt;
                     </button>
                 </div>
