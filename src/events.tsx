@@ -9,7 +9,7 @@ function wait(duration: number) {
     return new Promise((resolve) => setTimeout(resolve, duration));
 }
 
-async function startup() {
+eventEmitter.once("login", async () => {
     await wait(3000);
     addMessage({
         username: "TheGreatTodd",
@@ -33,9 +33,7 @@ async function startup() {
         username: "TheGreatTodd",
         message: "I got us an official website. go get the latest version of LANPlanner from there",
     });
-}
-
-startup();
+});
 
 eventEmitter.once("openSteam", () => {
     AddCassieDialog({

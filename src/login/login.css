@@ -1,0 +1,79 @@
+.login {
+    background: radial-gradient(circle at 20% 35%, #9dc0ea 10%, #5090da 40%);
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+.login header {
+    background-color: #014da3;
+    height: 100px;
+}
+.login footer {
+    background-color: #014da3;
+    height: 100px;
+}
+
+.loginContents {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    flex-grow: 1;
+}
+.loginLeftSide {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+.loginRightSide {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.loginSplash {
+    width: 272px;
+    margin-bottom: 10px;
+}
+.loginInstruction {
+    color: white;
+    margin-right: 20px;
+    font-size: 22px;
+}
+.loginVerticalDivider {
+    width: 1px;
+    height: 100%;
+    background: linear-gradient(transparent 15%, white, transparent 85%);
+    margin-left: 10px;
+    margin-right: 20px;
+}
+
+.loginUser {
+    background: linear-gradient(to right, #024792 50%, transparent);
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    width: 360px;
+    padding: 10px;
+    border-radius: 6px;
+    border: 1px solid #8bcbff;
+    border-right: none;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+.loginUser img {
+    margin-right: 20px;
+}
+.loginUsername {
+    color: white;
+}
+
+.loginWelcome {
+    font-size: 48px;
+    color: white;
+    font-weight: bold;
+    font-style: italic;
+    text-shadow: 3px 3px rgba(0, 0, 0, 0.8);
+    margin-left: 180px;
+}
