@@ -64,11 +64,11 @@ export const chatterDescription: ProcessDescription<ChatterState> = {
                     contentComponent: ChatterWindow,
                     iconUrl,
                     initialTitle: "Chatter",
-                    minWidth: 490,
-                    minHeight: 320,
+                    minWidth: 525,
+                    minHeight: 364,
                 },
                 undefined,
-                { width: 490, height: 320 }
+                { width: 525, height: 364 }
             );
         }
     },
@@ -87,11 +87,11 @@ export function addMessage(message: Omit<Message, "timestamp">) {
                 contentComponent: ChatterWindow,
                 iconUrl,
                 initialTitle: "Chatter",
-                minWidth: 490,
-                minHeight: 320,
+                minWidth: 525,
+                minHeight: 364,
             },
             undefined,
-            { width: 490, height: 320 }
+            { width: 525, height: 364 }
         );
     }
     msgBeep.play();
